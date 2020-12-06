@@ -3,17 +3,8 @@
 import re
 
 filename = "input.txt"
-
-# Comment 6/12: This would have been simpler if we would have split
-# the input file on double line ends:
-#
-# with open(filename, 'r') as f:
-#    groups = f.read().split('\n\n')
-#
-# That way we would not have to use the row counter in our main loop.
-#
-with open(filename) as f:
-    content = [i.strip() for i in f.readlines()]
+with open(filename, 'r') as f:
+    passports = f.read().split('\r\n\r\n')
 
 # Check if a passport is valid
 def check_passport(passport):
@@ -108,19 +99,11 @@ def parse_passport(passport):
 total_passports = 0
 valid_passports = 0
 
-row_counter = 0
-total_rows = len(content)
+for x in passports:
+    passport = x.replace('\n', ' ')
+    if check_passport(passport):
+        valid_passports += 1
 
-passport = ""
-for row in content:
-    passport += row + " "
-
-    if row == "" or row_counter == (len(content) - 1):
-        total_passports += 1
-        if check_passport(passport):
-            valid_passports += 1
-        passport = ""
-
-    row_counter += 1
+    total_passports += 1
 
 print "Scanned passports: %d - Valid passports: %d" % (total_passports, valid_passports)
