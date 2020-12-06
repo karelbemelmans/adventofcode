@@ -4,6 +4,14 @@ import re
 
 filename = "input.txt"
 
+# Comment 6/12: This would have been simpler if we would have split
+# the input file on double line ends:
+#
+# with open(filename, 'r') as f:
+#    groups = f.read().split('\n\n')
+#
+# That way we would not have to use the row counter in our main loop.
+#
 with open(filename) as f:
     content = [i.strip() for i in f.readlines()]
 
