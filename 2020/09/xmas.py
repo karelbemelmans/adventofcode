@@ -1,7 +1,7 @@
 #!/usr/bin/env python2
 
 with open('input.txt', 'r') as fp:
-    lines = fp.read().splitlines()
+    lines = list([int(x) for x in fp.read().splitlines()])
 
 
 def valid(number, data):
@@ -9,7 +9,7 @@ def valid(number, data):
     while i < len(data):
         j = 0
         while j < len(data):
-            if not i == j and int(data[i]) + int(data[j]) == number:
+            if not i == j and data[i] + data[j] == number:
                 # print "Match found: %d = %s + %s" % (number, data[i], data[j])
                 return True
             j += 1
@@ -24,8 +24,8 @@ def findRange(number, data):
         items = []
         j = i
         while j < len(data):
-            inc += int(data[j])
-            items.append(int(data[j]))
+            inc += data[j]
+            items.append(data[j])
             if inc == number:
                 return sorted(items)
             j += 1
@@ -44,7 +44,7 @@ while i < len(lines):
 
         items = findRange(number, lines)
         if items:
-            print int(items[0]) + int(items[-1])
+            print items[0] + items[-1]
             break
 
     i += 1
