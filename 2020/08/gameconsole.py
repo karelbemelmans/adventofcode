@@ -3,38 +3,24 @@
 with open('input.txt', 'r') as fp:
     originalLines = fp.read().splitlines()
 
-# We loop over our input and we change a nop or a jmp with every pass
-for i in range(len(originalLines)):
 
-    lines = list(originalLines)
-    if lines[i].split()[0] == 'nop':
-        lines[i] = 'jmp ' + originalLines[i].split()[1]
-
-    elif originalLines[i].split()[0] == 'jmp':
-        lines[i] = 'nop ' + originalLines[i].split()[1]
-
-    # Basically run the whole p1 code again on this input
+def run_program(lines):
     accumulator = 0
     line = 0
-    counter = 0
     seen = set()
     while True:
 
         if line == len(lines):
             print "NORMAL PROGRAM TERMINATION. Accumulator value: %d" % accumulator
-            exit(0)
+            return True
 
         if line in seen:
             print "Loop detected, halting program! Accumulator value was: %d" % accumulator
-            break
+            return False
 
         words = lines[line].split()
         if words:
-
-            # We remember that we have processed this line already
             seen.add(line)
-            counter += 1
-
             instruction = words[0]
             value = int(words[1])
 
@@ -52,3 +38,17 @@ for i in range(len(originalLines)):
             # Do nothing and proceed with the next line
             elif instruction == 'nop':
                 line += 1
+
+
+# We loop over our input and we change a nop or a jmp with every pass
+for i in range(len(originalLines)):
+
+    lines = list(originalLines)
+    if lines[i].split()[0] == 'nop':
+        lines[i] = 'jmp ' + originalLines[i].split()[1]
+
+    elif originalLines[i].split()[0] == 'jmp':
+        lines[i] = 'nop ' + originalLines[i].split()[1]
+
+    if run_program(lines):
+        break
