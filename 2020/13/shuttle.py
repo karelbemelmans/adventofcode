@@ -6,16 +6,16 @@ with open('input.txt', 'r') as fp:
 T = int(lines[0])
 busses = [int(x) for x in lines[1].split(',') if not x == 'x']
 
-winner = 0
-diff = -1
+winner = None
+diff = 0
 for b in busses:
     next = (T / b) * (b) + b
     d = next - T
 
-    if diff < 0:
+    if winner is None:
         diff = d
         winner = b
-    elif d < diff:
+    else:
         diff = d
         winner = b
 
