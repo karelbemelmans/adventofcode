@@ -7,10 +7,11 @@ with open('input.txt', 'r') as fp:
 
 
 def mask_pos(mask, value):
+    # P will be a list of strings that value gets because of the floating X part
+    # If there is no X in the mask, this will be one item only.
     P = ['']
     value = list(format(value, '036b'))
 
-    # We build up multiple lists at the same time
     for i in range(len(mask)):
         for j in range(len(P)):
             if mask[i] == '0':
@@ -20,15 +21,14 @@ def mask_pos(mask, value):
                 P[j] += '1'
 
             elif mask[i] == 'X':
-                # We add an extra entry with a 0
+                # In this case we add new items to our list:
+                #   - the current entries we extend with a 0
+                #   - the we add those entries again but with a 1 at the end
                 P.append(P[j] + '0')
-                # And the other ones we extended with a 1
                 P[j] += '1'
 
-#    for p in P:
-#        print " -> ", p, int(p, 2)
-
     return P
+
 
 reg = {}
 mask = None
