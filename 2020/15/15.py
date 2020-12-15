@@ -2,63 +2,73 @@
 
 input = [2, 0, 1, 9, 5, 19]
 T = 2020
+T = 30000000
+
+#input = [0, 3, 6]
+#T = 10
 
 numbers = {}
-spoken = []
+
+# Optimization 1:
+# - We only need to keep the 2 last positions of each number, so
+#   we create a function that cleans up numbers for us every time
+#   we add something new to them.
+#
+def add_and_clean(number, pos):
+    if not number in numbers:
+        numbers[number] = [(pos)]
+    else:
+        # Take the last entry
+        prev = numbers[number][-1]
+
+        # Make the new entry that value + our new one
+        numbers[number] = [prev, pos]
+        #print number, numbers
+
+
+# Optimization 2:
+# - Remove the actual storing of all items we looked at into spoken
+#   We dont really care about that list since we keep a history of when
+#   we spoke the last 2 ones already. And the output of the T-th spot is simply
+#   the value of the last number we had in "number" stored.
+
 
 number = None
 for i in range(T):
-    print "Turn ", i+1
-
     if i < len(input):
-        print " - The i spoken number: ", input[i]
         number = input[i]
 
-        # We log that we spoke this number
-        spoken.append(number)
-
         # We note at which place this number appeared
-        numbers[number] = [(i)]
+        add_and_clean(number, i)
 
     else:
 
         # The last spoken number is in the parameter "number"
         # The previous position is i-i
-        if number in spoken:
-            print "  - We have seen this number before: ", number
-
+        if number in numbers:
             # Was that the first time we saw that number?
             if len(numbers[number]) == 1:
-                print "    ... and it was the first time, so we speak 0"
                 number = 0
 
             else:
                 # The turn before we spoke this number, i-i
                 # The turn before that we look at the last number in numbers[number]
                 prev = numbers[number][-1]
-                print "    - Previous time spoken: ", prev
                 pprev = numbers[number][-2]
-                print "    - Time before that spoken: ", pprev
                 number = prev - pprev
-                print "    - New number: ", number
 
             # Log that we spoke this number and at which spot
-            spoken.append(number)
             if not number in numbers:
-                numbers[number] = [(i)]
+                add_and_clean(number, i)
             else:
-                numbers[number].append(i)
-
+                add_and_clean(number, i)
 
         else:
-            print "  - We have NOT seen this number before: ", number
-
             # We say the number 0 now
-            spoken.append(0)
+            number = 0
 
             # We log that we have said the number 0 at this position
             numbers[0] = list(i)
 
-
-print spoken[T-1]
+print number
 
