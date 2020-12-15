@@ -22,8 +22,8 @@ def mask_pos(mask, value):
 
             elif mask[i] == 'X':
                 # In this case we add new items to our list:
-                #   - the current entries we extend with a 0
-                #   - the we add those entries again but with a 1 at the end
+                #   - we add new entries to our list with a 0 at the end
+                #   - the current entries we extend with a 1 at the end
                 P.append(P[j] + '0')
                 P[j] += '1'
 
