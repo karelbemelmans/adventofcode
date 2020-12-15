@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 input = [2, 0, 1, 9, 5, 19]
-T = 2020
-T = 30000000
-
 #input = [0, 3, 6]
+
 #T = 10
+#T = 2020
+T = 30000000
 
 numbers = {}
 
@@ -43,32 +43,20 @@ for i in range(T):
 
     else:
 
-        # The last spoken number is in the parameter "number"
-        # The previous position is i-i
-        if number in numbers:
-            # Was that the first time we saw that number?
-            if len(numbers[number]) == 1:
-                number = 0
-
-            else:
-                # The turn before we spoke this number, i-i
-                # The turn before that we look at the last number in numbers[number]
-                prev = numbers[number][-1]
-                pprev = numbers[number][-2]
-                number = prev - pprev
-
-            # Log that we spoke this number and at which spot
-            if not number in numbers:
-                add_and_clean(number, i)
-            else:
-                add_and_clean(number, i)
-
-        else:
-            # We say the number 0 now
+        # Was that the first time we saw that number?
+        if len(numbers[number]) == 1:
             number = 0
 
-            # We log that we have said the number 0 at this position
-            numbers[0] = list(i)
+        else:
+            # The turn before we spoke this number, i-i
+            # The turn before that we look at the last number in numbers[number]
+            prev = numbers[number][-1]
+            pprev = numbers[number][-2]
+            number = prev - pprev
+
+        # Log that we spoke this number and at which spot
+        add_and_clean(number, i)
+
 
 print number
 
