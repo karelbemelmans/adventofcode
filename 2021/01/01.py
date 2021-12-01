@@ -7,7 +7,7 @@ with open('input.txt', 'r') as fp:
 increased = 0
 for i in range(1, len(lines)):
     if lines[i] > lines[i-1]:
-        increased = increased + 1
+        increased += 1
 
 print increased
 
@@ -17,6 +17,6 @@ for i in range(3, len(lines)):
     A = (lines[i-1] + lines[i-2] + lines[i-3])
     B = (lines[i] + lines[i-1] + lines[i-2])
     if B > A:
-        increased = increased + 1
+        increased += 1
 
 print increased
