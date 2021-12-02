@@ -9,7 +9,7 @@ for i in range(1, len(lines)):
     if lines[i] > lines[i-1]:
         increased += 1
 
-print increased
+print (increased)
 
 # Part 2
 increased = 0
@@ -19,4 +19,4 @@ for i in range(3, len(lines)):
     if B > A:
         increased += 1
 
-print increased
+print (increased)
