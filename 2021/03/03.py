@@ -6,55 +6,54 @@ with open('input.txt', 'r') as fp:
 rows = len(lines)
 cols = len(lines[0])
 count = {}
-gamma_rate = ""
 
+gamma_rate = ""
+epsilon_rate = ""
+
+# Part 1
+
+# We loop over all the columns
 for col in range(cols):
     count[col] = 0
 
+    # We then check every line for that column's value
+    # We simply add the value of that position then, since we have either 0 or 1 as value
     for line in lines:
         count[col] += int(line[col])
 
-    if count[col] > (rows/2):
+    # If we have more 1's than 0's
+    if count[col] > (rows / 2):
         gamma_rate += "1"
+        epsilon_rate += "0"
+
+    # Otherwise we have more 0's than 1'
     else:
         gamma_rate += "0"
-
-
-gamma_rate_decimal = int(gamma_rate, 2)
-
-# Inverse the string
-epsilon_rate = ""
-for char in gamma_rate:
-    if char == "1":
-        epsilon_rate += "0"
-    else:
         epsilon_rate += "1"
 
-epsilon_rate_decimal = int(epsilon_rate, 2)
+print(int(gamma_rate, 2) * int(epsilon_rate, 2))
 
-# Part 1
-print (gamma_rate_decimal * epsilon_rate_decimal)
 
 # Part 2
 
-
 def reduce(lines, col=0, compare="most common"):
-    # We are done.
+    # We are done if our list only has 1 item left
     if len(lines) == 1:
         return lines[0]
 
     rows = len(lines)
-    count = {}
     new_lines = []
-    count[col] = 0
+    count = 0
 
-    # Check how many times we have 1 on this col in a row
+    # Check how many times we have a "1" on this col in a row
     for line in lines:
-        count[col] += int(line[col])
+        count += int(line[col])
 
+    # We can probably squeeze this logic into one block, but I always prefer to have easy readable code
+    # over the fewest lines of code possible.
     if compare == "most common":
         # Is 1 more common than 0, then we add all lines with 1
-        if count[col] >= (rows/2):
+        if count >= (rows / 2):
             for line in lines:
                 if line[col] == "1":
                     new_lines.append(line)
@@ -66,26 +65,23 @@ def reduce(lines, col=0, compare="most common"):
                     new_lines.append(line)
 
     elif compare == "least common":
-        # Is 0 more common than 1, then we add the lines with 1
-        if count[col] < (rows/2):
+        # Is 1 less common than 0, then we add the lines with 1
+        if count < (rows / 2):
             for line in lines:
                 if line[col] == "1":
                     new_lines.append(line)
 
-        # If 1 is more common, we add the lines with 0
+        # If 0 is less common than 1, we add the lines with 0
         else:
             for line in lines:
                 if line[col] == "0":
                     new_lines.append(line)
 
-    return reduce(new_lines, col+1, compare)
+    # Recurse with our smaller list of codes
+    return reduce(new_lines, col + 1, compare)
 
 
 most_common = reduce(lines, 0, "most common")
 least_common = reduce(lines, 0, "least common")
-print (most_common, least_common)
 
-most_common_decimal = int(most_common, 2)
-least_common_decimal = int(least_common, 2)
-
-print(most_common_decimal, least_common_decimal, most_common_decimal * least_common_decimal)
+print(int(most_common, 2) * int(least_common, 2))
