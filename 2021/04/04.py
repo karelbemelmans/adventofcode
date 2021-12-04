@@ -59,12 +59,11 @@ for n in range(len(NUMBERS)):
     for card in CARDS:
         if has_bingo(card, draw):
             winner = True
-            print ("Winner card: ")
+            print ("The first winning card: ")
             print(bingo_score(card, draw))
             break
 
 # Part 2: Last board to win
-winners = 0
 initial_cards = len(CARDS)
 
 for n in range(len(NUMBERS)):
@@ -75,13 +74,11 @@ for n in range(len(NUMBERS)):
     # Check if our cards have a winner with this draw
     for card in CARDS:
         if has_bingo(card, draw):
-            winners += 1
-            print ("winners so far: ", winners)
 
             # Remove this card from CARDS
             CARDS.remove(card)
 
             # Was this the last card of our board? Then we have a winner
-            if winners == initial_cards:
-                print ("The last winner card: ")
+            if not CARDS:
+                print ("The last winning card: ")
                 print(bingo_score(card, draw))
