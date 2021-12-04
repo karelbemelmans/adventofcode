@@ -64,8 +64,6 @@ for n in range(len(NUMBERS)):
             break
 
 # Part 2: Last board to win
-initial_cards = len(CARDS)
-
 for n in range(len(NUMBERS)):
 
     # We take a longer set of input every time until we have a winner
