@@ -3,19 +3,20 @@ import re
 from bresenham import bresenham
 
 
-# Parse a line of our input file. Simple regex
 def parse_file(R, file, diagonal=False):
-    # Create an empty grid
+    # Create an empty grid of RxR
     G = [[0] * R for i in range(R)]
 
     with open(file, 'r') as fp:
         lines = fp.read().splitlines()
 
+    # Open the file, parse every line and update the grid with the line
     for line in lines:
         matches = re.match(r'(\d*),(\d*) -> (\d*),(\d*)$', line)
         if matches:
             x1, y1, x2, y2 = map(lambda x: int(x), matches.groups())
 
+            # Only in p2 we look at diagonal lines
             if diagonal or x1 == x2 or y1 == y2:
                 for (x, y) in list(bresenham(x1, y1, x2, y2)):
                     G[x][y] += 1
