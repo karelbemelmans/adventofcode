@@ -10,8 +10,6 @@ def parse_file(file, days):
     # Build up our initial state before we start processing growth
     fish = defaultdict(int)
     for x in items:
-        if x not in fish:
-            fish[x] = 0
         fish[x] += 1
 
     # As we iterate over days, we simply increase the count for each type of fish
