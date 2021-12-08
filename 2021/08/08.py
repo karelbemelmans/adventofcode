@@ -1,17 +1,5 @@
 from collections import defaultdict
 
-display = {
-    0: 'abcegf',
-    1: 'cf',
-    2: 'acdeg',
-    3: 'acdfg',
-    4: 'bcdf',
-    5: 'abdfg',
-    6: 'abdefg',
-    7: 'acf',
-    8: 'abcdefg',
-    9: 'abcdfg',
-}
 
 def parse_line(line, counter, p2=False):
     start, end = line.split(" | ")
@@ -28,7 +16,7 @@ def parse_line(line, counter, p2=False):
         for word in words:
             l = len(word)
 
-            # We have 4 that we can already map to the new_dicht
+            # We have 4 numbers that we can already map to the new_dict
             # Number 1
             if l == 2:
                 patterns[1] = list(word)
@@ -61,23 +49,23 @@ def parse_line(line, counter, p2=False):
 
         # Part 2
         #
-        # We measure the amount of differences between digits we know and not know yet
-        # For every digit there is one that has a different set of differences
+        # We measure the amount of differences between digits we know and digits we not know yet.
+        # For every check we can single out one and then continue with the rest.
 
         ################################################################################################################
         # Words of length 5
 
-        ## Pattern 2 - Pattern 4 = 3 lines left
-        ## Pattern 3 - Pattern 4 = 2 lines left
-        ## Pattern 5 - Pattern 4 = 2 lines left
+        ## Pattern 2 - Pattern 4 = 3 lines difference  <--  we look for this one
+        ## Pattern 3 - Pattern 4 = 2 lines difference
+        ## Pattern 5 - Pattern 4 = 2 lines difference
         for pattern in patterns[235]:
             diff = set(pattern) - set(patterns[4])
             if len(diff) == 3:
                 new_dict[2] = "".join(sorted(pattern))
                 patterns[235].remove(pattern)
 
-        ## Pattern 3 - Pattern 7 = 2 lines left
-        ## Pattern 5 - Pattern 7 = 3 lines left
+        ## Pattern 3 - Pattern 7 = 2 lines difference   <--  we look for this one
+        ## Pattern 5 - Pattern 7 = 3 lines difference
         assert len(patterns[235]) == 2
         for pattern in patterns[235]:
             diff = set(pattern) - set(patterns[7])
@@ -89,21 +77,20 @@ def parse_line(line, counter, p2=False):
         assert len(patterns[235]) == 1
         new_dict[5] = "".join(patterns[235][0])
 
-
         ################################################################################################################
         # Words of length 6
 
-        ## Pattern 0 - Pattern 4 = 3 lines left
-        ## Pattern 6 - Pattern 4 = 3 lines left
-        ## Pattern 9 - Pattern 4 = 2 lines left
+        ## Pattern 0 - Pattern 4 = 3 lines difference
+        ## Pattern 6 - Pattern 4 = 3 lines difference
+        ## Pattern 9 - Pattern 4 = 2 lines difference  <--  we look for this one
         for pattern in patterns[69]:
             diff = set(pattern) - set(patterns[4])
             if len(diff) == 2:
                 new_dict[9] = "".join(sorted(pattern))
                 patterns[69].remove(pattern)
 
-        ## Pattern 0 - Pattern 5 = 2 lines left
-        ## Pattern 6 - Pattern 5 = 1 line left
+        ## Pattern 0 - Pattern 5 = 2 lines difference
+        ## Pattern 6 - Pattern 5 = 1 line difference  <--  we look for this one
         assert len(patterns[69]) == 2
         for pattern in patterns[69]:
             diff = set(pattern) - set(list(new_dict[5]))
@@ -144,7 +131,6 @@ def parse_file(file, p2=False):
     count = 0
     for line in lines:
         if p2:
-            # FIXME
             count += parse_line(line, counter, True)
         else:
             parse_line(line, counter)
