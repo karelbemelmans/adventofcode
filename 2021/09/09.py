@@ -1,26 +1,25 @@
-
-def find_basin(grid, r, c, marked = []):
+def find_basin(grid, r, c, marked=[]):
     R = len(grid)
     C = len(grid[0])
 
     # We add the current point to the list if it's not in there already
-    if not [r,c] in marked:
-        marked.append([r,c])
+    if not [r, c] in marked:
+        marked.append([r, c])
 
     # Look around this spot and see if there are spots we need to mark
     # If we do, then recurse our algorithm and build a bigger marked list.
 
     # We only check in vertical or horizontal directions
-    for d in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-        rr = r + d[0]
-        cc = c + d[1]
+    for x, y in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
+        rr = r + x
+        cc = c + y
 
         if (0 <= rr < R) and (0 <= cc < C):
-            value = grid[rr][cc]
-            if value < 9 and not [rr, cc] in marked:
+            if grid[rr][cc] < 9 and not [rr, cc] in marked:
                 find_basin(grid, rr, cc, marked)
 
     return marked
+
 
 def parse_grid(grid, p2=False):
     R = len(grid)
@@ -31,13 +30,16 @@ def parse_grid(grid, p2=False):
     for r in range(R):
         for c in range(C):
 
-            # Is this a low point+
+            # Is this a low point?
             smaller = True
 
             # We only check in vertical or horizontal directions
             for x, y in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
-                if (0 <= r+x < R) and (0 <= c+y < C):
-                    if grid[r][c] >= grid[r+x][c+y]:
+                rr = r + x
+                cc = c + y
+
+                if (0 <= rr < R) and (0 <= cc < C):
+                    if grid[r][c] >= grid[rr][cc]:
                         smaller = False
 
             # Current point is a low point
@@ -60,11 +62,13 @@ def parse_grid(grid, p2=False):
     else:
         return result
 
+
 def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         grid = [[int(char) for char in line] for line in fp.read().splitlines()]
 
     return parse_grid(grid, p2)
+
 
 # Part 1
 assert parse_file('test.txt') == 15
