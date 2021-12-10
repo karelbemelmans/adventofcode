@@ -1,3 +1,4 @@
+# Points for the closing chars
 points = {
     ')': 3,
     ']': 57,
@@ -5,6 +6,8 @@ points = {
     '>': 25137,
 }
 
+# Points for the P2 closing chars
+# We simply use the opening tags since those will be on our stack already
 p2points = {
     '(': 1,
     '[': 2,
@@ -13,7 +16,7 @@ p2points = {
 }
 
 
-def parse_line(nr, line, p2=False):
+def parse_line(line, p2=False):
     global points, p2points
 
     openers = ['(', '[', '{', '<']
@@ -38,7 +41,8 @@ def parse_line(nr, line, p2=False):
                         return points[char]
 
     # If we reach this phase, we have a line that is not corrupt but needs proper closing
-    # In p2 we need to fix the string
+    # Lucky for us that simply means going over all the chars on our stack in reverse order.
+
     if p2 and not skipline:
         score = 0
         while stack:
@@ -60,8 +64,8 @@ def parse_file(file, p2=False):
     score = 0
     scores = []
 
-    for i, line in enumerate(lines):
-        s = parse_line(i + 1, line, p2)
+    for line in lines:
+        s = parse_line(line, p2)
         if p2 and s > 0:
             scores.append(s)
         else:
