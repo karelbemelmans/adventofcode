@@ -74,7 +74,7 @@ def parse_file(file, p2=False):
             score += s
 
     if p2:
-        scores = sorted(scores)
+        scores.sort()
         return scores[(len(scores) - 1) // 2]
     else:
         return score
