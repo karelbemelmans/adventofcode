@@ -1,3 +1,5 @@
+from collections import deque
+
 # Points for the closing chars
 points = {
     ')': 3,
@@ -22,7 +24,7 @@ def parse_line(line, p2=False):
     openers = ['(', '[', '{', '<']
     closers = [')', ']', '}', '>']
 
-    stack = []
+    stack = deque()
     skipline = False
 
     # Stop at the first incorrect closing character on each corrupted line.
