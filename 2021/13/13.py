@@ -25,13 +25,12 @@ def parse_grid(grid, instruction):
     new = []
 
     # Remember our coords are c,r
-    # We are changing r here
     for r, c in grid:
-        # Fold up
+        # Fold up, change c
         if what == "fold along y" and c > fold:
             c = fold - (c - fold)
 
-        # Fold left
+        # Fold left, change r
         elif what == "fold along x" and r > fold:
             r = fold - (r - fold)
 
