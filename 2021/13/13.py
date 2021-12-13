@@ -13,9 +13,9 @@ def print_grid(points):
     for r in range(R):
         for c in range(C):
             if [c, r] in points:
-                print("#", end="")
+                print("\u2593", end="")
             else:
-                print(".", end="")
+                print("\u2591", end="")
         print("")
 
 
