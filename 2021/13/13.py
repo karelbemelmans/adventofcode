@@ -7,8 +7,8 @@ def print_grid(points):
     # Notice our input is different from our usual r,c
 
     # Calculate the bounds of our grid
-    R = reduce(max, [x[1] for x in points]) + 1
-    C = reduce(max, [x[0] for x in points]) + 1
+    C = max([x for x,y in points]) + 1
+    R = max([y for x,y in points]) + 1
 
     for r in range(R):
         for c in range(C):
