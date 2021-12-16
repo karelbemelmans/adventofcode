@@ -39,6 +39,7 @@ def blow_up(grid, times=5):
 
     return new
 
+
 def parse_grid(grid, p2=False):
     R = len(grid)
     C = len(grid[0])
@@ -48,22 +49,19 @@ def parse_grid(grid, p2=False):
     # Add all our nodes to the graph
     for r in range(R):
         for c in range(C):
-            node_nr = R * r + c
-            G.add_node(node_nr, pos=[r, c])
+            G.add_node((r, c), pos=[r, c])
 
     # Add the edges
     for r in range(R):
         for c in range(C):
-            main_node = R * r + c
 
             # Every point has an edge to another point up and down
             for dr, dc in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
                 rr = r + dr
                 cc = c + dc
                 if not (dr == 0 and dc == 0) and (0 <= rr < R) and (0 <= cc < C):
-                    neighbour_node = R * rr + cc
                     weight = grid[rr][cc]
-                    G.add_edge(main_node, neighbour_node, weight=weight)
+                    G.add_edge((r, c), (rr, cc), weight=weight)
 
     path = nx.dijkstra_path(G, 0, R * C - 1, weight="weight")
     return nx.path_weight(G, path, weight="weight")
