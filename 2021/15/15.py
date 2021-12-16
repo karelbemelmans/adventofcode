@@ -42,14 +42,10 @@ def parse_grid(grid, p2=False):
 
     G = nx.DiGraph()
 
-    # Add all our nodes to the graph
-    for r in range(R):
-        for c in range(C):
-            G.add_node((r, c), pos=[r, c])
-
     # Add the edges
     for r in range(R):
         for c in range(C):
+            G.add_node((r, c), pos=[r, c])
 
             # Every point has an edge to another point up and down
             for dr, dc in [[1, 0], [0, 1], [-1, 0], [0, -1]]:
