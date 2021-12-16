@@ -14,11 +14,7 @@ def blow_up(grid, times=5):
     C = len(grid[0])
 
     # We make a new, empty, bigger grid
-    new = []
-    for c in range(C*times):
-        new = new + [[]]
-        for r in range(R*times):
-            new[c] = new[c] + [0]
+    new = [[0] * (C * times) for _ in range(R * times)]
 
     for r in range(R):
         for c in range(C):
