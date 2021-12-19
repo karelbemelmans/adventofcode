@@ -2,16 +2,11 @@ import re
 
 
 def probe_hits(start, velocity, area):
-    # print ("launch:", start, velocity, area)
-
     x, y = start
     vx, vy = velocity
 
-    i = 0
     maxy = 0
-    while i < 10000:
-        i += 1
-
+    while True:
         # Position changes
         x += vx
         y += vy
@@ -22,18 +17,20 @@ def probe_hits(start, velocity, area):
             vx -= 1
         elif vx < 0:
             vx += 1
-
         vy -= 1
 
         if x in area['x'] and y in area['y']:
-            # print ("   - HIT!")
             return True, maxy
 
-        # If vx is 0 and we are not in the right area yet, we will never reach out point
+        # If vx is 0 and we are not in the right area yet, we will never reach our point
         if vx == 0 and not x in area['x']:
+            # print ("We will never reach x position")
             return False, 0
 
-    return False, 0
+        # If we overshot or area in the y direction we will never reach it
+        if y < min(area['y']):
+            # print ("We overshot y position")
+            return False, 0
 
 
 def parse_input(input, p2=False):
@@ -70,7 +67,7 @@ def parse_input(input, p2=False):
 # print("Part 1: ", parse_input('target area: x=102..157, y=-146..-90'))
 
 # Part 2
-# assert parse_input('target area: x=20..30, y=-10..-5', True) == 112
+assert parse_input('target area: x=20..30, y=-10..-5', True) == 112
 print("Part 2: ", parse_input('target area: x=102..157, y=-146..-90', True))
 
 
