@@ -33,11 +33,9 @@ def dirac_dice(a_pos, b_pos, a_score, b_score):
     win = 21
 
     if a_score >= win:
-        CACHE[(a_pos, b_pos, a_score, b_score)] = 'a'
         return (1, 0)
 
     if b_score >= win:
-        CACHE[(a_pos, b_pos, a_score, b_score)] = 'b'
         return (0, 1)
 
     # Did we already play this game and know the outcome?
