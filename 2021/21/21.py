@@ -4,10 +4,6 @@ from collections import Counter
 def play_game(a_pos, b_pos, a_score=0, b_score=0, wins=1000):
     dice = cycle(range(1, 101))
 
-    # We turn 1..10 into 0..9 so we can use % 10
-    a_pos -= 1
-    b_pos -= 1
-
     n = 0
     while True:
         a_roll = sum([next(dice) for _ in range(3)])
@@ -64,11 +60,11 @@ def parse_file(file, p2=False):
     a_pos = int(players[0][-1])
     b_pos = int(players[1][-1])
 
-    if p2:
-        # We turn 1..10 into 0..9 so we can use % 10
-        a_pos -= 1
-        b_pos -= 1
+    # We turn 1..10 into 0..9 so we can use % 10
+    a_pos -= 1
+    b_pos -= 1
 
+    if p2:
         score = dirac_dice(a_pos, b_pos, 0, 0)
         return max(score)
 
