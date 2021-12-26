@@ -11,7 +11,7 @@ def print_grid(grid, title=""):
 def move_grid(grid):
     R = len(grid)
     C = len(grid[0])
-    moves = 0
+    moved = False
 
     # We make a new, empty, bigger grid
     new = deepcopy(grid)
@@ -24,13 +24,9 @@ def move_grid(grid):
 
                 # Is there room to move?
                 if grid[r][cc] == '.':
-                    moves += 1
+                    moved = True
                     new[r][cc] = '>'
                     new[r][c] = '.'
-
-                # No room to move, then we stay
-                else:
-                    new[r][c] = grid[r][c]
 
     # Our input state is the state after all the ones above moved
     grid = deepcopy(new)
@@ -44,29 +40,24 @@ def move_grid(grid):
 
                 # Is there room to move?
                 if grid[rr][c] == '.':
-                    moves += 1
+                    moved = True
                     new[r][c] = '.'
                     new[rr][c] = 'v'
 
-                # No room to move, then we stay
-                else:
-                    new[r][c] = grid[r][c]
-
-    return moves, new
+    return moved, new
 
 
 def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         grid = [[char for char in line] for line in fp.read().splitlines()]
 
+    moved = True
     i = 0
-    while True:
-        moves, grid = move_grid(grid)
+    while moved:
+        moved, grid = move_grid(grid)
         i += 1
 
-        # Our grid did not change?
-        if moves == 0:
-            return i
+    return i
 
 
 # Part 1
