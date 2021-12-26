@@ -50,4 +50,4 @@ for _ in range(6):
     ON = NEW_ON
 
 # The result is the number of items in ON
-print len(ON)
+print (len(ON))
