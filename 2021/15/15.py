@@ -55,7 +55,7 @@ def parse_grid(grid, p2=False):
                     weight = grid[rr][cc]
                     G.add_edge((r, c), (rr, cc), weight=weight)
 
-    path = nx.dijkstra_path(G, 0, R * C - 1, weight="weight")
+    path = nx.dijkstra_path(G, (0, 0), (R-1, C-1), weight="weight")
     return nx.path_weight(G, path, weight="weight")
 
 
