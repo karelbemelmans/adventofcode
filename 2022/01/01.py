@@ -5,7 +5,6 @@ def parse_file(file, p2=False):
     c = []
     current = 0
     for line in lines:
-        print (line)
         if line == "":
             c.append(current)
             current = 0
