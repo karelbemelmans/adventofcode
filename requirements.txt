@@ -1,2 +1,2 @@
-bresenham~=0.2.1
-networkx~=2.6.3
+bresenham
+networkx

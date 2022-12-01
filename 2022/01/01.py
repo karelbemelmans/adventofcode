@@ -1,24 +1,24 @@
+from functools import reduce 
+
+def sum(a, b):
+    return a+b
+
 def parse_file(file, p2=False):
     with open(file, 'r') as fp:
-        lines = [x for x in fp.read().splitlines()]
+        elves = [x for x in fp.read().split("\n\n")]
 
-    c = []
-    current = 0
-    for line in lines:
-        if line == "":
-            c.append(current)
-            current = 0
-        else:
-            current += int(line)
-
-    # Make sure we append the last item as well
-    c.append(current)
+    l = []
+    for e in elves:
+        c = [int(x) for x in e.splitlines()]
+        total = reduce(sum, c)
+        l.append(total)
 
     if p2:
-        c.sort(reverse=True)
-        return c[0]+c[1]+c[2]
+        l.sort(reverse=True)
+        return l[0]+l[1]+l[2]
     else:
-        return max(c)
+        return max(l)
+
 
 assert parse_file('test.txt') == 24000
 print("Part 1: ", parse_file('input.txt'))
