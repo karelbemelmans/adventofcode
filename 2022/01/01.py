@@ -15,7 +15,7 @@ def parse_file(file, p2=False):
 
     if p2:
         l.sort(reverse=True)
-        return l[0]+l[1]+l[2]
+        return reduce(sum, l[0:3])
     else:
         return max(l)
 
