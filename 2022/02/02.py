@@ -7,69 +7,25 @@
 
 # A is opponent, B is player
 def game(a, b):
-    score = 0
+    base = {'X': 1, 'Y': 2, 'Z': 3 }
+    scores = {
+        ('X', 'A'): 3, ('X', 'B'): 0, ('X', 'C'): 6,
+        ('Y', 'A'): 6, ('Y', 'B'): 3, ('Y', 'C'): 0,
+        ('Z', 'A'): 0, ('Z', 'B'): 6, ('Z', 'C'): 3
+    }
+    return base[b] + scores[(b, a)]
 
-    if b == "X":
-        score = 1
-        if a == "A":
-            score += 3
-        elif a == "B":
-            score += 0
-        elif a == "C":
-            score += 6
-
-    elif b == "Y":
-        score = 2
-        if a == "A":
-            score += 6
-        elif a == "B":
-            score += 3
-        elif a == "C":
-            score += 0
-
-    elif b == "Z":
-        score = 3
-        if a == "A":
-            score += 0
-        elif a == "B":
-            score += 6
-        elif a == "C":
-            score += 3
-
-    return score
 
 # X means you need to lose, Y means you need to end the round in a draw, 
 # and Z means you need to win.
 
-# A for Rock, B for Paper, and C for Scissors
-
 def chose(a, b):
-    # We need to lose
-    if b == "X":
-        if a == "A":
-            return "Z"
-        elif a == "B":
-            return "X"
-        elif a == "C":
-            return "Y"
-
-    # We need to draw = return the same as a
-    elif b == "Y":
-        if a == "A":
-            return "X"
-        elif a == "B":
-            return "Y"
-        elif a == "C":
-            return "Z"
-
-    # We need to win
-    elif b == "Z":
-        if a == "A":
-            return "Y"
-        elif a == "B":
-            return "Z"
-        elif a == "C":
-            return "X"
+    options = {
+        ('X', 'A'): 'Z', ('X', 'B'): 'X', ('X', 'C'): 'Y',
+        ('Y', 'A'): 'X', ('Y', 'B'): 'Y', ('Y', 'C'): 'Z',
+        ('Z', 'A'): 'Y', ('Z', 'B'): 'Z', ('Z', 'C'): 'X'
+    }
+    return options[b, a]
 
 
 def parse_file(file, p2=False):
