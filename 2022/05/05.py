@@ -22,7 +22,7 @@ def parse_stacks(stacks):
     return S
 
 
-def parse_ops(S, ops):
+def parse_ops(S, ops, p2=False):
     for op in [x for x in ops.split("\n")]:
         matches = re.match(r'move (\d+) from (\d+) to (\d+)', op)
         assert matches
@@ -31,33 +31,35 @@ def parse_ops(S, ops):
         source = int(matches.group(2))
         dest = int(matches.group(3))
 
-        for i in range(count):
-            item = S[source].pop()
-            S[dest].append(item)
-            
+        # p1: we need to reverse list to get the add-one-by-one
+        # p2: we just take the whole sublist and add that to the other stack
+        items = S[source][-count:]
+        del S[source][-count:]
+        if not p2:
+            items.reverse()
+        S[dest].extend(items)            
 
-    res = []
     # Result is the last item from every stack
+    res = []
     for i in S.keys():
         res.append(str(S[i].pop()))
-
     return "".join(res)
 
 
-def parse (stacks, ops):
+def parse (stacks, ops, p2=False):
     S = parse_stacks(stacks)
-    return parse_ops(S, ops)
+    return parse_ops(S, ops, p2)
 
 
 def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         (stacks, ops) = [x for x in fp.read().split("\n\n")]
 
-    res = parse(stacks, ops)
+    res = parse(stacks, ops, p2)
     return res
 
 assert parse_file('test.txt') == "CMZ"
 print("Part 1: ", parse_file('input.txt'))
 
-# assert parse_file('test.txt', True) == 4
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True) == "MCD"
+print("Part 2: ", parse_file('input.txt', True))
