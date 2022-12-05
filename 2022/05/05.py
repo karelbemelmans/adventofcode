@@ -1,6 +1,7 @@
 from collections import defaultdict
 import re
 
+
 def parse_stacks(stacks):
     S = defaultdict(list)
     lines = [x for x in stacks.split("\n")]
@@ -18,7 +19,7 @@ def parse_stacks(stacks):
             for line in lines:
                 if line[pos] != " ":
                     S[id].append(line[pos])
-            
+
     return S
 
 
@@ -37,7 +38,7 @@ def parse_ops(S, ops, p2=False):
         del S[source][-count:]
         if not p2:
             items.reverse()
-        S[dest].extend(items)            
+        S[dest].extend(items)
 
     # Result is the last item from every stack
     res = []
@@ -46,17 +47,13 @@ def parse_ops(S, ops, p2=False):
     return "".join(res)
 
 
-def parse (stacks, ops, p2=False):
-    S = parse_stacks(stacks)
-    return parse_ops(S, ops, p2)
-
-
 def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         (stacks, ops) = [x for x in fp.read().split("\n\n")]
 
-    res = parse(stacks, ops, p2)
-    return res
+    S = parse_stacks(stacks)
+    return parse_ops(S, ops, p2)
+
 
 assert parse_file('test.txt') == "CMZ"
 print("Part 1: ", parse_file('input.txt'))
