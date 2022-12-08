@@ -82,12 +82,10 @@ def parse_grid2(grid, p2=False):
                     cc = c + l*y
 
                     if (0 <= rr < R) and (0 <= cc < C):
+                        distance[(x, y)] += 1
                         # We hit a tree that ends our measuring, but still gives 1 score
                         if grid[rr][cc] >= grid[r][c]:
-                            distance[(x, y)] += 1
                             break
-                        else:
-                            distance[(x, y)] += 1
 
             score = distance[(1, 0)] * distance[(0, 1)] * \
                 distance[(-1, 0)] * distance[(0, -1)]
