@@ -1,25 +1,3 @@
-from copy import deepcopy
-
-
-def show(H, T):
-    R = 10
-    C = 10
-
-    for c in range(C, -C, -1):
-        for r in range(-R, R):
-            if H == [c, r]:
-                print("H", end='')
-            elif [c, r] in T:
-                print(T.index([c, r])+1, end='')
-            elif [c, r] == [0, 0]:
-                print("s", end='')
-            else:
-                print(".", end='')
-
-        print("")
-    print("")
-
-
 def touching(H, T):
     # Same spot
     if H[0] == T[0] and H[1] == T[1]:
@@ -40,7 +18,7 @@ def touching(H, T):
     return False
 
 
-def move_tail(H, T, dir):
+def move_tail(H, T):
 
     # Touching? We don't move.
     if touching(H, T):
@@ -85,76 +63,37 @@ def move_tail(H, T, dir):
     return T
 
 
-def parse(lines):
-
-    H = [0, 0]
-    T = [0, 0]
-
-    visited = set()
-
-    for line in lines:
-        (dir, count) = line.strip().split(" ")
-
-        for i in range(int(count)):
-            match dir:
-                case 'U':
-                    H[0] = H[0]+1
-                case 'D':
-                    H[0] = H[0]-1
-                case 'R':
-                    H[1] = H[1]+1
-                case 'L':
-                    H[1] = H[1]-1
-
-            # After each step, you'll need to update the position of the tail
-            # if the step means the head is no longer adjacent to the tail.
-            T = move_tail(H, T, dir)
-
-            # After simulating the rope, you can count up all of the positions the tail visited at least once.
-            visited.add((T[0], T[1]))
-
-    return len(visited)
-
-
-def parse2(lines):
+def parse(lines, p2=False):
 
     H = [0, 0]
     T = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],
          [0, 0], [0, 0], [0, 0], [0, 0]]
 
-    # show(H, T)
+    DR = {'L': 0, 'U': -1, 'R': 0, 'D': 1}
+    DC = {'L': -1, 'U': 0, 'R': 1, 'D': 0}
 
     visited = set()
 
     for line in lines:
         (dir, count) = line.strip().split(" ")
-        # print("Move: ", dir, count)
-        # print(" Start:", H, T)
 
-        for i in range(int(count)):
-            match dir:
-                case 'U':
-                    H[0] = H[0]+1
-                case 'D':
-                    H[0] = H[0]-1
-                case 'R':
-                    H[1] = H[1]+1
-                case 'L':
-                    H[1] = H[1]-1
+        for _ in range(int(count)):
+            H[0] = H[0] + DR[dir]
+            H[1] = H[1] + DC[dir]
 
             # After each step, you'll need to update the position of the tail
             # if the step means the head is no longer adjacent to the tail.
-            T[0] = move_tail(H, T[0], dir)
-            for i in range(1, len(T)):
-                T[i] = move_tail(T[i-1], T[i], dir)
+            T[0] = move_tail(H, T[0])
+            if p2:
+                for i in range(1, len(T)):
+                    T[i] = move_tail(T[i-1], T[i])
 
             # After simulating the rope, you can count up all of the positions the tail visited at least once.
-            visited.add((T[-1][0], T[-1][1]))
+            if p2:
+                visited.add((T[-1][0], T[-1][1]))
+            else:
+                visited.add((T[0][0], T[0][1]))
 
-        # show(H, T)
-        # print(" Done: ", H, T)
-
-    # print("visited", visited, len(visited))
     return len(visited)
 
 
@@ -162,10 +101,7 @@ def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         lines = [x for x in fp.read().splitlines()]
 
-    if p2:
-        return parse2(lines)
-    else:
-        return parse(lines)
+    return parse(lines, p2)
 
 
 assert parse_file('test.txt') == 13
