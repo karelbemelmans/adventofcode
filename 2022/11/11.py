@@ -1,6 +1,9 @@
 # What I learned here:
 #
 # Use a global 'ITEMS, OPER, TEST, A, B = range(5)' to make list indicides easier
+# Make sure you reset your counters if they are globals. Costed me a few hours of debugging...
+# Lambda's are something I need to look into
+# Same for the path libraries
 
 from math import gcd, prod
 from collections import defaultdict, deque
