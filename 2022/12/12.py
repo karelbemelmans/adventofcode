@@ -42,23 +42,24 @@ def parse_grid(grid, p2=False):
                     if weight <= 1:
                         G.add_edge((r, c), (rr, cc), weight=1)
 
-    L = 9999
+    starts = []
     if p2:
-        starts = []
         for r in range(R):
             for c in range(C):
                 if grid[r][c] == 'a':
                     starts.append((r, c))
-
-        for s in starts:
-            try:
-                path = nx.dijkstra_path(G, s, E, weight="weight")
-                L = min(L, len(path))
-            except:
-                do = False
     else:
-        path = nx.dijkstra_path(G, S, E, weight="weight")
-        L = len(path)
+        starts = [S]
+
+    # Take a good default for the max
+    L = R*C
+
+    for s in starts:
+        try:
+            path = nx.dijkstra_path(G, s, E, weight="weight")
+            L = min(L, len(path))
+        except:
+            do = False
 
     # We need to remove one edge since we are already on the start so the
     # node (0,0) does not need to be counted in path
