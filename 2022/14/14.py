@@ -27,19 +27,28 @@ def parse_shapes(shapes):
     return R
 
 
-def sand_flows(rocks, start):
+def sand_flows(rocks, p2=False):
 
-    # High deep is too deep?
+    # We need to set a cap, p2's floor is good for p1 as well
+    start = (500, 0)
     floor = max(r[1] for r in rocks) + 2
 
+    # p2 needs a floor. Seems easy enough to just add it as actual rocks
+    if p2:
+        x_min = min(r[0] for r in rocks)-2000
+        x_max = max(r[0] for r in rocks)+2000
+        for x in range(x_min, x_max):
+            rocks.add((x, floor))
+
     # Take some high number which we will most likely not reach
-    for t in range(1000000):
+    for t in range(100000):
 
         rock = start
 
         while True:
 
-            if rock[1] + 1 >= floor:
+            # p1 is done when we start to go past the floor
+            if rock[1] + 1 >= floor and not p2:
                 return t
 
             if (rock[0], rock[1]+1) not in rocks:
@@ -51,10 +60,13 @@ def sand_flows(rocks, start):
             else:
                 break
 
-        if rock == (500, 0):
-            print(t+1)
-            break
+        # In p2 our end point is when we did not find any more rocks
+        # to advance to, so our start is our end point
+        if rock == start:
+            return t+1
 
+        # We add sand as rocks because it does not matter what the material
+        # is, as long as we know it's not an air spot.
         rocks.add(rock)
 
 
@@ -73,13 +85,12 @@ def parse_file(file, p2=False):
         ]
 
     rocks = parse_shapes(shapes)
-
-    return sand_flows(rocks, (500, 0))
+    return sand_flows(rocks, p2)
 
 
 # Part 1
 assert parse_file('test.txt') == 24
 print("Part 1: ", parse_file('input.txt'))
 
-# assert parse_file('test.txt', True) == 140
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True) == 93
+print("Part 2: ", parse_file('input.txt', True))
