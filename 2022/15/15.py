@@ -2,26 +2,6 @@
 import re
 
 
-def print_grid(G):
-    e = 10
-
-    # Calculate the bounds of our grid
-    R_0 = min([r for r, c in G]) - e
-    R_1 = max([r for r, c in G]) + e
-    C_0 = min([c for r, c in G]) - e
-    C_1 = max([c for r, c in G]) + e
-
-    print(R_0, R_1, C_0, C_1)
-
-    for c in range(C_0, C_1):
-        for r in range(R_0, R_1):
-            if (r, c) in G:
-                print("x", end="")
-            else:
-                print(".", end="")
-        print("")
-
-
 # Is this point covered by a sensor in our list?
 def valid(x, y, S):
     for (sx, sy, d) in S:
@@ -31,7 +11,7 @@ def valid(x, y, S):
     return True
 
 
-def parse_lines(lines, y,  p2=False):
+def parse_lines(lines, n,  p2=False):
 
     S = set()
     B = set()
@@ -49,12 +29,33 @@ def parse_lines(lines, y,  p2=False):
             S.add((s[0], s[1], h))
             B.add((b[0], b[1]))
 
-    total = 0
-    for x in range(-int(1e7), int(1e7)):
-        if not valid(x, y, S) and (x, y) not in B:
-            total += 1
+    if p2:
+        # Theory from reddit:
+        #
+        # - If there is only one possible position for another beacon, it must be distance d+1 from some beacon
+        # - If not, we could find an adjacent position that is possible.
+        for (sx, sy, d) in S:
 
-    return total
+            # check all points that are d+1 away from (sx,sy):
+            # - we loop over dx
+            # - adjust dy so that distance is always d+1
+            for dx in range(d+2):
+                dy = (d+1)-dx
+                for signx, signy in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
+                    x = sx+(dx*signx)
+                    y = sy+(dy*signy)
+                    if not (0 <= x <= n and 0 <= y <= n):
+                        continue
+                    assert abs(x-sx)+abs(y-sy) == d+1
+                    if valid(x, y, S):
+                        return x*4000000 + y
+
+    else:
+        total = 0
+        for x in range(-int(1e7), int(1e7)):
+            if not valid(x, n, S) and (x, n) not in B:
+                total += 1
+        return total
 
 
 def parse_file(file, y, p2=False):
@@ -70,5 +71,5 @@ def parse_file(file, y, p2=False):
 assert parse_file('test.txt', 10) == 26
 print("Part 1: ", parse_file('input.txt', 2000000))
 
-# assert parse_file('test.txt', True) == 56000011
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', 20, True) == 56000011
+print("Part 2: ", parse_file('input.txt', 4000000, True))
