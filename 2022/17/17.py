@@ -129,9 +129,7 @@ def parse_moves(moves, N):
                 F = max(r for r, c in B)
                 n += 1
 
-    res = max(r for r, c in B) + 1
-    print(res)
-    return res
+    return max(r for r, c in B) + 1
 
 
 def parse_file(file, N):
