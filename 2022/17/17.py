@@ -136,4 +136,4 @@ assert parse_file('test.txt', 2022) == 3068
 print("Part 1: ", parse_file('input.txt', 2022))
 
 assert parse_file('test.txt', int(1e12), True) == 1514285714288
-print("Part 2: ", parse_file('input.txt', 4000000, True))
+print("Part 2: ", parse_file('input.txt', int(1e12), True))
