@@ -1,48 +1,82 @@
 #!/usr/bin/env python3
 
-from collections import defaultdict
-from functools import reduce
+from collections import deque
+
+OUT = set()
+IN = set()
 
 
-def parse(dice, p2=False):
-    S = defaultdict(int)
+def reaches_outside(P, x, y, z, p2=False):
+    if (x, y, z) in OUT:
+        return True
+    if (x, y, z) in IN:
+        return False
+    SEEN = set()
+    Q = deque([(x, y, z)])
+    while Q:
+        x, y, z = Q.popleft()
+        if (x, y, z) in P:
+            continue
+        if (x, y, z) in SEEN:
+            continue
+        SEEN.add((x, y, z))
+        if len(SEEN) > (5000 if p2 else 0):
+            for p in SEEN:
+                OUT.add(p)
+            return True
+        Q.append((x+1, y, z))
+        Q.append((x-1, y, z))
+        Q.append((x, y+1, z))
+        Q.append((x, y-1, z))
+        Q.append((x, y, z+1))
+        Q.append((x, y, z-1))
+    for p in SEEN:
+        IN.add(p)
+    return False
 
-    # Build up our dict of dice and how much sides they have exposed
-    # We start with every dice have 6 sides exposed
-    for d in dice:
-        S[(d[0], d[1], d[2])] = 6
 
-    DIR = [(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)]
-    for d in dice:
-
-        # Look at neighbours in 1 directions
-        for (x, y, z) in DIR:
-            xx = d[0] + x
-            yy = d[1] + y
-            zz = d[2] + z
-
-            # Is there a dice on this side? Then we reduce our counter
-            if (xx, yy, zz) in S:
-                S[(d[0], d[1], d[2])] -= 1
-
-    return reduce(lambda a, b: a+b, S.values())
+def solve(P, p2=False):
+    OUT.clear()
+    IN.clear()
+    ans = 0
+    for (x, y, z) in P:
+        if reaches_outside(P, x+1, y, z, p2):
+            ans += 1
+        if reaches_outside(P, x-1, y, z, p2):
+            ans += 1
+        if reaches_outside(P, x, y+1, z, p2):
+            ans += 1
+        if reaches_outside(P, x, y-1, z, p2):
+            ans += 1
+        if reaches_outside(P, x, y, z+1, p2):
+            ans += 1
+        if reaches_outside(P, x, y, z-1, p2):
+            ans += 1
+    return ans
 
 
 def parse_file(file, p2=False):
 
     # Shape is a list of lists that contains pairs
     with open(file, 'r') as fp:
-        dice = [
-            [int(part) for part in line.strip().split(",")]
-            for line in fp.readlines()
-        ]
+        lines = [line for line in fp.read().splitlines()]
 
-    return parse(dice)
+    # Cubes
+    P = set()
+    for line in lines:
+        x, y, z = line.split(',')
+        x, y, z = int(x), int(y), int(z)
+        P.add((x, y, z))
+
+    if p2:
+        return solve(P, True)
+    else:
+        return solve(P)
 
 
 # Part 1
 assert parse_file('test.txt') == 64
 print("Part 1: ", parse_file('input.txt'))
 
-# assert parse_file('test.txt', True) == 1514285714288
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True) == 58
+print("Part 2: ", parse_file('input.txt', True))
