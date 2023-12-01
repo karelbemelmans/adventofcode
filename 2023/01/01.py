@@ -1,16 +1,7 @@
 #!/usr/bin/env python3
 
-letters = {
-    'one': '1',
-    'two': '2',
-    'three': '3',
-    'four': '4',
-    'five': '5',
-    'six': '6',
-    'seven': '7',
-    'eight': '8',
-    'nine': '9'
-}
+letters = ['one', 'two', 'three', 'four',
+           'five', 'six', 'seven', 'eight', 'nine']
 
 
 def parse_file(file, p2=False):
@@ -19,45 +10,21 @@ def parse_file(file, p2=False):
 
     T = 0
     for line in lines:
-        if p2:
-            new_line = ""
 
-            # Find the first digit
-            current_word = ""
-            for char in line:
-                if char.isdigit():
-                    new_line += char
-                    break
-                else:
-                    current_word += char
-                    for letter in letters:
-                        if letter in current_word:
-                            new_line += letters[letter]
-                            break
-                    else:
-                        continue
-                    break
+        numbers = []
 
-            # Findt the last digit
-            current_word = ""
-            for char in reversed(line):
-                if char.isdigit():
-                    new_line += char
-                    break
-                else:
-                    current_word = char + current_word
-                    for letter in letters:
-                        if letter in current_word:
-                            new_line += letters[letter]
-                            break
-                    else:
-                        continue
-                    break
+        for i, char in enumerate(line):
+            if char.isdigit():
+                numbers.append(char)
 
-            line = new_line
+            if p2:
+                # We check all the digits we want to scan for
+                for d, val in enumerate(letters):
+                    # We make substrings from i to the end of the line and check for matches
+                    if line[i:].startswith(val):
+                        numbers.append(str(d + 1))
 
-        digits = [x for x in line if x.isdigit()]
-        T += int(digits[0] + digits[-1])
+        T += int(numbers[0] + numbers[-1])
 
     return T
 
