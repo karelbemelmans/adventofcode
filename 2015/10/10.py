@@ -50,5 +50,4 @@ assert parse_string('1', 4) == 6
 print("Part 1: ", parse_string('3113322113', 40))
 
 # Part 2
-# assert parse_string('test.txt', True) == 0
-# print("Part 2: ", parse_string('input.txt', True))
+print("Part 1: ", parse_string('3113322113', 50))
