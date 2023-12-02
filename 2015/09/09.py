@@ -28,7 +28,8 @@ def parse_file(file, p2=False):
             distances[(A, B)] = l
 
     # Permutations, beause why not?
-    T = float("inf")
+    T = 0 if p2 else float("inf")
+
     for p in permutations(cities):
         l = 0
 
@@ -40,7 +41,7 @@ def parse_file(file, p2=False):
                 l += distances[p[i+1], p[i]]
             i += 1
 
-        T = min(T, l)
+        T = max(T, l) if p2 else min(T, l)
 
     return T
 
@@ -50,5 +51,5 @@ assert parse_file('test.txt') == 605
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test.txt', True) == 0
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True) == 982
+print("Part 2: ", parse_file('input.txt', True))
