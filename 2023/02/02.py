@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from collections import defaultdict
+
 
 def parse_file(file, cubes=None, p2=False):
 
@@ -14,33 +16,31 @@ def parse_file(file, cubes=None, p2=False):
         # P1 check if a game is valid
         valid = True
         # P2 counters for the minimum number of cubes needed of a color
-        M = {'red': 0, 'blue': 0, 'green': 0}
-        
+        M = defaultdict(int)
+
         turns = input.split("; ")
         for turn in turns:
-            
+
             moves = turn.split(", ")
             for move in moves:
-                
+
                 i, color = move.split(" ")
                 i = int(i)
-                
-                # P1 check if a line is valid                
+
+                # P1 check if a line is valid
                 if cubes and cubes[color] and i > cubes[color]:
                     valid = False
                     break
 
-                # P2 count for minimum needed cubes                    
+                # P2 count for minimum needed cubes
                 M[color] = max(i, M[color])
-
 
         if p2:
             S += M['red'] * M['blue'] * M['green']
         elif valid:
             S += id
-        
-    return S
 
+    return S
 
 
 # Part 1
