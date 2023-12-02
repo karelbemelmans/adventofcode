@@ -25,7 +25,9 @@ def parse_file(file, p2=False):
             cities.add(A)
             cities.add(B)
 
+            # We add both ways to make our logic easier down the line
             distances[(A, B)] = l
+            distances[(B, A)] = l
 
     # Permutations, beause why not?
     T = 0 if p2 else float("inf")
@@ -33,13 +35,8 @@ def parse_file(file, p2=False):
     for p in permutations(cities):
         l = 0
 
-        i = 0
-        while i < len(p)-1:
-            if distances[p[i], p[i+1]]:
-                l += distances[p[i], p[i+1]]
-            else:
-                l += distances[p[i+1], p[i]]
-            i += 1
+        for i in range(0, len(p)-1):
+            l += distances[p[i], p[i+1]]
 
         T = max(T, l) if p2 else min(T, l)
 
