@@ -73,9 +73,8 @@ def parse_string(string, p2=False):
 
 # Part 1
 assert parse_string('abcdefgh') == "abcdffaa"
-# assert parse_string('ghijklmn') == "ghjaabcc"
-print("Part 1: ", parse_string('hxbxwxba'))
+p1 = parse_string('hxbxwxba')
+print("Part 1: ", p1)
 
 # Part 2
-# assert parse_string('test.txt', True) == 0
-# print("Part 2: ", parse_string('input.txt', True))
+print("Part 2: ", parse_string(p1))
