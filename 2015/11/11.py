@@ -27,15 +27,14 @@ def next_password(string):
 
 
 def meets_requirements(string):
-    '''
-    Passwords must include one increasing straight of at least three letters, 
-    like abc, bcd, cde, and so on, up to xyz. They cannot skip letters; abd doesn't count.
-    '''
-
     p1 = False
     p2 = False
     p3 = 0
 
+    '''
+    Passwords must include one increasing straight of at least three letters, 
+    like abc, bcd, cde, and so on, up to xyz. They cannot skip letters; abd doesn't count.
+    '''
     start = ord('a')
     end = ord('z')
 
