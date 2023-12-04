@@ -11,12 +11,28 @@ def score(i):
         return 2 * score(i-1)
 
 
+def process_cards(cards, p2=False):
+    S = 0
+
+    # Process cards
+    for id in cards.keys():
+        data = cards[id]
+        winners, numbers = data.split(' | ')
+
+        W = set([int(x) for x in winners.split()])
+        N = set([int(x) for x in numbers.split()])
+
+        matches = len(N.intersection(W))
+        S += score(matches)
+
+    return S
+
+
 def parse_file(file, p2=False):
 
     with open(file, 'r') as fp:
         lines = [line for line in fp.read().splitlines()]
 
-    S = 0
     C = {}
 
     # Parse cards
@@ -26,16 +42,7 @@ def parse_file(file, p2=False):
         C[int(id)] = data
 
     # Process cards
-    for id in C.keys():
-        data = C[id]
-        winners, numbers = data.split(' | ')
-
-        W = set([int(x) for x in winners.split()])
-        N = set([int(x) for x in numbers.split()])
-
-        matches = len(N.intersection(W))
-        S += score(matches)
-
+    S = process_cards(C, p2)
     return S
 
 
