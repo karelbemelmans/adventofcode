@@ -5,10 +5,10 @@ import math
 
 
 def score(i):
-    if i < 2:
-        return i
+    if i == 0:
+        return 0
     else:
-        return 2 * score(i-1)
+        return 2 ** (i - 1)
 
 
 def parse_file(file, p2=False):
