@@ -13,31 +13,22 @@ def parse_file(file, p2=False):
 
     S = [int(x) for x in blocks[0].split(": ")[1].split()]
 
-    # Parse the input information
-    X = defaultdict(list)
-    for i, block in enumerate(blocks[1:]):
-        for line in block.splitlines()[1:]:
-            dest, src, l = [int(x) for x in line.split(" ")]
-            X[ORDER[i]].append((dest, src, l))
-
     # Find the locations for every seed
     L = float("inf")
 
     for seed in S:
-        x = seed
-        for order in ORDER:
-            table = X[order]
+        for block in blocks[1:]:
+            for line in block.splitlines()[1:]:
+                dest, src, l = [int(x) for x in line.split(" ")]
 
-            # Check if our number is in a range in the table
-            # If it is, we calculate the new number from the diff
-            for t in table:
-                if t[1] <= x < t[1]+t[2]:
-                    x = t[0] + (x - t[1])
+                d = seed - src
+                if d in range(l):
+                    seed = dest + d
                     break
 
-            # If not, x remains the same
+                # If not, seed remains the same
 
-        L = min(L, x)
+        L = min(L, seed)
 
     return L
 
