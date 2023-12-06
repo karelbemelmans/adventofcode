@@ -5,11 +5,9 @@ from functools import reduce
 
 
 def parse_file(file, p2=False):
-
     times, distances = open(file).read().splitlines()
-
-    times = list(map(int, times.split(":")[1].split()))
-    distances = list(map(int, distances.split(":")[1].split()))
+    times = [int(x) for x in times.split(":")[1].split()]
+    distances = [int(x) for x in distances.split(":")[1].split()]
 
     # Turn our list into one big number
     if p2:
