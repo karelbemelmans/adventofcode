@@ -11,16 +11,15 @@ def parse_file(file, p2=False):
     times = list(map(int, times.split(":")[1].split()))
     distances = list(map(int, distances.split(":")[1].split()))
 
+    # Turn our list into one big number
     if p2:
         times = [int(reduce(lambda a, b: str(a)+str(b), times))]
         distances = [int(reduce(lambda a, b: str(a)+str(b), distances))]
 
     winners = defaultdict(int)
     for i in range(len(times)):
-        v = 0
         for j in range(times[i]):
-            v = j
-            d = (times[i] - j) * v
+            d = (times[i] - j) * j
 
             if d > distances[i]:
                 winners[i] += 1
