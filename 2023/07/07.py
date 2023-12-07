@@ -1,42 +1,34 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
+from collections import deque, defaultdict, Counter
 from functools import cmp_to_key, reduce
 
 CARDS = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2']
 
-HAND_FIVE_OF_A_KIND = 7
-HAND_FOUR_OF_A_KIND = 6
-HAND_FULL_HOUSE = 5
-HAND_THREE_OF_A_KIND = 4
-HAND_TWO_PAIR = 3
-HAND_ONE_PAIR = 2
-HAND_HIGH_CARD = 1
-
 
 def hand_strength(hand):
-    s = list(set(hand))
+    c = Counter(hand)
+    c = sorted(c.values(), reverse=True)
 
-    if len(s) == 1:
-        return HAND_FIVE_OF_A_KIND
+    if c == [5]:
+        return 7
 
-    if len(s) == 2 and (hand.count(s[0]) == 4 or hand.count(s[1]) == 4):
-        return HAND_FOUR_OF_A_KIND
+    if c == [4, 1]:
+        return 6
 
-    if len(s) == 2 and (hand.count(s[0]) == 3 or hand.count(s[1]) == 3):
-        return HAND_FULL_HOUSE
+    if c == [3, 2]:
+        return 5
 
-    for i in s:
-        if hand.count(i) == 3:
-            return HAND_THREE_OF_A_KIND
+    if c == [3, 1, 1]:
+        return 4
 
-    if len(s) == 3 and ((hand.count(s[0]) == 2 and hand.count(s[1]) == 2) or (hand.count(s[0]) == 2 and hand.count(s[2]) == 2) or (hand.count(s[1]) == 2 and hand.count(s[2]) == 2)):
-        return HAND_TWO_PAIR
+    if c == [2, 2, 1]:
+        return 3
 
-    if len(s) == 4:
-        return HAND_ONE_PAIR
+    if c == [2, 1, 1, 1]:
+        return 2
 
-    return HAND_HIGH_CARD
+    return 1
 
 
 def compare_hands(x, y):
