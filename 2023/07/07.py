@@ -10,13 +10,12 @@ CARDS_P2 = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J']
 def hand_strength(hand, p2=False):
     c = Counter(hand)
 
-    # If we have 5 jokers, make sure we process it as five the same cards
-    counts = (
-        [0] if (jokers := c.pop("J", 0)
-                if p2 else 0) == 5 else sorted(c.values())
-    )
+    jokers = c.pop("J", 0) if p2 else 0
 
-    # We use the joker to increase the most important card nr in our hand
+    # Make sure that 5 J is also a proper match
+    counts = [0] if jokers == 5 else sorted(c.values())
+
+    # Every joker means the most signifcant card is one higher
     counts[-1] += jokers
 
     match counts:
