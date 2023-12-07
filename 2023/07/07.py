@@ -15,6 +15,8 @@ def hand_strength(hand, p2=False):
         [0] if (jokers := c.pop("J", 0)
                 if p2 else 0) == 5 else sorted(c.values())
     )
+
+    # We use the joker to increase the most important card nr in our hand
     counts[-1] += jokers
 
     match counts:
