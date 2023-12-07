@@ -8,14 +8,21 @@ CARDS_P2 = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J']
 
 
 def hand_strength(hand, p2=False):
+
+    # The core of the hole solution is the Counter type: it counts the occurences
+    # of each char (= card) in a string (= hand).
     c = Counter(hand)
 
+    # Count the number of jokers in our hand
     jokers = c.pop("J", 0) if p2 else 0
 
-    # Make sure that 5 J is also a proper match
+    # Make sure that 5 J is also a proper match, since we remove J from our counter
+    #
+    # We continue with c.values() because we only care about how many times a card
+    # appears to give a score, not which the acutal cards are.
     counts = [0] if jokers == 5 else sorted(c.values())
 
-    # Every joker means the most signifcant card is one higher
+    # Every joker means the most signifcant card in our hand is one higher
     counts[-1] += jokers
 
     match counts:
@@ -44,16 +51,28 @@ def compare_hands(x, y, p2=False, cards=CARDS):
     score_x = hand_strength(x[0], p2)
     score_y = hand_strength(y[0], p2)
 
+    # X ranks higher than Y
     if score_x > score_y:
         return 1
+
+    # Y ranks higher than X
     elif score_y > score_x:
         return -1
+
+    # X and Y rank the same, then we need to compare the cards one by one
     else:
+
+        # zip() gives us tuples of (card_x, card_y) to compare
         for (xx, yy) in zip(x[0], y[0]):
+
+            # X appears in the list before Y
             if cards.index(xx) < cards.index(yy):
                 return 1
-            if cards.index(xx) > cards.index(yy):
+
+            # Y appears in the list before X
+            if cards.index(yy) < cards.index(xx):
                 return -1
+
         else:
             return 0
 
