@@ -96,10 +96,12 @@ def parse_file(file, p2=False):
         hands = sorted(hands, key=cmp_to_key(compare_hands))
 
     # Calculate our score
+    #
+    # Yes, this can be written as a reduce with a map with a zip but that code
+    # will turn out longer and harder to read than this :)
     S = 0
     for i, hand in enumerate(hands):
-        score = hand[1] * (i+1)
-        S += score
+        S += hand[1] * (i+1)
 
     return S
 
