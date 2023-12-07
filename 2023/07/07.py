@@ -26,25 +26,26 @@ def hand_strength(hand, p2=False):
     counts[-1] += jokers
 
     match counts:
-        case *_, 5:
+        case [*_, 5]:
             return 7
 
-        case *_, 4:
+        case [*_, 4]:
             return 6
 
-        case *_, 2, 3:
+        case [*_, 2, 3]:
             return 5
 
-        case *_, 3:
+        case [*_, 3]:
             return 4
 
-        case *_, 2, 2:
+        case [*_, 2, 2]:
             return 3
 
-        case *_, 2:
+        case [*_, 2]:
             return 2
 
-    return 1
+        case _:
+            return 1
 
 
 def compare_hands(x, y, p2=False, cards=CARDS):
