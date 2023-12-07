@@ -87,10 +87,7 @@ def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         lines = [line for line in fp.read().splitlines()]
 
-    # Build our input as tuples of (cards, score)
-    hands = []
-    for i, line in enumerate(lines):
-        hands.append((line.split(' ')[0], int(line.split(' ')[1])))
+    hands = [(a, int(b)) for a, b in (line.strip().split() for line in lines)]
 
     # Sort our hands depending which phase we are (can this be done nicer?)
     if p2:
