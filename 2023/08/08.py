@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from collections import deque, defaultdict
+import math
+from functools import reduce
 
 
 def parse_file(file, p2=False):
@@ -11,28 +13,36 @@ def parse_file(file, p2=False):
     P = {}
     for line in lines.splitlines():
         a, b = line.split(' = ')
+        # Ugly, but it works since our input is al 3 char strings...
         P[a] = (b[1:4], b[6:9])
 
-    print("instructions", instructions, len(instructions))
-    print("P", P)
+    # Find our start nodes
+    if p2:
+        S = [x for x in P if x[2] == 'A']
+    else:
+        S = ['AAA']
 
-    cur = "AAA"
-    end = "ZZZ"
+    # A list of how many steps it took for every start node to reach the end
+    L = []
 
-    i = 0
-    while True and i < 100000:
-        print("step: ", i)
-        print("- cur: ", cur)
-        dir = instructions[i % len(instructions)]
-        print("- dir: ", dir)
+    for node in S:
+        cur = node
 
-        cur = P[cur][0 if dir == 'L' else 1]
-        print("- new: ", cur)
-        if cur == end:
-            return i + 1
+        i = 0
+        done = False
+        while not done:
+            dir = instructions[i % len(instructions)]
+            cur = P[cur][0 if dir == 'L' else 1]
 
-        # Make sure we rotate around
-        i += 1
+            if (p2 and cur[2] == 'Z') or cur == 'ZZZ':
+                L.append(i+1)
+                done = True
+
+            i += 1
+
+    # Classic LCD problem
+    lcd = reduce(lambda x, y: (x*y)//math.gcd(x, y), L)
+    return lcd
 
 
 # Part 1
@@ -40,6 +50,7 @@ assert parse_file('test.txt') == 2
 assert parse_file('test2.txt') == 6
 print("Part 1: ", parse_file('input.txt'))
 
+
 # Part 2
-# assert parse_file('test.txt', True) == 0
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test3.txt', True) == 6
+print("Part 2: ", parse_file('input.txt', True))
