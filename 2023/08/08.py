@@ -16,10 +16,7 @@ def parse_file(file, p2=False):
         P[a] = (b[1:4], b[6:9])
 
     # Find our start nodes
-    if p2:
-        S = [x for x in P if x[2] == 'A']
-    else:
-        S = ['AAA']
+    S = [x for x in P if x[2] == 'A'] if p2 else ['AAA']
 
     # A list of how many steps it took for every start node to reach the end
     L = []
