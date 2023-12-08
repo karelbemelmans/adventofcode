@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import math
-from functools import reduce
+import numpy as np
 
 
 def parse_file(file, p2=False):
@@ -35,7 +34,8 @@ def parse_file(file, p2=False):
 
             i += 1
 
-    S = reduce(lambda x, y: (x*y)//math.gcd(x, y), L)
+    # least common multiple
+    S = np.lcm.reduce(L)
     return S
 
 
