@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
 import math
 from functools import reduce
 
@@ -13,7 +12,7 @@ def parse_file(file, p2=False):
     P = {}
     for line in lines.splitlines():
         a, b = line.split(' = ')
-        # Ugly, but it works since our input is al 3 char strings...
+        # Ugly, but it works since our input is all 3 char strings...
         P[a] = (b[1:4], b[6:9])
 
     # Find our start nodes
@@ -29,20 +28,18 @@ def parse_file(file, p2=False):
         cur = node
 
         i = 0
-        done = False
-        while not done:
+        while True:
             dir = instructions[i % len(instructions)]
             cur = P[cur][0 if dir == 'L' else 1]
 
             if (p2 and cur[2] == 'Z') or cur == 'ZZZ':
                 L.append(i+1)
-                done = True
+                break
 
             i += 1
 
-    # Classic LCD problem
-    lcd = reduce(lambda x, y: (x*y)//math.gcd(x, y), L)
-    return lcd
+    S = reduce(lambda x, y: (x*y)//math.gcd(x, y), L)
+    return S
 
 
 # Part 1
