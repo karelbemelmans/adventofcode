@@ -2,3 +2,4 @@ bresenham
 networkx
 autopep8
 utils
+numpy
