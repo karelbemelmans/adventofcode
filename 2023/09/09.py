@@ -28,24 +28,25 @@ def parse_file(file, p2=False):
             if sum(values) == 0:
                 done = True
 
-        # At this point we have L with a list of all the differences up to 0
-        # Now work the other way around and count up
+        # At this point we have L with a list if lists of all the differences up to 0
+        # Now work the other way around and count up.
 
         # Add a zero to our last list and reverse it for easier parsing
+        # For p2 we should add it at the front, but one more 0 in a list of 0's
+        # is not going to make a difference :)
         L[-1].append(0)
         L.reverse()
 
-        # deque so we can add items to the front later one
+        # We use deque so we can add items to the front of our list
         L = [deque(l) for l in L]
 
         for i in range(len(L)-1):
-            # New item at the end
-            end = L[i+1][-1] + L[i][-1]
-            L[i+1].append(end)
-
-            # New item at the front
-            start = L[i+1][0] - L[i][0]
-            L[i+1].appendleft(start)
+            if p2:
+                new = L[i+1][0] - L[i][0]
+                L[i+1].appendleft(new)
+            else:
+                new = L[i+1][-1] + L[i][-1]
+                L[i+1].append(new)
 
         S += L[-1][0] if p2 else L[-1][-1]
 
