@@ -13,8 +13,7 @@ def parse_file(file, p2=False):
         values = [int(x) for x in line.split(' ')]
         L = [values]
 
-        done = False
-        while not done:
+        while True:
             new = []
 
             for i in range(len(values)-1):
@@ -26,7 +25,7 @@ def parse_file(file, p2=False):
 
             # Are we done?
             if sum(values) == 0:
-                done = True
+                break
 
         # At this point we have L with a list if lists of all the differences up to 0
         # Now work the other way around and count up.
