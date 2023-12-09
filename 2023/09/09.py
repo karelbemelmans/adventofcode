@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from collections import deque
+
 
 def parse_file(file, p2=False):
 
@@ -28,20 +30,24 @@ def parse_file(file, p2=False):
 
         # At this point we have L with a list of all the differences up to 0
         # Now work the other way around and count up
-        for l in L:
-            print(l)
 
-        # Add a zero to our last list
+        # Add a zero to our last list and reverse it for easier parsing
         L[-1].append(0)
         L.reverse()
 
-        for i in range(len(L)-1):
-            new = L[i+1][-1] + L[i][-1]
-            L[i+1].append(new)
+        # deque so we can add items to the front later one
+        L = [deque(l) for l in L]
 
-        s = L[-1][-1]
-        print("score: ", s)
-        S += s
+        for i in range(len(L)-1):
+            # New item at the end
+            end = L[i+1][-1] + L[i][-1]
+            L[i+1].append(end)
+
+            # New item at the front
+            start = L[i+1][0] - L[i][0]
+            L[i+1].appendleft(start)
+
+        S += L[-1][0] if p2 else L[-1][-1]
 
     return S
 
@@ -53,5 +59,5 @@ assert parse_file('test3.txt') == -9295
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test.txt', True) == 0
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True) == 2
+print("Part 2: ", parse_file('input.txt', True))
