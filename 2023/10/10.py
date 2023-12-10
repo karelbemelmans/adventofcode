@@ -81,8 +81,12 @@ def parse_file(file, p2=False):
                 case 'S':
                     S = (r, c)
 
+    # Current position
     current = S
+
+    # Path of all visited nodes in our circular path
     path = [S]
+
     done = False
     while not done:
 
@@ -105,9 +109,6 @@ def parse_file(file, p2=False):
         # If we have no more connections, we are done
         else:
             done = True
-
-    # Add S to the start of the path
-    path = [S] + path
 
     # We have a circular path, so use halfway of it as the furthest point
     return len(path) // 2
