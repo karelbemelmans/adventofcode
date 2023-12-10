@@ -80,7 +80,7 @@ def parse_file(file, p2=False):
         c = current[1]
 
         # Look around in all directions
-        for dr, dc in [(-1, 0),  (0, -1), (0, 1), (1, 0)]:
+        for dr, dc in [UP, DOWN, LEFT, RIGHT]:
             rr = r + dr
             cc = c + dc
             if 0 <= rr < R and 0 <= cc < C:
