@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
 
-DIR = {
-    (-1, 0): 'Up',
-    (1, 0): 'Down',
-    (0, -1): 'Left',
-    (0, 1): 'Right'
-}
-
-# Does pipe x connect with pipe y in direction dir?
-
 
 def connects(x, y, dir):
     d = None
