@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from matplotlib.path import Path
+
 
 def connects(x, y, dir):
     d = None
@@ -10,49 +12,42 @@ def connects(x, y, dir):
 
     match x:
 
-        # | is a vertical pipe connecting north and south.
         case '|':
             d = {
                 (-1, 0): ['|', 'F', '7'],  # Up
                 (1, 0):  ['|', 'J', 'L']  # Down
             }
 
-        # - is a horizontal pipe connecting east and west.
         case '-':
             d = {
                 (0, -1):  ['-', 'L', 'F'],  # Left
                 (0, 1):  ['-', 'J', '7']  # Right
             }
 
-        # L is a 90-degree bend connecting north and east.
         case 'L':
             d = {
                 (-1, 0):  ['|', '7', 'F'],  # Up
-                (0, 1):  ['-', 'J', '7']  # Righjt
+                (0, 1):  ['-', 'J', '7']  # Right
             }
 
-        # J is a 90-degree bend connecting north and west.
         case 'J':
             d = {
                 (-1, 0): ['|', '7', 'F'],  # Up
                 (0, -1): ['-', 'L', 'F']  # Left
             }
 
-        # 7 is a 90-degree bend connecting south and west.
         case '7':
             d = {
                 (1, 0):  ['|', 'L', 'J'],  # Down
                 (0, -1):  ['-', 'L', 'F']  # Left
             }
 
-        # F is a 90-degree bend connecting south and east.
         case 'F':
             d = {
                 (1, 0): ['|', 'L', 'J'],  # Down
                 (0, 1): ['-', 'J', '7']  # Right
             }
 
-        # S connects with all pipes that connect with it
         case 'S':
             d = {
                 (1, 0):  ['|', 'J', 'L'],  # Down
@@ -61,6 +56,7 @@ def connects(x, y, dir):
                 (0, -1): ['-', 'F', 'L']  # Left
             }
 
+    # We match if we have a direction list AND the item is in that list
     return dir in d and y in d[dir]
 
 
@@ -111,7 +107,21 @@ def parse_file(file, p2=False):
             done = True
 
     # We have a circular path, so use halfway of it as the furthest point
-    return len(path) // 2
+    if not p2:
+        return len(path) // 2
+
+    # p2: Find isolated points
+    # matplotlib.path makes this ridiculously easy :)
+    T = 0
+    p = Path(path)
+    for r in range(R):
+        for c in range(C):
+            if (r, c) in path:
+                continue
+            if p.contains_point((r, c)):
+                T += 1
+
+    return T
 
 
 # Part 1
@@ -122,6 +132,6 @@ assert parse_file('test2-complex.txt') == 8
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test3.txt', True) == 4
-# assert parse_file('test4.txt', True) == 8
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test3.txt', True) == 4
+assert parse_file('test4.txt', True) == 8
+print("Part 2: ", parse_file('input.txt', True))
