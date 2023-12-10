@@ -3,3 +3,4 @@ networkx
 autopep8
 utils
 numpy
+matplotlib
