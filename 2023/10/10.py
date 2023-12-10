@@ -61,10 +61,7 @@ def connects(x, y, dir):
                 (0, -1): ['-', 'F', 'L']  # Left
             }
 
-    if dir in d and y in d[dir]:
-        return True
-    else:
-        return False
+    return dir in d and y in d[dir]
 
 
 def parse_file(file, p2=False):
