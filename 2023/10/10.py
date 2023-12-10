@@ -1,14 +1,79 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
-import networkx as nx
-
 DIR = {
     (-1, 0): 'Up',
     (1, 0): 'Down',
     (0, -1): 'Left',
     (0, 1): 'Right'
 }
+
+# Does pipe x connect with pipe y in direction dir?
+
+
+def connects(x, y, dir):
+    d = None
+
+    # Our start point matches with all pipes that connect with it
+    if y == 'S':
+        return True
+
+    match x:
+
+        # | is a vertical pipe connecting north and south.
+        case '|':
+            d = {
+                (-1, 0): ['|', 'F', '7'],  # Up
+                (1, 0):  ['|', 'J', 'L']  # Down
+            }
+
+        # - is a horizontal pipe connecting east and west.
+        case '-':
+            d = {
+                (0, -1):  ['-', 'L', 'F'],  # Left
+                (0, 1):  ['-', 'J', '7']  # Right
+            }
+
+        # L is a 90-degree bend connecting north and east.
+        case 'L':
+            d = {
+                (-1, 0):  ['|', '7', 'F'],  # Up
+                (0, 1):  ['-', 'J', '7']  # Righjt
+            }
+
+        # J is a 90-degree bend connecting north and west.
+        case 'J':
+            d = {
+                (-1, 0): ['|', '7', 'F'],  # Up
+                (0, -1): ['-', 'L', 'F']  # Left
+            }
+
+        # 7 is a 90-degree bend connecting south and west.
+        case '7':
+            d = {
+                (1, 0):  ['|', 'L', 'J'],  # Down
+                (0, -1):  ['-', 'L', 'F']  # Left
+            }
+
+        # F is a 90-degree bend connecting south and east.
+        case 'F':
+            d = {
+                (1, 0): ['|', 'L', 'J'],  # Down
+                (0, 1): ['-', 'J', '7']  # Right
+            }
+
+        # S connects with all pipes that connect with it
+        case 'S':
+            d = {
+                (1, 0):  ['|', 'J', 'L'],  # Down
+                (0, 1): ['-', 'J', '7'],  # Right
+                (-1, 0): ['|', '7', 'F'],  # Up
+                (0, -1): ['-', 'F', 'L']  # Left
+            }
+
+    if dir in d and y in d[dir]:
+        return True
+    else:
+        return False
 
 
 def parse_file(file, p2=False):
@@ -20,114 +85,51 @@ def parse_file(file, p2=False):
     R = len(grid)
     C = len(grid[0])
 
-    G = nx.Graph()
+    # Find S as starting node
     S = None
-
-    # Add all valid nodes
     for r in range(R):
         for c in range(C):
             match grid[r][c]:
                 case 'S':
                     S = (r, c)
-                    G.add_node((r, c))
 
-                case '|' | '-' | 'L' | 'J' | '7' | 'F':
-                    G.add_node((r, c))
+    current = S
+    path = [S]
+    done = False
+    while not done:
 
-    # Find edges we need to add
-    for r in range(R):
-        for c in range(C):
+        # When are we done?
+        if len(path) > 1 and current == S:
+            break
 
-            d = []  # directions and valid types per direction
-            match grid[r][c]:
+        r = current[0]
+        c = current[1]
 
-                # | is a vertical pipe connecting north and south.
-                case '|':
-                    d = [
-                        (-1, 0, ['|', 'F', '7']),  # Up
-                        (1, 0, ['|', 'J', 'L'])  # Down
-                    ]
+        # Look around in all directions
+        for dr, dc in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+            rr = r + dr
+            cc = c + dc
+            if 0 <= rr < R and 0 <= cc < C:
+                if connects(grid[r][c], grid[rr][cc], (dr, dc)) and not (rr, cc) in path:
+                    current = (rr, cc)
+                    path.append((rr, cc))
+                    break
+        # If we have no more connections, we are done
+        else:
+            done = True
 
-                # - is a horizontal pipe connecting east and west.
-                case '-':
-                    d = [
-                        (0, -1, ['-', 'L', 'F']),  # Left
-                        (0, 1, ['-', 'J', '7'])  # Right
-                    ]
+    # Add S to the start of the path
+    path = [S] + path
 
-                # L is a 90-degree bend connecting north and east.
-                case 'L':
-                    d = [
-                        (-1, 0, ['|', '7', 'F']),  # Up
-                        (0, 1, ['-', 'J', '7'])  # Righjt
-                    ]
-
-                # J is a 90-degree bend connecting north and west.
-                case 'J':
-                    d = [
-                        (-1, 0, ['|', '7', 'F']),  # Up
-                        (0, -1, ['-', 'L', 'F'])  # Left
-                    ]
-
-                # 7 is a 90-degree bend connecting south and west.
-                case '7':
-                    d = [
-                        (1, 0, ['|', 'L', 'J']),  # Down
-                        (0, -1, ['-', 'L', 'F'])  # Left
-                    ]
-
-                # F is a 90-degree bend connecting south and east.
-                case 'F':
-                    d = [
-                        (1, 0, ['|', 'L', 'J']),  # Down
-                        (0, 1, ['-', 'J', '7'])  # Right
-                    ]
-
-                # S connects with all pipes that connect with it
-                case 'S':
-                    d = [
-                        (1, 0, ['|', 'J', 'L']),  # Down
-                        (0, 1, ['-', 'J', '7']),  # Right
-                        (-1, 0, ['|', '7', 'F']),  # Up
-                        (0, -1, ['-', 'F', 'L'])  # Left
-                    ]
-
-            for dr, dc, types in d:
-                rr = r + dr
-                cc = c + dc
-                if 0 <= rr < R and 0 <= cc < C:
-
-                    # We only add nodes that actually connect to this pipe
-                    if grid[rr][cc] in types:
-                        G.add_edge((r, c), (rr, cc))
-
-    # Find the longest path starting from S
-    T = 0
-    longest = None
-    for node in G.nodes:
-        try:
-            l = nx.dijkstra_path_length(G, S, node)
-            if l > T:
-                T = l
-                # We only calculate the path if we need it
-                longest = nx.dijkstra_path(G, S, node)
-        except nx.NetworkXNoPath:
-            continue
-
-    if p2:
-        print(longest)
-
-    else:
-        return T
+    # We have a circular path, so use halfway of it as the furthest point
+    return len(path) // 2
 
 
 # Part 1
 assert parse_file('test.txt') == 4
 assert parse_file('test-complex.txt') == 4
-
 assert parse_file('test2.txt') == 8
 assert parse_file('test2-complex.txt') == 8
-
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
