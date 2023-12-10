@@ -101,35 +101,21 @@ def parse_file(file, p2=False):
                     if grid[rr][cc] in types:
                         G.add_edge((r, c), (rr, cc))
 
-    # Print the grid
-    # for r in range(R):
-    #     for c in range(C):
-    #         try:
-    #             l = nx.dijkstra_path_length(G, S, (r, c))
-    #             if l > 9:
-    #                 l = 'X'
-    #             print(l, end='')
-    #         except nx.NetworkXNoPath:
-    #             print(".", end='')
-
-    #     print("")
-
-    # print(G)
-    # print(G.nodes)
-    # print(G.edges)
-
     # Find the longest path starting from S
     T = 0
     longest = None
     for node in G.nodes:
         try:
             l = nx.dijkstra_path_length(G, S, node)
-            T = max(T, l)
+            if l > T:
+                T = l
+                # We only calculate the path if we need it
+                longest = nx.dijkstra_path(G, S, node)
         except nx.NetworkXNoPath:
             continue
 
     if p2:
-        print(longest, len(longest) - 1)
+        print(longest)
 
     else:
         return T
