@@ -73,7 +73,7 @@ def parse_file(file, p2=False):
                     cc = c + dc
 
                     # We only add nodes that actually connect to this pipe
-                    if grid[rr][cc] in types or grid[rr][cc] == S:
+                    if grid[rr][cc] in types:
                         G.add_edge((r, c), (rr, cc))
 
     print(G)
@@ -88,6 +88,7 @@ def parse_file(file, p2=False):
             print("- ", p)
             T = max(T, len(p))
 
+    print(T)
     return T
 
 
