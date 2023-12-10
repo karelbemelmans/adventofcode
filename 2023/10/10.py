@@ -2,6 +2,20 @@
 
 from matplotlib.path import Path
 
+# Give our directions a nice name
+UP = (-1, 0)
+DOWN = (1, 0)
+LEFT = (0, -1)
+RIGHT = (0, 1)
+
+# All possible connect pieces for each direction
+DIR = {
+    UP: ['|', '7', 'F'],
+    LEFT: ['-', 'F', 'L'],
+    RIGHT: ['-', 'J', '7'],
+    DOWN: ['|', 'J', 'L']
+}
+
 
 def connects(x, y, dir):
     d = None
@@ -10,54 +24,25 @@ def connects(x, y, dir):
     if y == 'S':
         return True
 
+    # The symbols our first char can match with
     match x:
-
         case '|':
-            d = {
-                (-1, 0): ['|', 'F', '7'],  # Up
-                (1, 0):  ['|', 'J', 'L']  # Down
-            }
-
+            d = [UP, DOWN]
         case '-':
-            d = {
-                (0, -1):  ['-', 'L', 'F'],  # Left
-                (0, 1):  ['-', 'J', '7']  # Right
-            }
-
+            d = [LEFT, RIGHT]
         case 'L':
-            d = {
-                (-1, 0):  ['|', '7', 'F'],  # Up
-                (0, 1):  ['-', 'J', '7']  # Right
-            }
-
+            d = [UP, RIGHT]
         case 'J':
-            d = {
-                (-1, 0): ['|', '7', 'F'],  # Up
-                (0, -1): ['-', 'L', 'F']  # Left
-            }
-
+            d = [UP, LEFT]
         case '7':
-            d = {
-                (1, 0):  ['|', 'L', 'J'],  # Down
-                (0, -1):  ['-', 'L', 'F']  # Left
-            }
-
+            d = [DOWN, LEFT]
         case 'F':
-            d = {
-                (1, 0): ['|', 'L', 'J'],  # Down
-                (0, 1): ['-', 'J', '7']  # Right
-            }
-
+            d = [DOWN, RIGHT]
         case 'S':
-            d = {
-                (1, 0):  ['|', 'J', 'L'],  # Down
-                (0, 1): ['-', 'J', '7'],  # Right
-                (-1, 0): ['|', '7', 'F'],  # Up
-                (0, -1): ['-', 'F', 'L']  # Left
-            }
+            d = [UP, DOWN, LEFT, RIGHT]
 
     # We match if we have a direction list AND the item is in that list
-    return dir in d and y in d[dir]
+    return dir in d and y in DIR[dir]
 
 
 def parse_file(file, p2=False):
@@ -76,6 +61,7 @@ def parse_file(file, p2=False):
             match grid[r][c]:
                 case 'S':
                     S = (r, c)
+                    break
 
     # Current position
     current = S
@@ -94,7 +80,7 @@ def parse_file(file, p2=False):
         c = current[1]
 
         # Look around in all directions
-        for dr, dc in [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]:
+        for dr, dc in [(-1, 0),  (0, -1), (0, 1), (1, 0)]:
             rr = r + dr
             cc = c + dc
             if 0 <= rr < R and 0 <= cc < C:
@@ -106,22 +92,22 @@ def parse_file(file, p2=False):
         else:
             done = True
 
-    # We have a circular path, so use halfway of it as the furthest point
-    if not p2:
-        return len(path) // 2
-
     # p2: Find isolated points
     # matplotlib.path makes this ridiculously easy :)
-    T = 0
-    p = Path(path)
-    for r in range(R):
-        for c in range(C):
-            if (r, c) in path:
-                continue
-            if p.contains_point((r, c)):
-                T += 1
+    if p2:
+        T = 0
+        p = Path(path)
+        for r in range(R):
+            for c in range(C):
+                if (r, c) in path:
+                    continue
+                if p.contains_point((r, c)):
+                    T += 1
+        return T
 
-    return T
+    # We have a circular path, so use halfway of it as the furthest point
+    else:
+        return len(path) // 2
 
 
 # Part 1
