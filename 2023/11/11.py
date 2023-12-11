@@ -35,13 +35,8 @@ def parse_file(file, diff=2):
             S.remove((r, c))
             S.add((r, c+(diff-1)))
 
-    T = 0
-    C = combinations(S, 2)
-    for a, b in C:
-        t = abs(a[0] - b[0]) + abs(a[1] - b[1])
-        T += t
-
-    return T
+    # Return the sum of distances between all combinations of 2 points
+    return sum(map(lambda p: abs(p[0][0] - p[1][0]) + abs(p[1][1] - p[0][1]), combinations(S, 2)))
 
 
 # Part 1
