@@ -23,13 +23,19 @@ def parse_file(file, diff=2):
     ER = [r for r in range(R) if all(grid[r][c] == '.' for c in range(C))]
     EC = [c for c in range(C) if all(grid[r][c] == '.' for r in range(R))]
 
-    # Add extra rows
+    # Add extra rows and columns
+    #
+    # Since we use a set, this comes down to just moving points by a factor
+    # for every extra row / column we add. We end up with the same number of
+    # points in our set, their coords just have been changed.
+    #
+    # If prefer this approach over making the distance calculation more complex.
+    #
     for i, row in enumerate(ER):
         for r, c, in [(r, c) for r, c in S if r > row+i*(diff-1)]:
             S.remove((r, c))
             S.add((r+(diff-1), c))
 
-    # Add extra columns
     for i, col in enumerate(EC):
         for r, c, in [(r, c) for r, c in S if c > col+i*(diff-1)]:
             S.remove((r, c))
