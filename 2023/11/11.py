@@ -23,7 +23,7 @@ def print_points(text, G):
     print("")
 
 
-def parse_file(file, p2=False):
+def parse_file(file, diff=1):
 
     with open(file, 'r') as fp:
         grid = [[char for char in line]
@@ -46,14 +46,12 @@ def parse_file(file, p2=False):
     # Add extra rows
     # Remember the offset when we select the old rows (+i)
     for i, row in enumerate(ER):
-        R += 1
         for r, c, in [(r, c) for r, c in S if r > row+i]:
             S.remove((r, c))
             S.add((r+1, c))
 
     # Add extra columns
     for i, col in enumerate(EC):
-        C += 1
         for r, c, in [(r, c) for r, c in S if c > col+i]:
             S.remove((r, c))
             S.add((r, c+1))
@@ -61,11 +59,13 @@ def parse_file(file, p2=False):
     # Does it look good at this point?
     print_points("Larger grid", S)
 
-    # At this point we have S that contains all our points
     T = 0
-    for a, b in combinations(S, 2):
-        T += abs(a[0] - b[0]) + abs(a[1] - b[1])
+    C = combinations(S, 2)
+    for a, b in C:
+        t = abs(a[0] - b[0]) + abs(a[1] - b[1])
+        T += t
 
+    print("Total distance: ", T)
     return T
 
 
@@ -74,5 +74,6 @@ assert parse_file('test.txt') == 374
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test.txt', True) == 0
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', 10) == 1030
+assert parse_file('test.txt', 100) == 8410
+print("Part 2: ", parse_file('input.txt', 1000000))
