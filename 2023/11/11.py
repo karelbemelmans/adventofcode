@@ -46,4 +46,4 @@ print("Part 1: ", parse_file('input.txt'))
 # Part 2
 assert parse_file('test.txt', 10) == 1030
 assert parse_file('test.txt', 100) == 8410
-print("Part 2: ", parse_file('input.txt', 1000000))
+print("Part 2: ", parse_file('input.txt', 1e6))
