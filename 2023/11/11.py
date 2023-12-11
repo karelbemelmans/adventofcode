@@ -1,29 +1,9 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
 from itertools import combinations
 
 
-def print_points(text, G):
-    print(text)
-
-    r_min = min([r for r, c in G])
-    r_max = max([r for r, c in G])
-    c_min = min([c for r, c in G])
-    c_max = max([c for r, c in G])
-
-    for r in range(r_min, r_max+1):
-        row = ''
-        for c in range(c_min, c_max+1):
-            if (r, c) in G:
-                row += '#'
-            else:
-                row += '.'
-        print(row)
-    print("")
-
-
-def parse_file(file, diff=1):
+def parse_file(file, diff=2):
 
     with open(file, 'r') as fp:
         grid = [[char for char in line]
@@ -44,20 +24,16 @@ def parse_file(file, diff=1):
     EC = [c for c in range(C) if all(grid[r][c] == '.' for r in range(R))]
 
     # Add extra rows
-    # Remember the offset when we select the old rows (+i)
     for i, row in enumerate(ER):
-        for r, c, in [(r, c) for r, c in S if r > row+i]:
+        for r, c, in [(r, c) for r, c in S if r > row+i*(diff-1)]:
             S.remove((r, c))
-            S.add((r+1, c))
+            S.add((r+(diff-1), c))
 
     # Add extra columns
     for i, col in enumerate(EC):
-        for r, c, in [(r, c) for r, c in S if c > col+i]:
+        for r, c, in [(r, c) for r, c in S if c > col+i*(diff-1)]:
             S.remove((r, c))
-            S.add((r, c+1))
-
-    # Does it look good at this point?
-    print_points("Larger grid", S)
+            S.add((r, c+(diff-1)))
 
     T = 0
     C = combinations(S, 2)
@@ -65,7 +41,6 @@ def parse_file(file, diff=1):
         t = abs(a[0] - b[0]) + abs(a[1] - b[1])
         T += t
 
-    print("Total distance: ", T)
     return T
 
 
