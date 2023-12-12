@@ -49,7 +49,7 @@ def parse_file(file, p2=False):
 
         if p2:
             springs += ('?' + springs)*4
-            pattern = [pattern*5]
+            pattern = pattern*5
 
         print("LINE: ", springs, pattern)
 
@@ -61,10 +61,12 @@ def parse_file(file, p2=False):
              [''.join(seq) for seq in
               product(".#", repeat=c)]]
 
+        print ("Possible combinations: ", len(P)")
         for p in P:
             new = replace_chars(springs, p)
             if spring_matches_pattern(new, pattern):
                 t += 1
+        print("score: ", t)
         T += t
 
     print("SOLUTION: ", T)
