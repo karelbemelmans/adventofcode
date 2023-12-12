@@ -1,22 +1,17 @@
 #!/usr/bin/env python3
 
-# Global cache to speed up the process
-cache = {}
+from functools import cache
 
 
-def generate_lines(springs: str, pattern: list[int]) -> int:
-    global cache
-    key = hash(springs + str(pattern))
-
-    # Cache hit?
-    if key in cache.keys():
-        return cache[key]
+@cache
+def dp(springs, pattern):
+    T = 0
 
     # Are we done with the iteration?
     if not pattern:
-        return '#' not in springs
+        return 1 if '#' not in springs else 0
 
-    T = 0
+    # Generate possible values for the current iteration
     for pos in range(len(springs) - sum(pattern[1:]) + len(pattern[1:]) - pattern[0] + 1):
         possible = '.' * pos + '#' * pattern[0] + '.'
 
@@ -24,9 +19,8 @@ def generate_lines(springs: str, pattern: list[int]) -> int:
             if spring != possible_spring and spring != '?':
                 break
         else:
-            T += generate_lines(springs[len(possible):], pattern[1:])
+            T += dp(springs[len(possible):], pattern[1:])
 
-    cache[key] = T
     return T
 
 
@@ -38,14 +32,17 @@ def parse_file(file, p2=False):
 
     T = 0
     for springs, b in lines:
-        pattern = [int(n) for n in b.split(',')]
+
+        # We need a tuple here because of the use of @cache
+        # A tuple is immutable, a list item is not immutable
+        pattern = tuple(int(n) for n in b.split(','))
 
         # This seems to be the most Python-ish way to do this
         if p2:
             springs = "?".join([springs] * 5)
             pattern = pattern*5
 
-        T += generate_lines(springs, pattern)
+        T += dp(springs, pattern)
 
     return T
 
