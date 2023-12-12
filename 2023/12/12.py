@@ -1,39 +1,33 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
-from itertools import groupby, permutations, product
+# Global cache to speed up the process
+cache = {}
 
 
-def spring_matches_pattern(springs, pattern):
-    m = len(pattern) - 1
-    i = 0
-    for k, g in groupby(springs):
+def generate_lines(springs: str, pattern: list[int]) -> int:
+    global cache
+    key = hash(springs + str(pattern))
 
-        l = len(list(g))  # nr of times this char occurs in this block
-        if k == "#":
-            if i > m:
-                return False
+    # Cache hit?
+    if key in cache.keys():
+        return cache[key]
 
-            if l != pattern[i]:
-                return False
-            i += 1
-    else:
-        # We only return if we had the exact amount of matches needed for the pattern
-        if i == len(pattern):
-            return True
+    # Are we done with the iteration?
+    if not pattern:
+        return '#' not in springs
 
+    T = 0
+    for pos in range(len(springs) - sum(pattern[1:]) + len(pattern[1:]) - pattern[0] + 1):
+        possible = '.' * pos + '#' * pattern[0] + '.'
 
-def replace_chars(input, chars):
-    new = ""
-    for i, c in enumerate(input):
-        if c == '?':
-            new += chars.popleft()
+        for spring, possible_spring in zip(springs, possible):
+            if spring != possible_spring and spring != '?':
+                break
         else:
-            new += c
+            T += generate_lines(springs[len(possible):], pattern[1:])
 
-    # Did we replace all chars needed?
-    assert (len(chars) == 0)
-    return new
+    cache[key] = T
+    return T
 
 
 def parse_file(file, p2=False):
@@ -44,40 +38,24 @@ def parse_file(file, p2=False):
 
     T = 0
     for springs, b in lines:
-        t = 0
         pattern = [int(n) for n in b.split(',')]
 
+        # This seems to be the most Python-ish way to do this
         if p2:
-            springs += ('?' + springs)*4
+            springs = "?".join([springs] * 5)
             pattern = pattern*5
 
-        print("LINE: ", springs, pattern)
+        T += generate_lines(springs, pattern)
 
-        # Count nr of questionmarks in the input
-        c = springs.count('?')
-
-        # Generate all possible combinations of . and # of length c
-        P = [deque(n, maxlen=c) for n in
-             [''.join(seq) for seq in
-              product(".#", repeat=c)]]
-
-        print("Possible combinations: ", len(P))
-        for p in P:
-            new = replace_chars(springs, p)
-            if spring_matches_pattern(new, pattern):
-                t += 1
-        print("score: ", t)
-        T += t
-
-    print("SOLUTION: ", T)
     return T
 
 
 # Part 1
-# assert parse_file('test.txt') == 5
-# assert parse_file('test2.txt') == 21
-# print("Part 1: ", parse_file('input.txt'))
+assert parse_file('test.txt') == 1
+assert parse_file('test2.txt') == 21
+print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
+assert parse_file('test.txt', True) == 1
 assert parse_file('test2.txt', True) == 525152
-# print("Part 2: ", parse_file('input.txt', True))
+print("Part 2: ", parse_file('input.txt', True))
