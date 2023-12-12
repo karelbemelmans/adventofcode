@@ -44,21 +44,19 @@ def parse_file(file, p2=False):
 
     T = 0
     for springs, b in lines:
+        t = 0
         pattern = [int(n) for n in b.split(',')]
 
         if p2:
-            # Rewrite this better lolz
-            springs = springs + '?' + springs + '?' + \
-                springs + '?' + springs + '?' + springs
+            springs += ('?' + springs)*4
             pattern = [pattern*5]
 
-        # print("LINE: ", springs, pattern)
+        print("LINE: ", springs, pattern)
 
         # Count nr of questionmarks in the input
         c = springs.count('?')
 
-        # Generate all possible combinations of 0 and 1
-        # of length c
+        # Generate all possible combinations of . and # of length c
         P = [deque(n, maxlen=c) for n in
              [''.join(seq) for seq in
               product(".#", repeat=c)]]
@@ -66,16 +64,18 @@ def parse_file(file, p2=False):
         for p in P:
             new = replace_chars(springs, p)
             if spring_matches_pattern(new, pattern):
-                T += 1
+                t += 1
+        T += t
 
+    print("SOLUTION: ", T)
     return T
 
 
 # Part 1
-assert parse_file('test.txt') == 5
-assert parse_file('test2.txt') == 21
-print("Part 1: ", parse_file('input.txt'))
+# assert parse_file('test.txt') == 5
+# assert parse_file('test2.txt') == 21
+# print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test2.txt', True) == 525152
+assert parse_file('test2.txt', True) == 525152
 # print("Part 2: ", parse_file('input.txt', True))
