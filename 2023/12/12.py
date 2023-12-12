@@ -61,7 +61,7 @@ def parse_file(file, p2=False):
              [''.join(seq) for seq in
               product(".#", repeat=c)]]
 
-        print ("Possible combinations: ", len(P)")
+        print("Possible combinations: ", len(P))
         for p in P:
             new = replace_chars(springs, p)
             if spring_matches_pattern(new, pattern):
