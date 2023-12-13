@@ -17,10 +17,7 @@ def find_reflections(grid, p2=False):
                 if not grid[r][cl] == grid[r][cr]:
                     errors += 1
 
-        if p2:
-            if errors == 1:
-                return c
-        elif errors == 0:
+        if errors == (1 if p2 else 0):
             return c
 
     # Row
@@ -35,10 +32,7 @@ def find_reflections(grid, p2=False):
                 if not grid[rl][c] == grid[rr][c]:
                     errors += 1
 
-        if p2:
-            if errors == 1:
-                return r * 100
-        elif errors == 0:
+        if errors == (1 if p2 else 0):
             return r * 100
 
     return 0
