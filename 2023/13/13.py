@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
-
-
 def find_reflections(grid, p2=False):
 
     R = len(grid)
