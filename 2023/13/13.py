@@ -11,7 +11,7 @@ def find_reflections(grid, p2=False):
 
         errors = 0
         for r in range(R):
-            for i in range(0, l):
+            for i in range(l):
                 cl = c-1-i
                 cr = c+i
                 if not grid[r][cl] == grid[r][cr]:
@@ -29,7 +29,7 @@ def find_reflections(grid, p2=False):
 
         errors = 0
         for c in range(C):
-            for i in range(0, l):
+            for i in range(l):
                 rl = r-1-i
                 rr = r+i
                 if not grid[rl][c] == grid[rr][c]:
