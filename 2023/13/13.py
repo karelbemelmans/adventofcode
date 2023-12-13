@@ -59,7 +59,6 @@ def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         blocks = [block for block in fp.read().split("\n\n")]
 
-    # Reflected columns and rows counter
     T = 0
     for block in blocks:
         grid = [[char for char in line] for line in block.splitlines()]
