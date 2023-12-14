@@ -25,29 +25,16 @@ def sort_rocks(L):
         return L
 
     # Split out string into pieces separated by '#'
-    pieces = "".join(L).split('#')
+    pieces = L.split('#')
     N = []
 
     # Parse these pieces indivually
     for p in pieces:
-        P = list(p)
-        rocks = P.count('O')
 
-        for i in range(len(P)):
-
-            # An immutable rock
-            if P[i] == '#':
-                continue
-
-            # A valid spot to place a rock?
-            elif P[i] in ['.', 'O'] and rocks:
-                P[i] = 'O'
-                rocks -= 1
-
-            # We have a rock but we placed all our rocks? It becomes empty now
-            elif not rocks:
-                P[i] = '.'
-
+        # We can simply sort our list because:
+        #  - O comes before . in the ASCII table
+        #  - There are no # in the string
+        P = sorted(list(p), reverse=True)
         N.append(P)
 
     # ... and then glue them back togetehr with '#' as separator
@@ -58,7 +45,8 @@ def sort_rocks(L):
     return S
 
 
-def tilt(G, dir='N'):
+# This function tilts north
+def tilt(G):
 
     # Create an empty new grid
     N = [['.' for char in line] for line in G]
@@ -70,21 +58,43 @@ def tilt(G, dir='N'):
     for c in range(C):
 
         # We sort this column and place it in the new grid
-        sorted = sort_rocks([G[r][c] for r in range(R)])
+        sorted = sort_rocks("".join([G[r][c] for r in range(R)]))
         for r in range(R):
             N[r][c] = sorted[r]
 
     return N
 
 
-def parse_file(file, p2=False):
+def parse_file(file, p2=False, cycles=1):
 
     with open(file, 'r') as fp:
-        G = [[char for char in line] for line in fp.read().splitlines()]
+        G = tuple(tuple(char for char in line)
+                  for line in fp.read().splitlines())
 
-    G = tilt(G, 'N')
+    if p2:
+        CACHE = {}
+
+        t = 0
+        while t < cycles:
+            t += 1
+            # Each cycle tilts it 4 times
+            for _ in range(4):
+                G = tilt(G)
+                G = tuple(zip(*G[::-1]))
+
+            # If we have seen this grid before we can calculate the cycle length
+            if G in CACHE:
+                cycle_length = t-CACHE[G]
+                amt = (cycles-t)//cycle_length
+                t += amt * cycle_length
+
+            CACHE[G] = t
+
+    else:
+        G = tilt(G)
+
+    # Calculate the total weight after tilting
     T = weight(G)
-
     return T
 
 
@@ -94,5 +104,5 @@ assert parse_file('test.txt') == 136
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test.txt', True) == 0
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True, 10**9) == 64
+print("Part 2: ", parse_file('input.txt', True, 10**9))
