@@ -19,13 +19,9 @@ def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         pieces = [line for line in fp.read().splitlines()][0].split(",")
 
-    T = 0
-
     # Let's get p1 out of the way
     if not p2:
-        for p in pieces:
-            T += do_hash(p)
-        return T
+        return sum(map(do_hash, pieces))
 
     # p2
     BOXES = defaultdict(list)
@@ -57,13 +53,13 @@ def parse_file(file, p2=False):
             for i in range(0, 10):
                 if (box, i) in BOXES[cur]:
                     BOXES[cur].remove((box, i))
+                    break
 
     # Calculate p2 score
+    T = 0
     for box in BOXES:
         for i, slot in enumerate(BOXES[box]):
-            score = (box+1) * (i+1) * slot[1]
-            T += score
-
+            T += (box+1) * (i+1) * slot[1]
     return T
 
 
