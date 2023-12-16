@@ -1,28 +1,6 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
-
-
-def show_grid(G):
-    for line in G:
-        print(''.join(line))
-    print()
-
-
-def show_set(S):
-    min_r = min(r for r, _ in S)
-    max_r = max(r for r, _ in S)
-    min_c = min(c for _, c in S)
-    max_c = max(c for _, c in S)
-
-    for r in range(min_r, max_r+1):
-        for c in range(min_c, max_c+1):
-            if (r, c) in S:
-                print('#', end='')
-            else:
-                print('.', end='')
-        print()
-    print()
+from collections import deque
 
 
 def parse_file(file, p2=False):
@@ -35,7 +13,15 @@ def parse_file(file, p2=False):
     C = len(G[0])
 
     T = 0
-    start = [(0, 0, 'E')]
+
+    if p2:
+        # Generate any edge node as a start point
+        start = [(0, c, 'S') for c in range(C)] + \
+                [(R-1, c, 'N') for c in range(C)] + \
+                [(r, 0, 'E') for r in range(R)] + \
+                [(r, C-1, 'W') for r in range(R)]
+    else:
+        start = [(0, 0, 'E')]
 
     for S in start:
 
@@ -56,6 +42,7 @@ def parse_file(file, p2=False):
             r, c, d = B.popleft()
 
             # If we have been here before, we end this beam
+            #
             # The direction is important, because we can have two beams pass through
             # the same point but with different directions!
             if (r, c, d) in E:
@@ -102,8 +89,6 @@ def parse_file(file, p2=False):
                         B.append((r, c, 'S'))
                         continue
 
-            # print("  - Moving beam", r, c, d)
-
             # Move to the next spot
             if d == 'N':
                 r -= 1
@@ -132,5 +117,5 @@ assert parse_file('test.txt') == 46
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test.txt', True) == 0
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('test.txt', True) == 51
+print("Part 2: ", parse_file('input.txt', True))
