@@ -25,11 +25,10 @@ def parse_file(file, p2=False):
 
     for S in start:
 
-        # List of beams. Every beam has a coordinate and a direction
-        # We start with a beam at 0,0 pointing East
         B = deque([S])
 
-        # Set of points that have been energized
+        # Set of points that have been energized, including the direction
+        # We will filter out the direction later
         E = set()
 
         while True:
@@ -103,6 +102,8 @@ def parse_file(file, p2=False):
             if 0 <= r < R and 0 <= c < C:
                 B.append((r, c, d))
 
+        # We need to filter our the direction.
+        # Can probably be done with a python oneliner
         S = set()
         for r, c, _ in E:
             S.add((r, c))
