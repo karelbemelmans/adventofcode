@@ -72,24 +72,22 @@ def parse_file(file, p2=False):
 
     # Build up our set of points
     for line in lines:
-        d = DIR[line[0]]
-        dir = int(code[6]) if p2 else line[2][1:-1]
+        d = int(code[-1]) if p2 else line[0]
         l = int(code[1:-1], 16) if p2 else int(line[1])
 
         # 0 means R, 1 means D, 2 means L, and 3 means U.
-        match dir:
+        match d:
             case 0 | 'R':
                 d = DIR['R']
-                end = (p[0], p[1] + l)
             case 1 | 'D':
                 d = DIR['D']
-                end = (p[0] + l, p[1])
             case 2 | 'L':
                 d = DIR['L']
-                end = (p[0], p[1] - l)
             case 3 | 'U':
                 d = DIR['U']
-                end = (p[0] - l, p[1])
+
+        # End point of our line
+        end = (p[0] + l * d[0], p[1] + l * d[1])
 
         # We add every point along the way
         for i in range(1, l+1):
