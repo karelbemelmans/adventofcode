@@ -67,18 +67,43 @@ def parse_file(file, p2=False):
 
     S = set()
 
-    # Build up our set of points
+    # Pointer coords
     p = (0, 0)
+
+    # Build up our set of points
     for line in lines:
-        d, l, color = DIR[line[0]], int(line[1]), line[2][1:-1]
-        for _ in range(1, l+1):
-            rr, cc = p[0] + d[0], p[1] + d[1]
+        d = DIR[line[0]]
+        dir = int(code[6]) if p2 else line[2][1:-1]
+        l = int(code[1:-1], 16) if p2 else int(line[1])
+
+        # 0 means R, 1 means D, 2 means L, and 3 means U.
+        match dir:
+            case 0 | 'R':
+                d = DIR['R']
+                end = (p[0], p[1] + l)
+            case 1 | 'D':
+                d = DIR['D']
+                end = (p[0] + l, p[1])
+            case 2 | 'L':
+                d = DIR['L']
+                end = (p[0], p[1] - l)
+            case 3 | 'U':
+                d = DIR['U']
+                end = (p[0] - l, p[1])
+
+        # We add every point along the way
+        for i in range(1, l+1):
+            rr, cc = p[0] + (i * d[0]), p[1] + (i * d[1])
             S.add((rr, cc))
-            p = (rr, cc)
+
+        # Our new pointer location
+        p = (rr, cc)
+
+    show_set(S)
 
     floodFill(S, 1, 1)
 
-    # show_set(S)
+    show_set(S)
 
     T = len(S)
     print("Score: ", T)
@@ -87,8 +112,8 @@ def parse_file(file, p2=False):
 
 # Part 1
 assert parse_file('test.txt') == 62
-print("Part 1: ", parse_file('input.txt'))
+# print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('test.txt', True) == 0
+# assert parse_file('test.txt', True) == 952408144115
 # print("Part 2: ", parse_file('input.txt', True))
