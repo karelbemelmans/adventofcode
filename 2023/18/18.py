@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 DIR = {
     'U': (-1, 0),
     'D': (1, 0),
@@ -8,21 +10,28 @@ DIR = {
 }
 
 
+def poly_area(p):
+    '''
+    This function calculates the area of a polygon given a list of points
+
+    https://en.wikipedia.org/wiki/Shoelace_formula
+    '''
+    return 0.5 * abs(sum(x0 * y1 - x1 * y0 for ((x0, y0), (x1, y1)) in segments(p)))
+
+
 def segments(p):
     '''
     This function is a helper function that turns a list into a list of tuples:
 
+    Single value:
     Input:   ['a', 'b', 'c', 'd']
     Returns: [('a', 'b'), ('b', 'c'), ('c', 'd'), ('d', 'a')]
+
+    2D tuples:
+    Input:   [('a', 'a'), ('b', 'b'), ('c', 'c')]
+    Output:  [(('a', 'a'), ('b', 'b')), (('b', 'b'), ('c', 'c')), (('c', 'c'), ('a', 'a'))]
     '''
     return zip(p, p[1:] + [p[0]])
-
-
-def poly_area(p):
-    '''
-    This function calculates the area of a polygon given a list of points
-    '''
-    return 0.5 * abs(sum(x0 * y1 - x1 * y0 for ((x0, y0), (x1, y1)) in segments(p)))
 
 
 def parse_file(file, p2=False):
@@ -35,7 +44,7 @@ def parse_file(file, p2=False):
     p = (0, 0)
 
     # Corners
-    S = []
+    S = [p]
     outline = 0
 
     # Build up our set of points
@@ -63,10 +72,15 @@ def parse_file(file, p2=False):
     return T
 
 
-# Part 1
-assert parse_file('test.txt') == 62
-print("Part 1: ", parse_file('input.txt'))
+def main():
+    # Part 1
+    assert parse_file('test.txt') == 62
+    print("Part 1: ", parse_file('input.txt'))
 
-# Part 2
-assert parse_file('test.txt', True) == 952408144115
-print("Part 2: ", parse_file('input.txt', True))
+    # Part 2
+    assert parse_file('test.txt', True) == 952408144115
+    print("Part 2: ", parse_file('input.txt', True))
+
+
+if __name__ == "__main__":
+    sys.exit(main())
