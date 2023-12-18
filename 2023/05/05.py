@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-from collections import deque, defaultdict
-
-ORDER = ['soil', 'fertilizer', 'water',
-         'light', 'temperature', 'humidity', 'location']
-
 
 def parse_file(file, p2=False):
 
@@ -25,8 +20,6 @@ def parse_file(file, p2=False):
                 if d in range(l):
                     seed = dest + d
                     break
-
-                # If not, seed remains the same
 
         L = min(L, seed)
 
