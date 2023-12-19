@@ -50,13 +50,14 @@ def parse_file(file, p2=False):
         o = 0
         for p in d[k].split(","):
             match p.split(":"):
+
                 case cond, dest:
                     ck = cond[:2]
                     cv = (min, max)[cond[1] == ">"](int(cond[2:]), lims[ck])
                     o += f2(dest, lims | {ck: cv})
-                    ck, cv = f"{ck[0]}{'<>'[ck[1]=='<']}", cv + \
-                        (-1, 1)[ck[1] == ">"]
+                    ck, cv = f"{ck[0]}{'<>'[ck[1]=='<']}", cv + (-1, 1)[ck[1] == ">"]
                     lims[ck] = cv
+
                 case dest, :
                     o += f2(dest, lims)
         return o
