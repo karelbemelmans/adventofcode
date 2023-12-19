@@ -63,7 +63,7 @@ def parse_file(file, p2=False):
         return score
 
     if p2:
-        return f2("in", {f"{c}{o}": (0, 4001)[o == "<"] for c in "xmas" for o in "<>"})
+        return f2("in", {f"{char}{op}": (0, 4001)[op == "<"] for char in "xmas" for op in "<>"})
     else:
         # Filter out the accepted inputs and return the sum
         return sum(sum(x.values()) for x in xs if f1("in", x))
