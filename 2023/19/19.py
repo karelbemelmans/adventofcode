@@ -47,20 +47,20 @@ def parse_file(file, p2=False):
             # Reached success? Recurse backwards
             return prod(max(0, lims[f"{k}<"] - lims[f"{k}>"] - 1) for k in "xmas")
 
-        o = 0
+        score = 0
         for p in d[k].split(","):
             match p.split(":"):
 
                 case cond, dest:
                     ck = cond[:2]
                     cv = (min, max)[cond[1] == ">"](int(cond[2:]), lims[ck])
-                    o += f2(dest, lims | {ck: cv})
+                    score += f2(dest, lims | {ck: cv})
                     ck, cv = f"{ck[0]}{'<>'[ck[1]=='<']}", cv + (-1, 1)[ck[1] == ">"]
                     lims[ck] = cv
 
                 case dest, :
-                    o += f2(dest, lims)
-        return o
+                    score += f2(dest, lims)
+        return score
 
     if p2:
         return f2("in", {f"{c}{o}": (0, 4001)[o == "<"] for c in "xmas" for o in "<>"})
