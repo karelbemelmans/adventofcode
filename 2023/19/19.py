@@ -18,7 +18,6 @@ def parse_file(file, p2=False):
     # Loop over all parts
     T = 0
     for part in ratings.splitlines():
-        print("Part: ", part)
         score = 0
 
         p = {}
@@ -39,18 +38,17 @@ def parse_file(file, p2=False):
             # Get the current instruction
             w = I.popleft()
             inst = W[w]
-            print("- Instructions: ", w, inst)
-            for i in inst:
-                print("  - ", i)
 
+            for i in inst:
+
+                # Accepted
                 if i == 'A':
-                    print("   Accepted")
                     done = True
                     score = sum(p.values())
                     break
 
+                # Rejected
                 elif i == 'R':
-                    print("   REJECTED")
                     done = True
                     break
 
@@ -59,11 +57,9 @@ def parse_file(file, p2=False):
                     var, val = x.split('>')
                     if p[var] > int(val):
                         if dest == 'A':
-                            print("   Accepted")
                             done = True
                             score = sum(p.values())
                         elif dest == 'R':
-                            print("   REJECTED")
                             done = True
                             break
                         else:
@@ -75,11 +71,9 @@ def parse_file(file, p2=False):
                     var, val = x.split('<')
                     if p[var] < int(val):
                         if dest == 'A':
-                            print("   Accepted")
                             done = True
                             score = sum(p.values())
                         elif dest == 'R':
-                            print("   REJECTED")
                             done = True
                             break
                         else:
@@ -88,13 +82,11 @@ def parse_file(file, p2=False):
 
                 # Otherwise our instruction is the id of a workflow
                 else:
-                    print("   Sending to ", i)
                     I.append(i)
 
-        print(" Score: ", score)
         T += score
 
-    print("Total: ", T)
+    # print("Total: ", T)
     return T
 
 
@@ -104,7 +96,7 @@ def main():
     print("Part 1: ", parse_file('input.txt'))
 
     # Part 2
-    # assert parse_file('test.txt', True) == 0
+    # assert parse_file('test.txt', True) == 167409079868000
     # print("Part 2: ", parse_file('input.txt', True))
 
 
