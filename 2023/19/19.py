@@ -25,7 +25,7 @@ def parse_file(file, p2=False):
             a, b = pieces.split("=")
             p[a] = int(b)
 
-        # First instruction is always in
+        # First instruction is always 'in'
         I = deque(['in'])
 
         done = False
@@ -41,40 +41,28 @@ def parse_file(file, p2=False):
 
             for i in inst:
 
-                # Accepted
-                if i == 'A':
+                # Accepted or Rejected will end the process
+                if i in ['A', 'R']:
                     done = True
-                    score = sum(p.values())
+                    score = sum(p.values()) if i == 'A' else 0
                     break
 
-                # Rejected
-                elif i == 'R':
-                    done = True
-                    break
-
-                elif i.count('>'):
+                # Comparison instructions
+                elif i.count('>') or i.count('<'):
                     x, dest = i.split(':')
-                    var, val = x.split('>')
-                    if p[var] > int(val):
-                        if dest == 'A':
-                            done = True
-                            score = sum(p.values())
-                        elif dest == 'R':
-                            done = True
-                            break
-                        else:
-                            I.append(dest)
-                            break
 
-                elif i.count('<'):
-                    x, dest = i.split(':')
-                    var, val = x.split('<')
-                    if p[var] < int(val):
-                        if dest == 'A':
+                    if i.count('>'):
+                        var, val = x.split('>')
+                        op = '>'
+                    else:
+                        var, val = x.split('<')
+                        op = '<'
+
+                    # This can probably be written a bit better?
+                    if (op == '<' and p[var] < int(val)) or (op == '>' and p[var] > int(val)):
+                        if dest in ['A', 'R']:
                             done = True
-                            score = sum(p.values())
-                        elif dest == 'R':
-                            done = True
+                            score = sum(p.values()) if dest == 'A' else 0
                             break
                         else:
                             I.append(dest)
