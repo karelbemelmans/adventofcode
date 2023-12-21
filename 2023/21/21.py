@@ -39,20 +39,23 @@ def parse_file(file, steps=6, p2=False):
             if grid[r][c] == 'S':
                 start = (r, c)
 
-    Q = [start]
+    Q = set([start])
     for i in range(steps):
-        print(i)
 
         QQ = set()
         for (r, c) in Q:
             for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
                 nr, nc = r+dr, c+dc
-                if not (nr, nc) in S:
+
+                # Normalize coords and look if those are on the input grid
+                xnr = nr % R
+                xnc = nc % C
+
+                if not (xnr, xnc) in S:
                     QQ.add((nr, nc))
 
-        # Q = deepcopy(QQ)
-        Q = QQ
-        print(len(Q), Q)
+        Q = deepcopy(QQ)
+        print(i, len(Q))
 
     show_set(S, Q)
 
@@ -67,8 +70,14 @@ def main():
     print("Part 1: ", parse_file('input.txt', 64))
 
     # Part 2
-    # assert parse_file('test.txt', True) == 0
-    # print("Part 2: ", parse_file('input.txt', True))
+    assert parse_file('test.txt', 6, True) == 16
+    assert parse_file('test.txt', 10, True) == 50
+    assert parse_file('test.txt', 50, True) == 1594
+    assert parse_file('test.txt', 100, True) == 6536
+    assert parse_file('test.txt', 500, True) == 167004
+    # assert parse_file('test.txt', 1000, True) == 668697
+    # assert parse_file('test.txt', 5000, True) == 16733044
+    # print("Part 2: ", parse_file('input.txt', 26501365, True))
 
 
 if __name__ == "__main__":
