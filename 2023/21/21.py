@@ -1,23 +1,56 @@
 #!/usr/bin/env python3
+#
+# Inspiration from the whole Reddit thread about quadratic numbers
+#
+# Final solution comes from:
+# - https://github.com/WinslowJosiah/adventofcode/blob/main/aoc2023/day21/__init__.py
+# - https://github.com/mebeim/aoc/blob/master/2023/original_solutions/day21.py
 
 import sys
 from collections import deque, defaultdict
-from copy import deepcopy
+from math import ceil
 
 
-def show_set(S, Q):
-    R = max(r for r, c in S)
-    C = max(c for r, c in S)
+def count_paths(start, R, C, steps, S):
 
-    for r in range(R+1):
-        for c in range(C+1):
-            if (r, c) in Q:
-                print('O', end='')
-            elif (r, c) in S:
-                print('#', end='')
-            else:
-                print('.', end='')
-        print()
+    T = 0
+    visited = set()
+    Q = deque([(0, start)])
+
+    while Q:
+
+        cost, node = Q.popleft()
+
+        # Already visited before? Continue
+        if node in visited:
+            continue
+
+        # Add node to our list
+        visited.add(node)
+
+        # If the current path's parity is the same as the parity of the specified path length
+        if cost % 2 == steps % 2:
+
+            # This path can be reached in the specified number of steps
+            #  We can do this because all paths between any two tiles will have the same parity.
+            T += 1
+
+        # Don't explore further if path becomes longer than specified path length
+        if cost >= steps:
+            continue
+
+        for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+            nr = node[0] + dr
+            nc = node[1] + dc
+
+            # If this neighbor is not a wall
+            if (nr % R, nc % C) in S:
+                continue
+
+            # Append this neighbor to the queue
+            Q.append((cost + 1, (nr, nc)))
+
+    return T
 
 
 def parse_file(file, steps=6, p2=False):
@@ -39,45 +72,42 @@ def parse_file(file, steps=6, p2=False):
             if grid[r][c] == 'S':
                 start = (r, c)
 
-    Q = set([start])
-    for i in range(steps):
+    T = 0
+    if p2:
 
-        QQ = set()
-        for (r, c) in Q:
-            for dr, dc in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                nr, nc = r+dr, c+dc
+        # Make sure our assumption of a middle point is right
+        assert start is not (R//2, C//2)
+        assert C == R
 
-                # Normalize coords and look if those are on the input grid
-                xnr = nr % R
-                xnc = nc % C
+        n = steps // C
+        a, b, c = (
+            count_paths(start, R, C, s * C + (C // 2), S)
+            for s in range(3)
+        )
 
-                if not (xnr, xnc) in S:
-                    QQ.add((nr, nc))
+        T = a + n * (b - a + (n - 1) * (c - b - b + a) // 2)
 
-        Q = deepcopy(QQ)
-        print(i, len(Q))
+    else:
+        T = count_paths(start, R, C, steps, S)
 
-    show_set(S, Q)
-
-    T = len(Q)
-    print("T: ", T)
     return T
 
 
 def main():
+
     # Part 1
     assert parse_file('test.txt', 6) == 16
+    assert parse_file('test.txt', 50) == 1594
+    assert parse_file('test.txt', 100) == 6536
     print("Part 1: ", parse_file('input.txt', 64))
 
     # Part 2
-    assert parse_file('test.txt', 6, True) == 16
-    assert parse_file('test.txt', 10, True) == 50
-    assert parse_file('test.txt', 50, True) == 1594
-    assert parse_file('test.txt', 100, True) == 6536
-    assert parse_file('test.txt', 500, True) == 167004
-    # assert parse_file('test.txt', 1000, True) == 668697
-    # assert parse_file('test.txt', 5000, True) == 16733044
-    # print("Part 2: ", parse_file('input.txt', 26501365, True))
+    # The formula for p2 only works for this specific input number
+    # because it's a quadratic number sequence
+    #
+    # See: https://www.radfordmathematics.com/algebra/sequences-series/difference-method-sequences/quadratic-sequences.html
+    #
+    print("Part 2: ", parse_file('input.txt', 26501365, True))
 
 
 if __name__ == "__main__":
