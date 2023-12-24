@@ -57,11 +57,11 @@ def find_reflections(grid, p2=False):
 def parse_file(file, p2=False):
 
     with open(file, 'r') as fp:
-        blocks = [block for block in fp.read().split("\n\n")]
+        blocks = fp.read().split("\n\n")
 
     T = 0
     for block in blocks:
-        grid = [[char for char in line] for line in block.splitlines()]
+        grid = block.splitlines()
 
         # Find reflected columns
         T += find_reflections(grid, p2)
