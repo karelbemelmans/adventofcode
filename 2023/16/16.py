@@ -102,12 +102,8 @@ def parse_file(file, p2=False):
             if 0 <= r < R and 0 <= c < C:
                 B.append((r, c, d))
 
-        # We need to filter our the direction.
-        # Can probably be done with a python oneliner
-        S = set()
-        for r, c, _ in E:
-            S.add((r, c))
-
+        # Look at the unique r,c without the direction
+        S = set([(r, c) for r, c, _ in E])
         T = max(T, len(S))
 
     return T
