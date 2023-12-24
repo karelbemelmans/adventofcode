@@ -72,12 +72,8 @@ def parse_file(file, p2=False):
 
     # p2 is the same question except the slope limitations are turned off
     # This will give us a much larger graph
-    if p2:
-        graph = build_graph(grid, start, end, False)
-        return longest_path(graph, start, end)
-    else:
-        graph = build_graph(grid, start, end, True)
-        return longest_path(graph, start, end)
+    graph = build_graph(grid, start, end, False if p2 else True)
+    return longest_path(graph, start, end)
 
 
 def main():
