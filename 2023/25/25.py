@@ -2,18 +2,6 @@
 
 import sys
 import networkx as nx
-from itertools import combinations
-
-
-def parse_lines(lines):
-    G = nx.Graph()
-
-    for a, l in lines:
-        for b in l.split(' '):
-            G.add_edge(a, b)
-
-    print(G)
-    return G
 
 
 def parse_file(file, p2=False):
@@ -21,7 +9,9 @@ def parse_file(file, p2=False):
     with open(file, 'r') as fp:
         lines = (line.split(": ") for line in fp.read().splitlines())
 
-    G = parse_lines(lines)
+    # Build our Graph
+    G = nx.Graph()
+    [G.add_edge(a, b) for a, l in lines for b in l.split(' ')]
 
     # networkx is awesome
     cutsets = list(nx.minimum_edge_cut(G))
