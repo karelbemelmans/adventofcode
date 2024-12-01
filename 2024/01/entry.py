@@ -6,7 +6,7 @@ def parse_file(file, p2=False):
         lines = [line for line in fp.read().splitlines()]
 
     # Read lines into pairs of integers
-    pairs = [[int(a) for a in line.split("  ")] for line in lines]
+    pairs = [[int(a) for a in line.split()] for line in lines]
 
     # Turn our list of pairs into 2 lists using the zip function
     first, second = zip(*pairs)
