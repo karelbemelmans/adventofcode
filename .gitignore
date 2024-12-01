@@ -93,3 +93,9 @@ fabric.properties
 **/.history
 
 # End of https://www.gitignore.io/api/visualstudiocode
+
+# Python
+__pycache__
+.pytest_cache
+adventofcode.egg-info/
+.venv
