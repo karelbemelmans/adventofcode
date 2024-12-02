@@ -21,19 +21,11 @@ def parse_file(file, p2=False):
             # convert to list, as combiation returns a tuple
             row = list(row)
 
-            # Prepare a sorted and a reversed sorted list
-            srow = sorted(row)
-            rrow = list(reversed(srow))
-
-            # Initialize flags
-            S = False
-            I = True
-
             # First: Check if the row is sorted or reverse sorted
-            if row == srow or row == rrow:
-                S = True
+            S = (row == sorted(row) or row == sorted(row, reverse=True))
 
             # Second: Check if the difference between each element is in the range 1-3
+            I = True
             for i in range(0, len(row) - 1):
                 if not abs(row[i] - row[i+1]) in range(1, 4):
                     I = False
