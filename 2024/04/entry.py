@@ -37,8 +37,7 @@ def parse_file(file, p2=False):
                 cc += dc
                 k += 1
 
-            # If all character matched, then value of must
-            # be equal to length of word
+            # If all character matched, then value of must be equal to length of word
             if k == len(word):
                 T += 1
 
@@ -65,8 +64,10 @@ def parse_file(file, p2=False):
 
             # We got the 2 M and 2 S, but are the M in the right spot?
             if S == 2 and M == 2:
+
                 # We only look at the M, the S will follow anyway
-                # Diagonal M is not allowed in 2 cases
+                # Diagonal M is not allowed in 2 cases where we would get MAM and SAS as words
+
                 if grid[r-1][c-1] == 'M' and grid[r+1][c+1] == 'M':
                     return False
                 elif grid[r+1][c-1] == 'M' and grid[r-1][c+1] == 'M':
