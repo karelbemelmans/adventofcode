@@ -68,9 +68,9 @@ def parse_file(file, p2=False):
             # We only look at the M, the S will follow anyway
             # Diagonal M is not allowed in 2 cases where we would get MAM and SAS as words
 
-            if grid[r-1][c-1] == 'M' and grid[r+1][c+1] == 'M':
+            if grid[r-1][c-1] == grid[r+1][c+1] == 'M':
                 return False
-            elif grid[r+1][c-1] == 'M' and grid[r-1][c+1] == 'M':
+            elif grid[r+1][c-1] == grid[r-1][c+1] == 'M':
                 return False
             else:
                 return True
