@@ -62,18 +62,18 @@ def parse_file(file, p2=False):
                 if grid[rr][cc] == 'S':
                     S += 1
 
-            # We got the 2 M and 2 S, but are the M in the right spot?
-            if S == 2 and M == 2:
+        # We got the 2 M and 2 S, but are the M in the right spot?
+        if S == 2 and M == 2:
 
-                # We only look at the M, the S will follow anyway
-                # Diagonal M is not allowed in 2 cases where we would get MAM and SAS as words
+            # We only look at the M, the S will follow anyway
+            # Diagonal M is not allowed in 2 cases where we would get MAM and SAS as words
 
-                if grid[r-1][c-1] == 'M' and grid[r+1][c+1] == 'M':
-                    return False
-                elif grid[r+1][c-1] == 'M' and grid[r-1][c+1] == 'M':
-                    return False
-                else:
-                    return True
+            if grid[r-1][c-1] == 'M' and grid[r+1][c+1] == 'M':
+                return False
+            elif grid[r+1][c-1] == 'M' and grid[r-1][c+1] == 'M':
+                return False
+            else:
+                return True
 
     R = len(grid)
     C = len(grid[0])
