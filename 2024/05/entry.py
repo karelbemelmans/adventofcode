@@ -9,22 +9,29 @@ def parse_file(file, p2=False):
 
     def valid(numbers):
         for i in range(len(numbers)):
-            print(i, numbers[i])
 
-            # Before
-            # After
+            # Go over all numbers in this list and check if the order is correct
+            for k in range(len(numbers)):
+
+                # Before
+                if k < i:
+                    if not (numbers[k], numbers[i]) in R:
+                        return False
+
+                # After
+                elif k > i:
+                    if not (numbers[i], numbers[k]) in R:
+                        return False
 
         return True
 
     T = 0
     for line in lines.splitlines():
         numbers = [int(num) for num in line.split(",")]
-        print(numbers)
 
         if valid(numbers):
             T += numbers[int(len(numbers)/2)]
 
-    print("T: ", T)
     return T
 
 
