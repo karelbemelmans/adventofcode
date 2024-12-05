@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from functools import cmp_to_key
 
 
 def parse_file(file, p2=False):
@@ -25,12 +26,24 @@ def parse_file(file, p2=False):
 
         return True
 
+    def compare(item1, item2):
+        return -1 if (item1, item2) in R else 1
+
+    def correct(numbers):
+        return sorted(numbers, key=cmp_to_key(compare))
+
     T = 0
     for line in lines.splitlines():
         numbers = [int(num) for num in line.split(",")]
 
-        if valid(numbers):
-            T += numbers[int(len(numbers)/2)]
+        if p2:
+            if not valid(numbers):
+                corrected = correct(numbers)
+                T += corrected[int(len(corrected)/2)]
+
+        else:
+            if valid(numbers):
+                T += numbers[int(len(numbers)/2)]
 
     return T
 
@@ -40,5 +53,5 @@ assert parse_file('example.txt') == 143
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('example.txt', True) == 31
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file('example.txt', True) == 123
+print("Part 2: ", parse_file('input.txt', True))
