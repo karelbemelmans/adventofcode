@@ -26,11 +26,8 @@ def parse_file(file, p2=False):
 
         return True
 
-    def compare(item1, item2):
-        return -1 if (item1, item2) in R else 1
-
     def correct(numbers):
-        return sorted(numbers, key=cmp_to_key(compare))
+        return sorted(numbers, key=cmp_to_key(lambda a, b: 1 if (a, b) in R else -1))
 
     T = 0
     for line in lines.splitlines():
