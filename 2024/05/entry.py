@@ -15,14 +15,12 @@ def parse_file(file, p2=False):
             for k in range(len(numbers)):
 
                 # Before
-                if k < i:
-                    if not (numbers[k], numbers[i]) in R:
-                        return False
+                if k < i and not (numbers[k], numbers[i]) in R:
+                    return False
 
                 # After
-                elif k > i:
-                    if not (numbers[i], numbers[k]) in R:
-                        return False
+                elif k > i and not (numbers[i], numbers[k]) in R:
+                    return False
 
         return True
 
