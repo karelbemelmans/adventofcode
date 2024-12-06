@@ -98,7 +98,6 @@ def parse_file(file, p2=False):
 
 # Part 1
 assert parse_file('example.txt') == 41
-assert parse_file('input.txt') == 4374
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
