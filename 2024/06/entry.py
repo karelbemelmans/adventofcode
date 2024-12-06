@@ -5,10 +5,7 @@ import copy
 
 def walk(G, start, p2=False):
     visited = set()
-    visited_dir = set()
-
-    visited.add(start[0])
-    visited_dir.add(start)
+    visited.add(start)
 
     R = len(G)
     C = len(G[0])
@@ -34,11 +31,10 @@ def walk(G, start, p2=False):
         # We are ok to step forward
         else:
             # Are we on a loop? Then we are done for p2.
-            if p2 and ((rr, cc), cur[1]) in visited_dir:
+            if p2 and ((rr, cc), cur[1]) in visited:
                 return p2, True
 
-            visited.add((rr, cc))
-            visited_dir.add(((rr, cc), cur[1]))
+            visited.add(((rr, cc), cur[1]))
 
             # Set new curser
             cur = ((rr, cc), cur[1])
@@ -67,11 +63,11 @@ def parse_file(file, p2=False):
                 start = ((r, c), (-1, 0))
                 break
 
-    _, path = walk(grid, start)
+    _, visited = walk(grid, start)
 
     # p1 we return the length of the path
     if not p2:
-        return len(path)
+        return len(set([pos for pos, _ in visited]))
 
     if p2:
         T = 0
@@ -83,7 +79,7 @@ def parse_file(file, p2=False):
             for c in range(C):
 
                 # We only add a wall if the point was on the path from p1
-                if grid[r][c] == '.' and (r, c) in path:
+                if grid[r][c] == '.' and (r, c) in set([pos for pos, _ in visited]):
 
                     # Deepcopy is important here to make a complete copy of the grid
                     new_grid = copy.deepcopy(grid)
