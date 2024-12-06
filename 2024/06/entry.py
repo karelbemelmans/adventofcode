@@ -46,7 +46,7 @@ def walk(G, start, p2=False):
     if p2:
         return p2, False
     else:
-        return p2, len(visited)
+        return p2, visited
 
 
 def parse_file(file, p2=False):
@@ -67,15 +67,23 @@ def parse_file(file, p2=False):
                 start = ((r, c), (-1, 0))
                 break
 
+    _, path = walk(grid, start)
+
+    # p1 we return the length of the path
+    if not p2:
+        return len(path)
+
     if p2:
         T = 0
 
         # This is a brute force solution where we put up a new blocket on
         # every possible location and see if the path turns into a loop.
+
         for r in range(R):
             for c in range(C):
-                if grid[r][c] == '.':
-                    print("Adding wall at: ", r, c)
+
+                # We only add a wall if the point was on the path from p1
+                if grid[r][c] == '.' and (r, c) in path:
 
                     # Deepcopy is important here to make a complete copy of the grid
                     new_grid = copy.deepcopy(grid)
@@ -86,10 +94,6 @@ def parse_file(file, p2=False):
                         T += 1
 
         return T
-
-    else:
-        _, y = walk(grid, start)
-        return y
 
 
 # Part 1
