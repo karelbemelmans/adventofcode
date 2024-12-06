@@ -3,7 +3,7 @@
 from itertools import combinations
 
 
-def parse_file(file, diff=2):
+def parse_file(file, p2=False):
 
     with open(file, 'r') as fp:
         grid = [[char for char in line]
@@ -13,6 +13,7 @@ def parse_file(file, diff=2):
     C = len(grid[0])
     cur = None
     visited = set()
+    blockers = set()
 
     # TODO: This is a bit ugly
     rotations = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -41,8 +42,10 @@ def parse_file(file, diff=2):
             visited.add((rr, cc))
             cur = ((rr, cc), cur[1])
 
-    T = len(visited)
-    return T
+    if p2:
+        return len(blockers)
+    else:
+        return len(visited)
 
 
 # Part 1
@@ -50,5 +53,5 @@ assert parse_file('example.txt') == 41
 print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
-# assert parse_file('example.txt', True) == 123
+assert parse_file('example.txt', True) == 6
 # print("Part 2: ", parse_file('input.txt', True))
