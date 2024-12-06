@@ -11,9 +11,7 @@ def parse_file(file, p2=False):
 
     R = len(grid)
     C = len(grid[0])
-    cur = None
-    visited = set()
-    blockers = set()
+    start = None
 
     # TODO: This is a bit ugly
     rotations = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -22,35 +20,68 @@ def parse_file(file, p2=False):
     for r in range(R):
         for c in range(C):
             if grid[r][c] == '^':
-                cur = ((r, c), (-1, 0))
-                visited.add((r, c))
+                start = ((r, c), (-1, 0))
                 break
 
-    while True:
-        # Do a next step
-        rr, cc = cur[0][0] + cur[1][0], cur[0][1] + cur[1][1]
+    def walk(grid, start, p2=False):
+        visited = set()
+        visited_dir = set()
 
-        # Out of bounds? Then we are done
-        if rr < 0 or rr >= R or cc < 0 or cc >= C:
-            break
+        visited.add(start[0])
+        visited_dir.add(start)
 
-        # Turning point?
-        elif grid[rr][cc] == '#':
-            cur = (cur[0], rotations[(rotations.index(cur[1]) + 1) % 4])
+        cur = start
 
-        else:
-            visited.add((rr, cc))
-            cur = ((rr, cc), cur[1])
+        k = 0
+        while True and k < 10000:
+            k += 1
+            # Do a next step
+            rr, cc = cur[0][0] + cur[1][0], cur[0][1] + cur[1][1]
+
+            # Out of bounds? Then we are done
+            if rr < 0 or rr >= R or cc < 0 or cc >= C:
+                break
+
+            # Turning point?
+            elif grid[rr][cc] == '#':
+                cur = (cur[0], rotations[(rotations.index(cur[1]) + 1) % 4])
+
+            else:
+                # Are we on a loop?
+                if p2 and ((rr, cc), cur[1]) in visited_dir:
+                    print("visited_dir: ", visited_dir)
+                    return False
+
+                visited.add((rr, cc))
+                visited_dir.add(((rr, cc), cur[1]))
+                cur = ((rr, cc), cur[1])
+
+        print(visited, len(visited))
+        return len(visited)
 
     if p2:
-        return len(blockers)
+        T = 0
+
+        for r in range(R):
+            for c in range(C):
+                if grid[r][c] == '.':
+                    print("New blocker at: ", r, c)
+
+                    new_grid = grid.copy()
+                    new_grid[r][c] = '#'
+                    if not walk(new_grid, start, True):
+                        T += 1
+
+        print("T: ", T)
+        return T
+
     else:
-        return len(visited)
+        return walk(grid, start)
 
 
 # Part 1
-assert parse_file('example.txt') == 41
-print("Part 1: ", parse_file('input.txt'))
+# assert parse_file('example.txt') == 41
+# print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
 assert parse_file('example.txt', True) == 6
