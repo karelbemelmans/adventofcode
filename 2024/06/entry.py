@@ -1,6 +1,52 @@
 #!/usr/bin/env python3
 
-from itertools import combinations
+import copy
+
+# TODO: This is a bit ugly
+rotations = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
+
+def walk(G, start, p2=False):
+    visited = set()
+    visited_dir = set()
+
+    visited.add(start[0])
+    visited_dir.add(start)
+
+    R = len(G)
+    C = len(G[0])
+    cur = start
+
+    k = 0
+    while True and k < 10000:
+        k += 1
+        # Do a next step
+        rr, cc = cur[0][0] + cur[1][0], cur[0][1] + cur[1][1]
+
+        # Out of bounds? Then we are done
+        if rr < 0 or rr >= R or cc < 0 or cc >= C:
+            break
+
+        # Turning point?
+        elif G[rr][cc] == '#':
+            cur = (cur[0], rotations[(rotations.index(cur[1]) + 1) % 4])
+
+        # We are ok to step forward
+        else:
+            # Are we on a loop? Then we are done for p2.
+            if p2 and ((rr, cc), cur[1]) in visited_dir:
+                return p2, True
+
+            visited.add((rr, cc))
+            visited_dir.add(((rr, cc), cur[1]))
+
+            # Set new curser
+            cur = ((rr, cc), cur[1])
+
+    if p2:
+        return p2, False
+    else:
+        return p2, len(visited)
 
 
 def parse_file(file, p2=False):
@@ -9,12 +55,10 @@ def parse_file(file, p2=False):
         grid = [[char for char in line]
                 for line in fp.read().splitlines()]
 
-    R = len(grid)
-    C = len(grid[0])
     start = None
 
-    # TODO: This is a bit ugly
-    rotations = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+    R = len(grid)
+    C = len(grid[0])
 
     # Find the guard
     for r in range(R):
@@ -23,66 +67,32 @@ def parse_file(file, p2=False):
                 start = ((r, c), (-1, 0))
                 break
 
-    def walk(grid, start, p2=False):
-        visited = set()
-        visited_dir = set()
-
-        visited.add(start[0])
-        visited_dir.add(start)
-
-        cur = start
-
-        k = 0
-        while True and k < 10000:
-            k += 1
-            # Do a next step
-            rr, cc = cur[0][0] + cur[1][0], cur[0][1] + cur[1][1]
-
-            # Out of bounds? Then we are done
-            if rr < 0 or rr >= R or cc < 0 or cc >= C:
-                break
-
-            # Turning point?
-            elif grid[rr][cc] == '#':
-                cur = (cur[0], rotations[(rotations.index(cur[1]) + 1) % 4])
-
-            else:
-                # Are we on a loop?
-                if p2 and ((rr, cc), cur[1]) in visited_dir:
-                    print("visited_dir: ", visited_dir)
-                    return False
-
-                visited.add((rr, cc))
-                visited_dir.add(((rr, cc), cur[1]))
-                cur = ((rr, cc), cur[1])
-
-        print(visited, len(visited))
-        return len(visited)
-
     if p2:
         T = 0
 
         for r in range(R):
             for c in range(C):
                 if grid[r][c] == '.':
-                    print("New blocker at: ", r, c)
-
-                    new_grid = grid.copy()
+                    print("Adding wall at: ", r, c)
+                    new_grid = copy.deepcopy(grid)
                     new_grid[r][c] = '#'
-                    if not walk(new_grid, start, True):
+                    x, is_loop = walk(new_grid, start, True)
+                    if is_loop:
                         T += 1
 
         print("T: ", T)
         return T
 
     else:
-        return walk(grid, start)
+        x, y = walk(grid, start)
+        return y
 
 
 # Part 1
-# assert parse_file('example.txt') == 41
-# print("Part 1: ", parse_file('input.txt'))
+assert parse_file('example.txt') == 41
+assert parse_file('input.txt') == 4374
+print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
 assert parse_file('example.txt', True) == 6
-# print("Part 2: ", parse_file('input.txt', True))
+print("Part 2: ", parse_file('input.txt', True))
