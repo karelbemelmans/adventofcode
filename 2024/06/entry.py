@@ -2,9 +2,6 @@
 
 import copy
 
-# TODO: This is a bit ugly
-rotations = [(-1, 0), (0, 1), (1, 0), (0, -1)]
-
 
 def walk(G, start, p2=False):
     visited = set()
@@ -17,9 +14,12 @@ def walk(G, start, p2=False):
     C = len(G[0])
     cur = start
 
+    rotations = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+
     k = 0
     while True and k < 10000:
         k += 1
+
         # Do a next step
         rr, cc = cur[0][0] + cur[1][0], cur[0][1] + cur[1][1]
 
@@ -70,21 +70,25 @@ def parse_file(file, p2=False):
     if p2:
         T = 0
 
+        # This is a brute force solution where we put up a new blocket on
+        # every possible location and see if the path turns into a loop.
         for r in range(R):
             for c in range(C):
                 if grid[r][c] == '.':
                     print("Adding wall at: ", r, c)
+
+                    # Deepcopy is important here to make a complete copy of the grid
                     new_grid = copy.deepcopy(grid)
                     new_grid[r][c] = '#'
-                    x, is_loop = walk(new_grid, start, True)
+                    _, is_loop = walk(new_grid, start, True)
+
                     if is_loop:
                         T += 1
 
-        print("T: ", T)
         return T
 
     else:
-        x, y = walk(grid, start)
+        _, y = walk(grid, start)
         return y
 
 
