@@ -4,7 +4,6 @@ from itertools import product
 from collections import deque
 
 
-# This is probably very ugly, but it works for now. 
 def calculate(numbers, operators):
     Q = deque(numbers)
     
@@ -48,7 +47,7 @@ def parse_file(file, p2=False):
         for ops in product(operators, repeat=len(numbers)-1):
         
             # We merge both the numbers and operators list into one list.
-            # This takess a while to calculate, but it's fine in terms of memory.
+            # This could potentially blow up but it's fine for this problem.
             
             merged = sum(zip(numbers, list(ops)+[0]), ())[:-1]
             t = calculate(merged, operators)
