@@ -6,23 +6,18 @@ from collections import deque
 
 def calculate(numbers, operators):
     Q = deque(numbers)
-    
-    # Initialize first number
     T = Q.popleft()
-    op = None
     
-    # Walk through the list by popping the first element and checking 
-    # if it's an operator or a number.
     while Q:
+        op = Q.popleft()
         x = Q.popleft()
-        if x in operators:
-            op = x
-        else:
-            if op == '+':
+
+        match op:
+            case '+':
                 T += x
-            elif op == '*':
+            case '*':
                 T *= x
-            elif op == '||':
+            case '||':
                 T = int(f"%d%d" % (T,x))
 
     return T
