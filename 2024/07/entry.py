@@ -4,11 +4,15 @@ from itertools import product
 from collections import deque
 
 
-def calculate(numbers):
+def match(numbers, total):
     Q = deque(numbers)
     T = Q.popleft()
 
     while Q:
+        # Did we already overshoot our target?
+        if T > total:
+            return False
+
         op = Q.popleft()
         x = Q.popleft()
 
@@ -20,7 +24,7 @@ def calculate(numbers):
             case '||':
                 T = int(f"%d%d" % (T, x))
 
-    return T
+    return T == total
 
 
 def parse_file(file, p2=False):
@@ -45,9 +49,8 @@ def parse_file(file, p2=False):
             # This could potentially blow up but it's fine for this problem.
 
             merged = sum(zip(numbers, list(ops)+[0]), ())[:-1]
-            t = calculate(merged, operators)
-            if t == total:
-                T += t
+            if match(merged, total):
+                T += total
                 break
 
     return T
