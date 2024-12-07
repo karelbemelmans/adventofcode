@@ -8,9 +8,8 @@ from collections import deque
 def calculate(numbers, operators):
     Q = deque(numbers)
     
-    # First number
+    # Initialize first number
     T = Q.popleft()
-
     op = None
     
     # Walk through the list by popping the first element and checking 
@@ -48,8 +47,8 @@ def parse_file(file, p2=False):
         # All possible combintations of operators for a list of numbers of this length
         for ops in product(operators, repeat=len(numbers)-1):
         
-            # We merge both the numbers and operators list into one list
-            # Brute force, but it works for now :)
+            # We merge both the numbers and operators list into one list.
+            # This takess a while to calculate, but it's fine in terms of memory.
             
             merged = sum(zip(numbers, list(ops)+[0]), ())[:-1]
             t = calculate(merged, operators)
