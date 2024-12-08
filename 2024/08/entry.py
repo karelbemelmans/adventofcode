@@ -66,4 +66,5 @@ print("Part 1: ", parse_file('input.txt'))
 
 # Part 2
 assert parse_file('example.txt', True) == 34
+assert parse_file('example2.txt', True) == 9
 print("Part 2: ", parse_file('input.txt', True))
