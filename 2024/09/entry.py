@@ -5,16 +5,9 @@ from itertools import groupby
 from functools import reduce
 
 
+# Nice python rewrite possible. Readability went down though.
 def checksum(data):
-    T = 0
-
-    i = 0
-    for x in data:
-        if not x == ".":
-            T += i * x
-        i += 1
-
-    return T
+    return sum([0 if x == "." else i * x for i, x in enumerate(data)])
 
 
 def explode(data):
@@ -63,11 +56,9 @@ def compact2(data):
 
     # Split our array into groups with the same value aka file
     G = deque([list(grp) for k, grp in groupby(data)])
-
     k = len(G)
 
-    # This loop is ok since we need to try to move every word only once
-    # So there is no problem if there is still things to optimize in a 2nd or fruther pass
+    # This single loop is ok since we need to try to move every word only once
     while True and k >= 0:
         k -= 1
         last = G[k]
@@ -84,15 +75,18 @@ def compact2(data):
                 # Add the 1 or 2 new items, depending how long the word is
                 diff = len(word) - len(last)
                 if diff:
+
+                    # Add the word here
                     G[j] = ["."] * (len(word) - len(last))
                     G.insert(j, last)
 
+                    # Pad the leftover spots with dots
                     G[k+1] = ["."] * len(last)
 
                     # Our list has now increased with 1 item
                     k += 1
 
-                # We can replace a while set of dots with our word
+                # Word length is the same as nr of dots
                 else:
                     G[j] = last
                     G[k] = ["."] * len(last)
