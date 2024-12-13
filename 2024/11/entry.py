@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 
 
-# Gold old dynamic programming cache
-DP = {}
+from functools import cache
 
 
+@cache
 def blink(x, t):
-
-    # Cached?
-    if (x, t) in DP:
-        return DP[(x, t)]
 
     # Done?
     if t == 0:
@@ -28,7 +24,6 @@ def blink(x, t):
     else:
         T = blink(x*2024, t-1)
 
-    DP[(x, t)] = T
     return T
 
 
