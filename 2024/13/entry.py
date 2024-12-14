@@ -1,22 +1,34 @@
 #!/usr/bin/env python3
 
 import sys
-import re
+from sympy import symbols, Eq, solve
 
-MAX = 100
 A_COST = 3
 B_COST = 1
+P2_INC = 10000000000000
 
-# p1: Very naive approach
 
+def match(a, b, prize, p2=False):
+    if p2:
+        prize = (prize[0] + P2_INC, prize[1] + P2_INC)
 
-def match(x, y, t):
-    for i in range(MAX+1):
-        for j in range(MAX+1):
-            if (x[0]*i + y[0]*j == t[0]) and (x[1]*i + y[1]*j == t[1]):
-                return i * A_COST + j * B_COST
+    x, y = symbols('x,y')
 
-    return False
+    # defining equations
+    eq1 = Eq(a[0] * x + b[0] * y, prize[0])
+    eq2 = Eq(a[1] * x + b[1] * y, prize[1])
+
+    try:
+        s = solve((eq1, eq2), (x, y))
+
+        # Valid integer solution found?
+        if int(s[x]) == s[x] and int(s[y]) == s[y]:
+            return s[x] * A_COST + s[y] * B_COST
+    except:
+        pass
+
+    # No validation integer solution found
+    return 0
 
 
 def parse_file(file, p2=False):
@@ -31,9 +43,7 @@ def parse_file(file, p2=False):
         b = [int(x[2:]) for x in m[1][10:].split(', ')]
         prize = [int(x[2:]) for x in m[2][7:].split(', ')]
 
-        t = match(a, b, prize)
-        if t:
-            T += t
+        T += match(a, b, prize, p2)
 
     return T
 
@@ -44,8 +54,7 @@ def main():
     print("Part 1: ", parse_file('input.txt'))
 
     # Part 2
-    # assert parse_file('example.txt', True) == 80
-    # print("Part 2: ", parse_file('input.txt', True))
+    print("Part 2: ", parse_file('input.txt', True))
 
 
 if __name__ == "__main__":
