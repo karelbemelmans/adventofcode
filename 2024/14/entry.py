@@ -60,7 +60,6 @@ def main():
     print("Part 1: ", parse_file('input.txt', 101, 103))
 
     # Part 2
-    # assert parse_file('example.txt', 11, 7, True) == 12
     print("Part 2: ", parse_file('input.txt', 101, 103, True))
 
 
