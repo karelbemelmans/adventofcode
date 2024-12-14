@@ -11,6 +11,7 @@ setup(
         'autopep8',
         'utils',
         'numpy',
-        'matplotlib'
+        'matplotlib',
+        'sympy'
     ],
 )
