@@ -10,11 +10,11 @@ P2_INC = 10000000000000
 
 def match(a, b, prize, p2=False):
     if p2:
-        prize = (prize[0] + P2_INC, prize[1] + P2_INC)
+        prize = [x + P2_INC for x in prize]
 
+    # We use sympy to solve the simple equations
     x, y = symbols('x,y')
 
-    # defining equations
     eq1 = Eq(a[0] * x + b[0] * y, prize[0])
     eq2 = Eq(a[1] * x + b[1] * y, prize[1])
 
