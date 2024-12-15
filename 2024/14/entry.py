@@ -11,7 +11,7 @@ def we_have_a_tree(robots):
 
 def score(X, Y, robots):
     TL = sum([robots.count((x, y)) for x in range(0, X // 2) for y in range(0, Y//2)])
-    TR = sum([robots.count((x, y)) for x in range(X // 2, X) for y in range(0, Y//2)])
+    TR = sum([robots.count((x, y)) for x in range(X // 2 + 1, X) for y in range(0, Y//2)])
     BL = sum([robots.count((x, y)) for x in range(0, X // 2) for y in range(Y//2 + 1, Y)])
     BR = sum([robots.count((x, y)) for x in range(X // 2 + 1, X) for y in range(Y//2 + 1, Y)])
 
