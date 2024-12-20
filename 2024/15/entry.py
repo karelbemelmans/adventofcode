@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+DIR = {'^': -1, '>': 1j, 'v': 1, '<': -1j}
+
+
+# Helper function to print the grid
 def print_grid(grid):
     max_real = int(max(p.real for p in grid)) + 1
     max_imag = int(max(p.imag for p in grid)) + 1
@@ -11,7 +15,8 @@ def print_grid(grid):
     print()
 
 
-def p2_grid(grid):
+# Blow up the grid for p2
+def create_p2_grid(grid):
     new = {}
     max_real = int(max(p.real for p in grid)) + 1
     max_imag = int(max(p.imag for p in grid)) + 1
@@ -34,22 +39,10 @@ def p2_grid(grid):
     return new
 
 
-def parse_file(file, p2=False):
+def p1(grid, moves):
 
-    with open(file, 'r') as fp:
-        a, b = fp.read().split("\n\n")
-
-    # This should be doable in one run as well....
-    grid = {i+j*1j: c for i, row in enumerate(a.splitlines()) for j, c in enumerate(row.strip())}
-    moves = "".join(i.replace("\n", "") for i in b)
-
-    if p2:
-        grid = p2_grid(grid)
-        print_grid(grid)
-
-    T = 0
+    # Stgarting position
     cursor = [k for k in grid if grid[k] == '@'][0]
-    DIR = {'^': -1, '>': 1j, 'v': 1, '<': -1j}
 
     for m in moves:
         next = cursor + DIR[m]
@@ -83,11 +76,27 @@ def parse_file(file, p2=False):
                     case '#':
                         break
 
-        # print_grid(grid)
+    return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == 'O')
 
-    T = sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == 'O')
-    print("T: ", T)
-    return T
+
+def p2(grid, moves):
+    return 0
+
+
+def parse_file(file, p2=False):
+
+    with open(file, 'r') as fp:
+        a, b = fp.read().split("\n\n")
+
+    grid = {i+j*1j: c for i, row in enumerate(a.splitlines()) for j, c in enumerate(row.strip())}
+    moves = "".join(i.replace("\n", "") for i in b)
+
+    if p2:
+        grid = create_p2_grid(grid)
+        return p2(grid, moves)
+
+    else:
+        return p1(grid, moves)
 
 
 # Part 1
