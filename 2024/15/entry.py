@@ -39,9 +39,9 @@ def create_p2_grid(grid):
     return new
 
 
-def p1(grid, moves):
+def move_p1(grid, moves):
 
-    # Stgarting position
+    # Starting position
     cursor = [k for k in grid if grid[k] == '@'][0]
 
     for m in moves:
@@ -79,8 +79,66 @@ def p1(grid, moves):
     return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == 'O')
 
 
-def p2(grid, moves):
-    return 0
+def move_p2(grid, moves):
+
+    print_grid(grid)
+
+    # Starting position
+    cursor = [k for k in grid if grid[k] == '@'][0]
+
+    counter = 0
+    for m in moves:
+        counter += 1
+
+        next = cursor + DIR[m]
+        print("move, next:", m, next)
+
+        # We can move to a free spot
+        if next in grid and grid[next] == '.':
+            grid[cursor] = '.'
+            grid[next] = '@'
+            cursor = next
+
+        # We hit a box
+        elif next in grid and grid[next] in ['[', ']']:
+            step = next
+
+            k = 0
+            while True:
+                step += DIR[m]
+                k += 1
+                match grid[step]:
+
+                    # We have a free spot
+                    case '.':
+
+                        # Up or down - we need to move two spots
+                        if m in ['^', 'v']:
+                            if grid[step] == '[':
+                                grid[step] = grid[step + (k-l-1) * DIR[m]]
+
+                        # Otherwise we just push everything one spot to the side
+                        else:
+                            for l in range(2, k+2):
+                                print(step, k, l, k-l)
+                                # Move boxes
+                                grid[step + (k-l) * DIR[m]] = grid[step + (k-l-1) * DIR[m]]
+
+                        # Move our cursor
+                        grid[cursor] = '.'
+                        grid[next] = '@'
+                        cursor = next
+
+                        break
+
+                    # We hit a wall, we are done
+                    case '#':
+                        break
+        print_grid(grid)
+        if counter > 5:
+            return 0
+
+    return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == 'O')
 
 
 def parse_file(file, p2=False):
@@ -93,10 +151,10 @@ def parse_file(file, p2=False):
 
     if p2:
         grid = create_p2_grid(grid)
-        return p2(grid, moves)
+        return move_p2(grid, moves)
 
     else:
-        return p1(grid, moves)
+        return move_p1(grid, moves)
 
 
 # Part 1
