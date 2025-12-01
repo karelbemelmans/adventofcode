@@ -14,6 +14,8 @@ def parse_file(file, p2=False):
         letter = step[0]
         number = step[1]
 
+        # https://www.reddit.com/r/adventofcode/comments/1pb3y8p/comment/nrqpam0/
+        #  "flip the clock" and keep moving the arrow forwards
         if letter != direction:
             cur = (M - cur) % M
             direction = letter
@@ -26,7 +28,6 @@ def parse_file(file, p2=False):
         elif cur % M == 0:
             hits += 1
 
-    print("Final counter: ", hits)
     return hits
 
 
