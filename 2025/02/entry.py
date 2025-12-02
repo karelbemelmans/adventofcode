@@ -11,9 +11,6 @@ def is_valid(s):
     if l % 2 == 1:
         return True
 
-    # Create a set so we only have the unique letters left
-    S = set(s)
-
     if s[0 : l // 2] == s[l // 2 :]:
         return False
 
@@ -39,11 +36,10 @@ def is_valid2(s):
         x = l // i
 
         p = s[0:i]
+
+        # Glue the x occurences together, do they form the input string?
         if p * x == s:
             return False
-
-    # Create a set so we only have the unique letters left
-    S = set(s)
 
     return True
 
