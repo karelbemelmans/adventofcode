@@ -36,5 +36,6 @@
   "editor.suggest.showOperators": false,
   "editor.suggest.showTypeParameters": false,
   "editor.suggest.showConstants": false,
-  "editor.inlineSuggest.enabled": false
+  "editor.inlineSuggest.enabled": false,
+  "files.insertFinalNewline": false
 }
