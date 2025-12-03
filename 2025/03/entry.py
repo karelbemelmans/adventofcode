@@ -1,41 +1,32 @@
 #!/usr/bin/env python3
 
 
-def find_highest_number(s):
-    # Find the highest number in the list
-    m = 0
-    pos = None
-    for i, b in enumerate(s):
-        if int(b) > m:
-            m = int(b)
-            pos = i
+def max_single_digit_index(bank):
+    return bank.index(str(max(int(b) for b in bank)))
 
-    return m, pos
+
+def max_joltage(bank, remaining):
+    if remaining == 0:
+        return ""
+
+    # The largest 12-digit number is simply the largest of the all but the last 11 digits,
+    # followed by the largest 11-digit number of the remaining digits.
+    index = max_single_digit_index(bank[: 1 + len(bank) - remaining])
+
+    # number + recursive result on the rest of the string
+    return bank[index] + max_joltage(bank[index + 1 :], remaining - 1)
 
 
 def parse_file(file, p2=False):
     with open(file, "r") as fp:
         banks = [line for line in fp.read().splitlines()]
 
+    C = 12 if p2 else 2
+
     T = 0
-
     for bank in banks:
-        m, pos = find_highest_number(bank)
-
-        # Find the other C-1 numbers
-        # Find the highest number right of it
-        if pos == len(bank) - 1:
-            sub = bank[0:pos]
-            n, _ = find_highest_number(sub)
-            res = n * 10 + m
-
-        # Find the highest number left of it
-        else:
-            sub = bank[pos + 1 :]
-            n, _ = find_highest_number(sub)
-            res = m * 10 + n
-
-        T += res
+        t = max_joltage(bank, C)
+        T += int(t)
 
     return T
 
