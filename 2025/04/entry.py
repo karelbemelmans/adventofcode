@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
 
 
-# The forklifts can only access a roll of paper if there are fewer
-# than four rolls of paper in the eight adjacent positions.
-def can_access(grid, p):
+def can_access(rolls_set, p):
     directions = (1 + 1j, 1, 1 - 1j, 0 + 1j, 0 - 1j, -1 + 1j, -1, -1 - 1j)
 
-    # Find all neighbours of p
-    P = {p + d for d in directions if p + d in grid}
+    # Count neighbors that are rolls
+    neighbor_count = sum(1 for d in directions if (p + d) in rolls_set)
 
-    return len(P) < 4
+    return neighbor_count < 4
 
 
 def parse_file(file, p2=False):
-
-    # We use imaginary numbers to create an (x,y) grid
-    # This allows us to easily add up points
     with open(file, "r") as fp:
         grid = {
             x + 1j * y: c
@@ -23,21 +18,24 @@ def parse_file(file, p2=False):
             for x, c in enumerate(l.strip())
         }
 
-    # Keep only the points where we have a roll
-    rolls = [x for x in grid if grid[x] == "@"]
+    # Use a set for O(1) lookups and removals
+    rolls = {x for x in grid if grid[x] == "@"}
     start = len(rolls)
 
     if p2:
+        i = 0
         while True:
+            # print("run: %d, length of rolls: %d" % (i, len(rolls)))
+            i += 1
 
-            changes = False
-            for r in rolls:
-                if can_access(rolls, r):
-                    rolls.remove(r)
-                    changes = True
+            # Find all removable rolls in current iteration
+            to_remove = {r for r in rolls if can_access(rolls, r)}
 
-            if not changes:
+            if not to_remove:
                 return start - len(rolls)
+
+            # Remove all at once
+            rolls -= to_remove
 
     else:
         return sum(can_access(rolls, r) for r in rolls)
