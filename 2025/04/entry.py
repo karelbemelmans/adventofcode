@@ -25,16 +25,26 @@ def parse_file(file, p2=False):
 
     # Keep only the points where we have a roll
     rolls = [x for x in grid if grid[x] == "@"]
+    start = len(rolls)
 
-    T = 0
-    start = None
+    if p2:
+        while True:
 
-    for r in rolls:
-        if can_access(rolls, r):
-            T += 1
+            changes = False
+            for r in rolls:
+                if can_access(rolls, r):
+                    rolls.remove(r)
+                    changes = True
 
-    # print(T)
-    return T
+            if not changes:
+                return start - len(rolls)
+
+    else:
+        T = 0
+        for r in rolls:
+            if can_access(rolls, r):
+                T += 1
+        return T
 
 
 # Part 1
@@ -42,5 +52,5 @@ assert parse_file("example.txt") == 13
 print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-# assert parse_file('example.txt', True) == 6
-# print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 43
+print("Part 2: ", parse_file("input.txt", True))
