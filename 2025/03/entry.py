@@ -23,12 +23,7 @@ def parse_file(file, p2=False):
 
     C = 12 if p2 else 2
 
-    T = 0
-    for bank in banks:
-        t = max_joltage(bank, C)
-        T += int(t)
-
-    return T
+    return sum(int(max_joltage(bank, C)) for bank in banks)
 
 
 # Part 1
