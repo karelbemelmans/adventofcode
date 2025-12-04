@@ -40,11 +40,7 @@ def parse_file(file, p2=False):
                 return start - len(rolls)
 
     else:
-        T = 0
-        for r in rolls:
-            if can_access(rolls, r):
-                T += 1
-        return T
+        return sum(can_access(rolls, r) for r in rolls)
 
 
 # Part 1
