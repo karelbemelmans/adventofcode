@@ -11,17 +11,21 @@ def parse_file(file, p2=False):
     )
 
     if p2:
+
         return sum(
-            end - start + 1
+            end - start + 1  # Calculate range size (inclusive)
             # Merge all the overlapping ranges into a new range
             for start, end in reduce(
                 lambda m, x: (
+                    # If ranges overlap or are adjacent (x[0] <= m[-1][1] + 1):
+                    # Merge by extending the last range's end to max of both ends
                     m[:-1] + [[m[-1][0], max(m[-1][1], x[1])]]
                     if m and x[0] <= m[-1][1] + 1
+                    # Otherwise, ranges don't overlap - add as separate range
                     else m + [x]
                 ),
-                F,
-                [],
+                F,  # Input: sorted list of (start, end) tuples
+                [],  # Initial accumulator: empty list of merged ranges
             )
         )
 
