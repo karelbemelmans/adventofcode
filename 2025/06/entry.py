@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 from functools import reduce
 from collections import deque, defaultdict
+from operator import add, mul
 
 
 def parse_file(file):
     with open(file, "r") as fp:
-        rows = [x for x in [line.split() for line in fp.read().splitlines()]]
+        rows = [line.split() for line in fp.read().splitlines()]
 
     # Last row is the operators
     operators = rows.pop()
@@ -13,16 +14,12 @@ def parse_file(file):
     # Swap columns and rows
     numbers = list(zip(*rows))
 
-    # Reduce the rows with the correct operator
-    T = 0
-    for i, n in enumerate(numbers):
-        n = map(int, n)
-        if operators[i] == "+":
-            T += reduce(lambda x, y: x + y, n)
-        else:
-            T += reduce(lambda x, y: x * y, n)
+    # Use sum() with operator functions for cleaner code
+    op_func = {"+": add, "*": mul}
 
-    return T
+    return sum(
+        reduce(op_func[operators[i]], map(int, n)) for i, n in enumerate(numbers)
+    )
 
 
 def parse_file2(file):
@@ -50,16 +47,12 @@ def parse_file2(file):
         # Last item of first list item is the operator
         operator = blocks[i][0][-1]
 
-        # Glue back the numbers
-        numbers = []
-        for b in blocks[i]:
-            numbers.append(int("".join(b[:-1])))
+        # Glue back the numbers using list comprehension
+        numbers = [int("".join(b[:-1])) for b in blocks[i]]
 
-        # This can probably be done nicer
-        if operator == "+":
-            T += reduce(lambda x, y: x + y, numbers)
-        else:
-            T += reduce(lambda x, y: x * y, numbers)
+        # Use operator functions for cleaner code
+        op_func = {"+": add, "*": mul}
+        T += reduce(op_func[operator], numbers)
 
     return T
 
