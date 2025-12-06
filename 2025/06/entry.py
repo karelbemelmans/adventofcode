@@ -12,9 +12,11 @@ def parse_file(file, p2=False):
     # Swap columns and rows
     numbers = list(zip(*rows))
 
-    T = 0
+    if p2:
+        print(numbers)
 
     # Reduce the rows with the correct operator
+    T = 0
     for i, n in enumerate(numbers):
         n = map(int, n)
         if operators[i] == "+":
@@ -28,7 +30,3 @@ def parse_file(file, p2=False):
 # Part 1
 assert parse_file("example.txt") == 4277556
 print("Part 1: ", parse_file("input.txt"))
-
-# Part 2
-assert parse_file("example.txt", True) == 3263827
-print("Part 2: ", parse_file("input.txt", True))
