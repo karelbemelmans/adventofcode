@@ -1,49 +1,33 @@
 #!/usr/bin/env python3
 
-from collections import deque
+from collections import deque, defaultdict
+from collections import Counter
 
 
 def parse_file(file, p2=False):
 
     with open(file, "r") as fp:
-        grid = {
-            x + 1j * y: c
-            for y, l in enumerate(fp.read().splitlines())
-            for x, c in enumerate(l.strip())
-        }
+        lines = [line for line in fp.read().splitlines()]
 
-    # Real moves from left to right
-    # Imag moves up and down
+    splits = 0
+    paths = Counter()
 
-    # Find the start
-    start = [k for k in grid if grid[k] == "S"][0]
+    for line in lines:
+        for i, c in enumerate(line.strip()):
+            match c:
+                case "S":
+                    paths[i] = 1
+                case "^":
+                    if i in paths:
+                        splits += 1
+                        paths[i - 1] += paths[i]
+                        paths[i + 1] += paths[i]
+                        del paths[i]
 
-    Q = set([start])
-    splits = set()
-
-    while Q:
-        cur = Q.pop()
-        print(cur)
-        nxt = cur + 1j
-
-        # We can move down
-        if nxt in grid and grid[nxt] == ".":
-            Q.add(nxt)
-
-        elif nxt in grid and grid[nxt] == "^":
-            left = nxt - 1
-            right = nxt + 1
-            print(left, right)
-
-            Q.add(left)
-            Q.add(right)
-
-            # Mark where a beam was split
-            splits.add(cur)
-
-    print(len(splits))
-    print(splits)
-    return len(splits)
+    if p2:
+        return paths.total()
+    else:
+        return splits
 
 
 # Part 1
@@ -51,5 +35,5 @@ assert parse_file("example.txt") == 21
 print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-# assert parse_file("example.txt", True) == 6
-# print("Part 2: ", parse_file("input.txt", True))
+assert parse_file("example.txt", True) == 40
+print("Part 2: ", parse_file("input.txt", True))
