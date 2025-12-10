@@ -8,7 +8,7 @@ from collections import defaultdict
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     cities = set()
@@ -35,8 +35,8 @@ def parse_file(file, p2=False):
     for p in permutations(cities):
         l = 0
 
-        for i in range(0, len(p)-1):
-            l += distances[p[i], p[i+1]]
+        for i in range(0, len(p) - 1):
+            l += distances[p[i], p[i + 1]]
 
         T = max(T, l) if p2 else min(T, l)
 
@@ -44,9 +44,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 605
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 605
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 982
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 982
+print("Part 2: ", parse_file("input.txt", True))

@@ -55,12 +55,12 @@ def parse_grid(grid, p2=False):
                     weight = grid[rr][cc]
                     G.add_edge((r, c), (rr, cc), weight=weight)
 
-    path = nx.dijkstra_path(G, (0, 0), (R-1, C-1), weight="weight")
+    path = nx.dijkstra_path(G, (0, 0), (R - 1, C - 1), weight="weight")
     return nx.path_weight(G, path, weight="weight")
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         grid = [[int(char) for char in line] for line in fp.read().splitlines()]
 
     # Blow up our grid?
@@ -72,10 +72,10 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 40
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 40
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('mini.txt', True) == 37
-assert parse_file('test.txt', True) == 315
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("mini.txt", True) == 37
+assert parse_file("test.txt", True) == 315
+print("Part 2: ", parse_file("input.txt", True))

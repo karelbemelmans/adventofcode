@@ -3,7 +3,7 @@ from functools import cmp_to_key
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         rules, lines = [line for line in fp.read().split("\n\n")]
 
     R = [(int(a), int(b)) for a, b in [rule.split("|") for rule in rules.splitlines()]]
@@ -34,19 +34,19 @@ def parse_file(file, p2=False):
         if p2:
             if not valid(numbers):
                 corrected = correct(numbers)
-                T += corrected[int(len(corrected)/2)]
+                T += corrected[int(len(corrected) / 2)]
 
         else:
             if valid(numbers):
-                T += numbers[int(len(numbers)/2)]
+                T += numbers[int(len(numbers) / 2)]
 
     return T
 
 
 # Part 1
-assert parse_file('example.txt') == 143
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 143
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example.txt', True) == 123
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 123
+print("Part 2: ", parse_file("input.txt", True))

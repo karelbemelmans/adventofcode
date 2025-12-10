@@ -1,10 +1,11 @@
-#/usr/bin/env python
+# /usr/bin/env python
 
-with open('input.txt', 'r') as fp:
-    lines = fp.read().split('\n\n')
+with open("input.txt", "r") as fp:
+    lines = fp.read().split("\n\n")
 
-NUMBERS = lines[0].split(',')
+NUMBERS = lines[0].split(",")
 CARDS = lines[1:]
+
 
 # The score of the winning board can now be calculated.
 # Start by finding the sum of all unmarked numbers on that board
@@ -24,6 +25,7 @@ def bingo_score(input, draw):
 
     # Sum and multiple with last number
     return sum([int(x) for x in unused]) * int(draw[-1])
+
 
 def has_bingo(input, draw):
 
@@ -46,6 +48,7 @@ def has_bingo(input, draw):
 
     return False
 
+
 # Part 1: First board to win
 winner = False
 for n in range(len(NUMBERS)):
@@ -53,13 +56,13 @@ for n in range(len(NUMBERS)):
         break
 
     # We take a longer set of input every time until we have a winner
-    draw = NUMBERS[0:n+1]
+    draw = NUMBERS[0 : n + 1]
 
     # Check if our cards have a winner with this draw
     for card in CARDS:
         if has_bingo(card, draw):
             winner = True
-            print ("The first winning card: ")
+            print("The first winning card: ")
             print(bingo_score(card, draw))
             break
 
@@ -67,7 +70,7 @@ for n in range(len(NUMBERS)):
 for n in range(len(NUMBERS)):
 
     # We take a longer set of input every time until we have a winner
-    draw = NUMBERS[0:n+1]
+    draw = NUMBERS[0 : n + 1]
 
     # Check if our cards have a winner with this draw
     for card in CARDS:
@@ -78,5 +81,5 @@ for n in range(len(NUMBERS)):
 
             # Was this the last card of our board? Then we have a winner
             if not CARDS:
-                print ("The last winning card: ")
+                print("The last winning card: ")
                 print(bingo_score(card, draw))

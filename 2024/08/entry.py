@@ -18,7 +18,7 @@ def calc_antinodes(grid, node, p2=False):
 
             # Start at x, move in the direction of y
             for i in range(0, dim):
-                p = x + i*v
+                p = x + i * v
                 if p in grid:
                     antinodes.add(p)
                 else:
@@ -26,7 +26,7 @@ def calc_antinodes(grid, node, p2=False):
 
             # Start at x, move away from y
             for i in range(0, dim):
-                p = x - i*v
+                p = x - i * v
                 if p in grid:
                     antinodes.add(p)
                 else:
@@ -34,8 +34,8 @@ def calc_antinodes(grid, node, p2=False):
 
         # In p1 we calculate only 2 points and see if they are in the grid
         else:
-            a = 2*x - y
-            b = 2*y - x
+            a = 2 * x - y
+            b = 2 * y - x
 
             if a in grid:
                 antinodes.add(a)
@@ -47,12 +47,16 @@ def calc_antinodes(grid, node, p2=False):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        grid = {x+1j*y: c for y, l in enumerate(fp.read().splitlines()) for x, c in enumerate(l.strip())}
+    with open(file, "r") as fp:
+        grid = {
+            x + 1j * y: c
+            for y, l in enumerate(fp.read().splitlines())
+            for x, c in enumerate(l.strip())
+        }
 
     T = set()
 
-    freqs = set([grid[x] for x in grid if grid[x] != '.'])
+    freqs = set([grid[x] for x in grid if grid[x] != "."])
     for freq in freqs:
         antinodes = calc_antinodes(grid, freq, p2)
         T.update(antinodes)
@@ -61,10 +65,10 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('example.txt') == 14
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 14
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example.txt', True) == 34
-assert parse_file('example2.txt', True) == 9
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 34
+assert parse_file("example2.txt", True) == 9
+print("Part 2: ", parse_file("input.txt", True))

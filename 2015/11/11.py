@@ -4,18 +4,18 @@ from collections import deque, defaultdict
 
 
 def next_password(string):
-    '''
-    Incrementing is just like counting with numbers: xx, xy, xz, ya, yb, and so on. 
-    Increase the rightmost letter one step; if it was z, it wraps around to a, and 
+    """
+    Incrementing is just like counting with numbers: xx, xy, xz, ya, yb, and so on.
+    Increase the rightmost letter one step; if it was z, it wraps around to a, and
     repeat with the next letter to the left until one doesn't wrap around.
-    '''
+    """
 
     # Do we need to cover this case where the password gets longer?
     if string == "":
         return "a"
 
-    start = ord('a')
-    end = ord('z')
+    start = ord("a")
+    end = ord("z")
 
     x = string[-1]
     new = ord(x) + 1
@@ -31,32 +31,32 @@ def meets_requirements(string):
     p2 = False
     p3 = 0
 
-    '''
+    """
     Passwords must include one increasing straight of at least three letters, 
     like abc, bcd, cde, and so on, up to xyz. They cannot skip letters; abd doesn't count.
-    '''
-    start = ord('a')
-    end = ord('z')
+    """
+    start = ord("a")
+    end = ord("z")
 
-    for x in range(start, end-1):
-        match = chr(x) + chr(x+1) + chr(x+2)
+    for x in range(start, end - 1):
+        match = chr(x) + chr(x + 1) + chr(x + 2)
         if match in string:
             p1 = True
             break
 
-    '''
+    """
     Passwords may not contain the letters i, o, or l, as these letters can be 
     mistaken for other characters and are therefore confusing.
-    '''
-    banned = set(['i', 'o', 'l'])
+    """
+    banned = set(["i", "o", "l"])
     if not any(x in banned for x in string):
         p2 = True
 
-    '''
+    """
     Passwords must contain at least two different, non-overlapping pairs of letters, like aa, bb, or zz.
-    '''
-    for x in range(start, end+1):
-        if chr(x)*2 in string:
+    """
+    for x in range(start, end + 1):
+        if chr(x) * 2 in string:
             p3 += 1
 
     return p1 and p2 and p3 >= 2
@@ -71,8 +71,8 @@ def parse_string(string, p2=False):
 
 
 # Part 1
-assert parse_string('abcdefgh') == "abcdffaa"
-p1 = parse_string('hxbxwxba')
+assert parse_string("abcdefgh") == "abcdffaa"
+p1 = parse_string("hxbxwxba")
 print("Part 1: ", p1)
 
 # Part 2

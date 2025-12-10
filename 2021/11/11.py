@@ -4,7 +4,7 @@ def flash_point(grid, r, c, flashed):
     C = len(grid[0])
 
     # Has this point already flashed? Then we skip it.
-    if [r,c] in flashed:
+    if [r, c] in flashed:
         return
 
     # Add this point to our list of flashed points
@@ -51,15 +51,15 @@ def parse_grid(grid, steps, run=1, flashes=0, p2=False):
         grid[r][c] = 0
 
     # Did we reach the p2 goal?
-    if p2 and len(flashed) == R*C:
+    if p2 and len(flashed) == R * C:
         return run
 
     # Otherwise we recurse this grid for the next step
-    return parse_grid(grid, steps, run+1, flashes + len(flashed), p2)
+    return parse_grid(grid, steps, run + 1, flashes + len(flashed), p2)
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         grid = [[int(char) for char in line] for line in fp.read().splitlines()]
 
     if p2:
@@ -69,9 +69,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 1656
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 1656
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 195
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 195
+print("Part 2: ", parse_file("input.txt", True))

@@ -1,10 +1,12 @@
-from functools import reduce 
+from functools import reduce
+
 
 def sum(a, b):
-    return a+b
+    return a + b
+
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         elves = [x for x in fp.read().split("\n\n")]
 
     l = []
@@ -20,8 +22,8 @@ def parse_file(file, p2=False):
         return max(l)
 
 
-assert parse_file('test.txt') == 24000
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 24000
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 45000
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 45000
+print("Part 2: ", parse_file("input.txt", True))

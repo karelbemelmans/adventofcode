@@ -2,7 +2,7 @@
 
 from functools import reduce
 
-seeds, *mappings = open('input.txt').read().split('\n\n')
+seeds, *mappings = open("input.txt").read().split("\n\n")
 seeds = map(int, seeds.split()[1:])
 
 

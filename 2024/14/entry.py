@@ -10,10 +10,20 @@ def we_have_a_tree(robots):
 
 
 def score(X, Y, robots):
-    TL = sum([robots.count((x, y)) for x in range(0, X // 2) for y in range(0, Y//2)])
-    TR = sum([robots.count((x, y)) for x in range(X // 2 + 1, X) for y in range(0, Y//2)])
-    BL = sum([robots.count((x, y)) for x in range(0, X // 2) for y in range(Y//2 + 1, Y)])
-    BR = sum([robots.count((x, y)) for x in range(X // 2 + 1, X) for y in range(Y//2 + 1, Y)])
+    TL = sum([robots.count((x, y)) for x in range(0, X // 2) for y in range(0, Y // 2)])
+    TR = sum(
+        [robots.count((x, y)) for x in range(X // 2 + 1, X) for y in range(0, Y // 2)]
+    )
+    BL = sum(
+        [robots.count((x, y)) for x in range(0, X // 2) for y in range(Y // 2 + 1, Y)]
+    )
+    BR = sum(
+        [
+            robots.count((x, y))
+            for x in range(X // 2 + 1, X)
+            for y in range(Y // 2 + 1, Y)
+        ]
+    )
 
     return TL * TR * BL * BR
 
@@ -31,16 +41,21 @@ def print_robots_grid(X, Y, robots):
 
 def parse_file(file, X, Y, p2=False):
 
-    with open(file, 'r') as fp:
-        robots = [[tuple([int(y) for y in x[2:].split(",")]) for x in line.split(" ")]
-                  for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        robots = [
+            [tuple([int(y) for y in x[2:].split(",")]) for x in line.split(" ")]
+            for line in fp.read().splitlines()
+        ]
 
     S = 1
     while True:
 
         # Move all our robots
         for i in range(len(robots)):
-            robots[i][0] = ((robots[i][0][0] + robots[i][1][0]) % X, (robots[i][0][1] + robots[i][1][1]) % Y)
+            robots[i][0] = (
+                (robots[i][0][0] + robots[i][1][0]) % X,
+                (robots[i][0][1] + robots[i][1][1]) % Y,
+            )
 
         if p2:
             if we_have_a_tree([x[0] for x in robots]):
@@ -56,11 +71,11 @@ def parse_file(file, X, Y, p2=False):
 
 def main():
     # Part 1
-    assert parse_file('example.txt', 11, 7) == 12
-    print("Part 1: ", parse_file('input.txt', 101, 103))
+    assert parse_file("example.txt", 11, 7) == 12
+    print("Part 1: ", parse_file("input.txt", 101, 103))
 
     # Part 2
-    print("Part 2: ", parse_file('input.txt', 101, 103, True))
+    print("Part 2: ", parse_file("input.txt", 101, 103, True))
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         blocks = [block for block in fp.read().split("\n\n")]
 
     S = [int(x) for x in blocks[0].split(": ")[1].split()]
@@ -27,8 +27,8 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 35
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 35
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
 # assert parse_file('test.txt', True) == 46

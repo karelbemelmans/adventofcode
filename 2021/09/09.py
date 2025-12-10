@@ -52,7 +52,7 @@ def parse_grid(grid, p2=False):
                     basins.append(len(points))
 
                 else:
-                    result += (grid[r][c] + 1)
+                    result += grid[r][c] + 1
 
     if p2:
         # Find the three largest basins and multiply their sizes together
@@ -64,16 +64,16 @@ def parse_grid(grid, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         grid = [[int(char) for char in line] for line in fp.read().splitlines()]
 
     return parse_grid(grid, p2)
 
 
 # Part 1
-assert parse_file('test.txt') == 15
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 15
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 1134
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 1134
+print("Part 2: ", parse_file("input.txt", True))

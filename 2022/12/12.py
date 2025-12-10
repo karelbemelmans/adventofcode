@@ -22,12 +22,12 @@ def parse_grid(grid, p2=False):
     # This can probably be done more efficiently
     for r in range(R):
         for c in range(C):
-            if grid[r][c] == 'S':
+            if grid[r][c] == "S":
                 S = (r, c)
-                grid[r][c] = 'a'
-            elif grid[r][c] == 'E':
+                grid[r][c] = "a"
+            elif grid[r][c] == "E":
                 E = (r, c)
-                grid[r][c] = 'z'
+                grid[r][c] = "z"
 
     # Add the edges
     for r in range(R):
@@ -48,13 +48,13 @@ def parse_grid(grid, p2=False):
     if p2:
         for r in range(R):
             for c in range(C):
-                if grid[r][c] == 'a':
+                if grid[r][c] == "a":
                     starts.append((r, c))
     else:
         starts = [S]
 
     # Take a good default for the max
-    L = R*C
+    L = R * C
 
     for s in starts:
         try:
@@ -65,21 +65,20 @@ def parse_grid(grid, p2=False):
 
     # We need to remove one edge since we are already on the start so the
     # node (0,0) does not need to be counted in path
-    return L-1
+    return L - 1
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
-        grid = [[char for char in line]
-                for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        grid = [[char for char in line] for line in fp.read().splitlines()]
 
     return parse_grid(grid, p2)
 
 
 # Part 1
-assert parse_file('test.txt') == 31
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 31
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 29
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 29
+print("Part 2: ", parse_file("input.txt", True))

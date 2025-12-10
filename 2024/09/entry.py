@@ -81,7 +81,7 @@ def compact2(data):
                     G.insert(j, last)
 
                     # Pad the leftover spots with dots
-                    G[k+1] = ["."] * len(last)
+                    G[k + 1] = ["."] * len(last)
 
                     # Our list has now increased with 1 item
                     k += 1
@@ -100,7 +100,7 @@ def compact2(data):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         data = [int(char) for char in fp.readline().strip()]
 
     data = explode(data)
@@ -115,10 +115,10 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('example.txt') == 1928
-assert parse_file('example2.txt') == 60
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 1928
+assert parse_file("example2.txt") == 60
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example.txt', True) == 2858
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 2858
+print("Part 2: ", parse_file("input.txt", True))

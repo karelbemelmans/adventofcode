@@ -25,7 +25,7 @@ def parse_stacks(stacks):
 
 def parse_ops(S, ops, p2=False):
     for op in [x for x in ops.split("\n")]:
-        matches = re.match(r'move (\d+) from (\d+) to (\d+)', op)
+        matches = re.match(r"move (\d+) from (\d+) to (\d+)", op)
         assert matches
 
         count = int(matches.group(1))
@@ -48,15 +48,15 @@ def parse_ops(S, ops, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         (stacks, ops) = [x for x in fp.read().split("\n\n")]
 
     S = parse_stacks(stacks)
     return parse_ops(S, ops, p2)
 
 
-assert parse_file('test.txt') == "CMZ"
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == "CMZ"
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == "MCD"
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == "MCD"
+print("Part 2: ", parse_file("input.txt", True))

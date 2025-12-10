@@ -42,8 +42,8 @@ def round(M, operation, argument):
             # OPER
             # There is some improvement to do here with lambdas
             opwords = m[OPER].split(" ")
-            a = (item if opwords[0] == "old" else int(opwords[0]))
-            b = (item if opwords[2] == "old" else int(opwords[2]))
+            a = item if opwords[0] == "old" else int(opwords[0])
+            b = item if opwords[2] == "old" else int(opwords[2])
             if opwords[1] == "+":
                 new = a + b
             elif opwords[1] == "*":
@@ -64,7 +64,7 @@ def round(M, operation, argument):
 def parse_file(file, p2=False):
     global I
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().split("\n\n")]
 
     M = monkeys(lines, p2)
@@ -95,8 +95,8 @@ def parse_file(file, p2=False):
     return J[0] * J[1]
 
 
-assert parse_file('test.txt') == 10605
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 10605
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 2713310158
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 2713310158
+print("Part 2: ", parse_file("input.txt", True))

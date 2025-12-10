@@ -2,7 +2,7 @@ from collections import defaultdict
 
 
 def parse_file(file, days):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         items = [int(x) for x in fp.read().split(",")]
 
     # We don't iterate over the items, we iterate over the amount of fish of each type we have
@@ -33,10 +33,10 @@ def parse_file(file, days):
 
 
 # Part 1
-assert parse_file('test.txt', 18) == 26
-assert parse_file('test.txt', 80) == 5934
-print("Part 1: ", parse_file('input.txt', 80))
+assert parse_file("test.txt", 18) == 26
+assert parse_file("test.txt", 80) == 5934
+print("Part 1: ", parse_file("input.txt", 80))
 
 # Part 2
-assert parse_file('test.txt', 256) == 26984457539
-print("Part 2: ", parse_file('input.txt', 256))
+assert parse_file("test.txt", 256) == 26984457539
+print("Part 2: ", parse_file("input.txt", 256))

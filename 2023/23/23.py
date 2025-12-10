@@ -8,8 +8,11 @@
 import sys
 from collections import deque, defaultdict
 
-NDIRS = {'>': 1, '^': -1j, '<': -1, 'v': 1j}
-def n4(p): return [p - 1j, p - 1, p + 1, p + 1j]
+NDIRS = {">": 1, "^": -1j, "<": -1, "v": 1j}
+
+
+def n4(p):
+    return [p - 1j, p - 1, p + 1, p + 1j]
 
 
 def find_adjacent(start, grid, terminals, ndirs):
@@ -20,16 +23,16 @@ def find_adjacent(start, grid, terminals, ndirs):
             adj.append((p, l))
             continue
 
-        neighbors = [n for n in n4(p) if n in grid and n not in seen and grid[n] != '#']
+        neighbors = [n for n in n4(p) if n in grid and n not in seen and grid[n] != "#"]
         if len(neighbors) > 1 and p != start:
             adj.append((p, l))
             continue
 
         for n in neighbors:
             if ndirs and grid[n] in NDIRS and n + NDIRS[grid[n]] != p:
-                q.append((n + NDIRS[grid[n]], l+2, seen | {n, n+NDIRS[grid[n]]}))
-            elif grid[n] == '.' or not ndirs:
-                q.append((n, l+1, seen | {n}))
+                q.append((n + NDIRS[grid[n]], l + 2, seen | {n, n + NDIRS[grid[n]]}))
+            elif grid[n] == "." or not ndirs:
+                q.append((n, l + 1, seen | {n}))
     return adj
 
 
@@ -59,16 +62,20 @@ def longest_path(graph, start, end):
             continue
         for n, nl in graph[p]:
             if n not in seen:
-                q.append((n, l+nl, seen | {n}))
+                q.append((n, l + nl, seen | {n}))
     return longest
 
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        grid = {x+1j*y: c for y, l in enumerate(open(file).readlines()) for x, c in enumerate(l.strip())}
+    with open(file, "r") as fp:
+        grid = {
+            x + 1j * y: c
+            for y, l in enumerate(open(file).readlines())
+            for x, c in enumerate(l.strip())
+        }
 
-    start, end = 1, max(p.real for p in grid) - 1 + 1j*max(p.imag for p in grid)
+    start, end = 1, max(p.real for p in grid) - 1 + 1j * max(p.imag for p in grid)
 
     # p2 is the same question except the slope limitations are turned off
     # This will give us a much larger graph
@@ -78,12 +85,12 @@ def parse_file(file, p2=False):
 
 def main():
     # Part 1
-    assert parse_file('test.txt') == 94
-    print("Part 1: ", parse_file('input.txt'))
+    assert parse_file("test.txt") == 94
+    print("Part 1: ", parse_file("input.txt"))
 
     # Part 2
-    assert parse_file('test.txt', True) == 154
-    print("Part 2: ", parse_file('input.txt', True))
+    assert parse_file("test.txt", True) == 154
+    print("Part 2: ", parse_file("input.txt", True))
 
 
 if __name__ == "__main__":

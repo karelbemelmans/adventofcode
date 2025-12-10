@@ -18,10 +18,10 @@ from math import lcm
 
 class BaseModule:
     def __init__(
-            self,
-            name: str,
-            destinations: Sequence[str],
-            mediator: "Mediator | None" = None,
+        self,
+        name: str,
+        destinations: Sequence[str],
+        mediator: "Mediator | None" = None,
     ):
         """
         Base class for all modules (communication modules connected to
@@ -61,10 +61,10 @@ class BaseModule:
 
 class FlipFlopModule(BaseModule):
     def __init__(
-            self,
-            name: str,
-            destinations: Sequence[str],
-            mediator: "Mediator | None" = None,
+        self,
+        name: str,
+        destinations: Sequence[str],
+        mediator: "Mediator | None" = None,
     ):
         """
         Create a flip-flop module.
@@ -86,10 +86,10 @@ class FlipFlopModule(BaseModule):
 
 class ConjunctionModule(BaseModule):
     def __init__(
-            self,
-            name: str,
-            destinations: Sequence[str],
-            mediator: "Mediator | None" = None,
+        self,
+        name: str,
+        destinations: Sequence[str],
+        mediator: "Mediator | None" = None,
     ):
         """
         Create a conjunction module.
@@ -127,11 +127,12 @@ class ConjunctionModule(BaseModule):
 
 
 class BroadcastModule(BaseModule):
-    def __init__(self,
-                 name: str,
-                 destinations: Sequence[str],
-                 mediator: "Mediator | None" = None,
-                 ):
+    def __init__(
+        self,
+        name: str,
+        destinations: Sequence[str],
+        mediator: "Mediator | None" = None,
+    ):
         """
         Create a broadcast module.
 
@@ -211,15 +212,13 @@ class Mediator:
         # Pulses are sent in the order that they are requested
         while self._pulses:
             sender_name, dest_name, pulse_high = self._pulses.popleft()
-            self._modules[dest_name].receive_pulse(
-                sender_name, pulse_high
-            )
+            self._modules[dest_name].receive_pulse(sender_name, pulse_high)
 
     def send_pulse(
-            self,
-            sender: BaseModule | None,
-            dest_name: str,
-            pulse_high: bool,
+        self,
+        sender: BaseModule | None,
+        dest_name: str,
+        pulse_high: bool,
     ):
         if pulse_high:
             self._high_pulses += 1
@@ -275,7 +274,7 @@ def parse_modules(lines: Iterable[str]) -> Mediator:
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     mediator = parse_modules(lines)
@@ -318,12 +317,12 @@ def parse_file(file, p2=False):
 def main():
 
     # Part 1
-    assert parse_file('test.txt') == 32000000
-    assert parse_file('test2.txt') == 11687500
-    print("Part 1: ", parse_file('input.txt'))
+    assert parse_file("test.txt") == 32000000
+    assert parse_file("test2.txt") == 11687500
+    print("Part 1: ", parse_file("input.txt"))
 
     # Part 2
-    print("Part 2: ", parse_file('input.txt', True))
+    print("Part 2: ", parse_file("input.txt", True))
 
 
 if __name__ == "__main__":

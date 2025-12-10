@@ -19,16 +19,16 @@ def probe_hits(start, velocity, area):
             vx += 1
         vy -= 1
 
-        if x in area['x'] and y in area['y']:
+        if x in area["x"] and y in area["y"]:
             return True, maxy
 
         # If vx is 0 and we are not in the right area yet, we will never reach our point
-        if vx == 0 and not x in area['x']:
+        if vx == 0 and not x in area["x"]:
             # print ("We will never reach x position")
             return False, 0
 
         # If we overshot or area in the y direction we will never reach it
-        if y < min(area['y']):
+        if y < min(area["y"]):
             # print ("We overshot y position")
             return False, 0
 
@@ -36,12 +36,14 @@ def probe_hits(start, velocity, area):
 def parse_input(input, p2=False):
     start = (0, 0)
 
-    matches = re.match(r'^target area: x=(-?\d+)\.\.(-?\d+), y=(-?\d+)\.\.(-?\d+)$', input)
+    matches = re.match(
+        r"^target area: x=(-?\d+)\.\.(-?\d+), y=(-?\d+)\.\.(-?\d+)$", input
+    )
     if matches:
 
         area = {}
-        area['x'] = [x for x in range(int(matches.group(1)), int(matches.group(2)) + 1)]
-        area['y'] = [y for y in range(int(matches.group(3)), int(matches.group(4)) + 1)]
+        area["x"] = [x for x in range(int(matches.group(1)), int(matches.group(2)) + 1)]
+        area["y"] = [y for y in range(int(matches.group(3)), int(matches.group(4)) + 1)]
 
         R = 200
         p1 = 0
@@ -67,8 +69,5 @@ def parse_input(input, p2=False):
 # print("Part 1: ", parse_input('target area: x=102..157, y=-146..-90'))
 
 # Part 2
-assert parse_input('target area: x=20..30, y=-10..-5', True) == 112
-print("Part 2: ", parse_input('target area: x=102..157, y=-146..-90', True))
-
-
-
+assert parse_input("target area: x=20..30, y=-10..-5", True) == 112
+print("Part 2: ", parse_input("target area: x=102..157, y=-146..-90", True))

@@ -10,24 +10,24 @@ RIGHT = (0, 1)
 
 # All possible connect pieces for each direction
 DIR = {
-    UP: ['|', '7', 'F'],
-    LEFT: ['-', 'F', 'L'],
-    RIGHT: ['-', 'J', '7'],
-    DOWN: ['|', 'J', 'L']
+    UP: ["|", "7", "F"],
+    LEFT: ["-", "F", "L"],
+    RIGHT: ["-", "J", "7"],
+    DOWN: ["|", "J", "L"],
 }
 
 
 def poly_area(p):
-    '''
+    """
     This function calculates the area of a polygon given a list of points
 
     https://en.wikipedia.org/wiki/Shoelace_formula
-    '''
+    """
     return 0.5 * abs(sum(x0 * y1 - x1 * y0 for ((x0, y0), (x1, y1)) in segments(p)))
 
 
 def segments(p):
-    '''
+    """
     This function is a helper function that turns a list into a list of tuples:
 
     Single value:
@@ -37,7 +37,7 @@ def segments(p):
     2D tuples:
     Input:   [('a', 'a'), ('b', 'b'), ('c', 'c')]
     Output:  [(('a', 'a'), ('b', 'b')), (('b', 'b'), ('c', 'c')), (('c', 'c'), ('a', 'a'))]
-    '''
+    """
     return zip(p, p[1:] + [p[0]])
 
 
@@ -45,24 +45,24 @@ def connects(x, y, dir):
     d = None
 
     # Our start point matches with all pipes that connect with it
-    if y == 'S':
+    if y == "S":
         return True
 
     # The symbols our first char can match with
     match x:
-        case '|':
+        case "|":
             d = [UP, DOWN]
-        case '-':
+        case "-":
             d = [LEFT, RIGHT]
-        case 'L':
+        case "L":
             d = [UP, RIGHT]
-        case 'J':
+        case "J":
             d = [UP, LEFT]
-        case '7':
+        case "7":
             d = [DOWN, LEFT]
-        case 'F':
+        case "F":
             d = [DOWN, RIGHT]
-        case 'S':
+        case "S":
             d = [UP, DOWN, LEFT, RIGHT]
 
     # We match if we have a direction list AND the item is in that list
@@ -71,9 +71,8 @@ def connects(x, y, dir):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        grid = [[char for char in line]
-                for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        grid = [[char for char in line] for line in fp.read().splitlines()]
 
     R = len(grid)
     C = len(grid[0])
@@ -83,7 +82,7 @@ def parse_file(file, p2=False):
     for r in range(R):
         for c in range(C):
             match grid[r][c]:
-                case 'S':
+                case "S":
                     S = (r, c)
                     break
 
@@ -109,7 +108,10 @@ def parse_file(file, p2=False):
             rr = r + dr
             cc = c + dc
             if 0 <= rr < R and 0 <= cc < C:
-                if connects(grid[r][c], grid[rr][cc], (dr, dc)) and not (rr, cc) in path:
+                if (
+                    connects(grid[r][c], grid[rr][cc], (dr, dc))
+                    and not (rr, cc) in path
+                ):
                     current = (rr, cc)
                     path.append((rr, cc))
                     outline += 1
@@ -131,16 +133,16 @@ def parse_file(file, p2=False):
 
 def main():
     # Part 1
-    assert parse_file('test.txt') == 4
-    assert parse_file('test-complex.txt') == 4
-    assert parse_file('test2.txt') == 8
-    assert parse_file('test2-complex.txt') == 8
-    print("Part 1: ", parse_file('input.txt'))
+    assert parse_file("test.txt") == 4
+    assert parse_file("test-complex.txt") == 4
+    assert parse_file("test2.txt") == 8
+    assert parse_file("test2-complex.txt") == 8
+    print("Part 1: ", parse_file("input.txt"))
 
     # Part 2
-    assert parse_file('test3.txt', True) == 4
-    assert parse_file('test4.txt', True) == 8
-    print("Part 2: ", parse_file('input.txt', True))
+    assert parse_file("test3.txt", True) == 4
+    assert parse_file("test4.txt", True) == 8
+    print("Part 2: ", parse_file("input.txt", True))
 
 
 if __name__ == "__main__":

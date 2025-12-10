@@ -2,27 +2,27 @@ from collections import deque
 
 # Points for the closing chars
 points = {
-    ')': 3,
-    ']': 57,
-    '}': 1197,
-    '>': 25137,
+    ")": 3,
+    "]": 57,
+    "}": 1197,
+    ">": 25137,
 }
 
 # Points for the P2 closing chars
 # We simply use the opening tags since those will be on our stack already
 p2points = {
-    '(': 1,
-    '[': 2,
-    '{': 3,
-    '<': 4,
+    "(": 1,
+    "[": 2,
+    "{": 3,
+    "<": 4,
 }
 
 
 def parse_line(line, p2=False):
     global points, p2points
 
-    openers = ['(', '[', '{', '<']
-    closers = [')', ']', '}', '>']
+    openers = ["(", "[", "{", "<"]
+    closers = [")", "]", "}", ">"]
 
     stack = deque()
     skipline = False
@@ -60,7 +60,7 @@ def parse_line(line, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().splitlines()]
 
     score = 0
@@ -81,9 +81,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 26397
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 26397
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 288957
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 288957
+print("Part 2: ", parse_file("input.txt", True))

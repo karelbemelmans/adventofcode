@@ -6,7 +6,7 @@ import re
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     total = 0
@@ -17,7 +17,7 @@ def parse_file(file, p2=False):
             # the encoding would give us.
             # 2 fixed for the other quotes
             # then one per occurrence of \ and "
-            total += 2+line.count('\\')+line.count('"')
+            total += 2 + line.count("\\") + line.count('"')
         else:
             parsed = eval(line)
             total += abs(len(line) - len(parsed))
@@ -26,9 +26,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 12
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 12
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 19
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 19
+print("Part 2: ", parse_file("input.txt", True))

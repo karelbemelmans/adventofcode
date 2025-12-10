@@ -25,7 +25,7 @@ def walk(G, start, p2=False):
             break
 
         # Turning point?
-        elif G[rr][cc] == '#':
+        elif G[rr][cc] == "#":
             cur = (cur[0], rotations[(rotations.index(cur[1]) + 1) % 4])
 
         # We are ok to step forward
@@ -47,9 +47,8 @@ def walk(G, start, p2=False):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        grid = [[char for char in line]
-                for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        grid = [[char for char in line] for line in fp.read().splitlines()]
 
     start = None
 
@@ -59,7 +58,7 @@ def parse_file(file, p2=False):
     # Find the guard
     for r in range(R):
         for c in range(C):
-            if grid[r][c] == '^':
+            if grid[r][c] == "^":
                 start = ((r, c), (-1, 0))
                 break
 
@@ -79,11 +78,11 @@ def parse_file(file, p2=False):
             for c in range(C):
 
                 # We only add a wall if the point was on the path from p1
-                if grid[r][c] == '.' and (r, c) in set([pos for pos, _ in visited]):
+                if grid[r][c] == "." and (r, c) in set([pos for pos, _ in visited]):
 
                     # Deepcopy is important here to make a complete copy of the grid
                     new_grid = copy.deepcopy(grid)
-                    new_grid[r][c] = '#'
+                    new_grid[r][c] = "#"
                     _, is_loop = walk(new_grid, start, True)
 
                     if is_loop:
@@ -93,9 +92,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('example.txt') == 41
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 41
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example.txt', True) == 6
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 6
+print("Part 2: ", parse_file("input.txt", True))

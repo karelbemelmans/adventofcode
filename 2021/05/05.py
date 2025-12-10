@@ -2,34 +2,35 @@
 
 import re
 
-with open('input.txt', 'r') as fp:
+with open("input.txt", "r") as fp:
     lines = fp.read().splitlines()
+
 
 # Make an empty grid of size RxR
 def make_grid(R=1000):
-    G = [ [0]*R for i in range(R)]
+    G = [[0] * R for i in range(R)]
     return G
 
 
 # Print our grid, used during testin mainly
 def print_grid(G):
-    print ("GRID:")
+    print("GRID:")
     for R in range(len(G)):
         for C in range(len(G[0])):
-            print (G[C][R], end='')
-        print ("")
+            print(G[C][R], end="")
+        print("")
 
 
 # Mark a point on the grid, increasing the value by 1
 def mark_point(G, x, y, verbose=False):
     if verbose:
-        print (" - mark", x, y)
+        print(" - mark", x, y)
     G[x][y] += 1
 
 
 # Parse a line of our input file. Simple regex
 def parse_line(G, line):
-    matches = re.match(r'(\d*),(\d*) -> (\d*),(\d*)$', line)
+    matches = re.match(r"(\d*),(\d*) -> (\d*),(\d*)$", line)
     if matches:
 
         # TODO: This can probably be a smarter one liner?
@@ -45,7 +46,7 @@ def parse_line(G, line):
             if x1 > x2:
                 start = x2
                 end = x1
-            for x in range(start, end+1):
+            for x in range(start, end + 1):
                 mark_point(G, x, y1)
 
         # Vertical line?
@@ -55,7 +56,7 @@ def parse_line(G, line):
             if y1 > y2:
                 start = y2
                 end = y1
-            for y in range(start, end+1):
+            for y in range(start, end + 1):
                 mark_point(G, x1, y)
 
         # Diagonal line, we need to do a bit more math
@@ -76,7 +77,7 @@ def parse_line(G, line):
 
             # Take our steps starting from (x1,y1)
             for i in range(steps):
-                mark_point(G, x1+(diff_x*i), y1+(diff_y*i))
+                mark_point(G, x1 + (diff_x * i), y1 + (diff_y * i))
 
 
 # Calculate the actual result score of our grid
@@ -96,6 +97,6 @@ G = make_grid(1000)
 for line in lines:
     parse_line(G, line)
 
-#print_grid(G)
+# print_grid(G)
 
-print ("Nr of overlapping points: ", filter_overlap(G, 1))
+print("Nr of overlapping points: ", filter_overlap(G, 1))

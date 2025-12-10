@@ -124,7 +124,7 @@ def parse_line(line, counter, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().splitlines()]
 
     counter = defaultdict(int)
@@ -142,9 +142,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 26
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 26
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 61229
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 61229
+print("Part 2: ", parse_file("input.txt", True))

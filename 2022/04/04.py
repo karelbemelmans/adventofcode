@@ -15,8 +15,11 @@ def parse(a, b, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
-        pairs = [[[z for z in y.split("-")] for y in x.split(",")] for x in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        pairs = [
+            [[z for z in y.split("-")] for y in x.split(",")]
+            for x in fp.read().splitlines()
+        ]
 
     total = 0
     for p in pairs:
@@ -24,8 +27,9 @@ def parse_file(file, p2=False):
 
     return total
 
-assert parse_file('test.txt') == 2
-print("Part 1: ", parse_file('input.txt'))
 
-assert parse_file('test.txt', True) == 4
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt") == 2
+print("Part 1: ", parse_file("input.txt"))
+
+assert parse_file("test.txt", True) == 4
+print("Part 2: ", parse_file("input.txt", True))

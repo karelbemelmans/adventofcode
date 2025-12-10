@@ -41,7 +41,7 @@ def find_paths(graph, start, end, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         edges = [x.split("-") for x in fp.read().splitlines()]
 
     # I considered using networkx but learning to use that would have taken
@@ -57,13 +57,13 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 10
-assert parse_file('test2.txt') == 19
-assert parse_file('test3.txt') == 226
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 10
+assert parse_file("test2.txt") == 19
+assert parse_file("test3.txt") == 226
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 36
-assert parse_file('test2.txt', True) == 103
-assert parse_file('test3.txt', True) == 3509
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 36
+assert parse_file("test2.txt", True) == 103
+assert parse_file("test3.txt", True) == 3509
+print("Part 2: ", parse_file("input.txt", True))

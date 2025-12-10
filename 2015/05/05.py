@@ -21,11 +21,11 @@ def nice_p1(s):
 
     # Contains 3 vowels
     # Lots of other options: for, map
-    if len([char for char in s if char in ['a', 'e', 'i', 'o', 'u']]) < 3:
+    if len([char for char in s if char in ["a", "e", "i", "o", "u"]]) < 3:
         return False
 
     # Double string with any of the chars in the string
-    if not any([i*2 in s for i in S]):
+    if not any([i * 2 in s for i in S]):
         return False
 
     return True
@@ -39,17 +39,18 @@ def nice_p1(s):
 #  - It contains at least one letter which repeats with exactly one letter between
 #    them, like xyx, abcdefeghi (efe), or even aaa.
 
+
 def nice_p2(s):
     c1 = False
     c2 = False
 
     # Is there a substring in s that appear more than once?
-    if any([s.count(s[i:i+2]) > 1 for i in range(len(s) - 2)]):
+    if any([s.count(s[i : i + 2]) > 1 for i in range(len(s) - 2)]):
         c1 = True
 
     # Condition 2
     for i in range(len(s) - 2):
-        if s[i] == s[i+2]:
+        if s[i] == s[i + 2]:
             c2 = True
             break
 
@@ -72,23 +73,23 @@ def parse(lines, p2=False):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     return parse(lines, p2)
 
 
 # Part 1
-assert nice_p1('ugknbfddgicrmopn') == True
-assert nice_p1('aaa') == True
-assert nice_p1('jchzalrnumimnmhp') == False
-assert nice_p1('haegwjzuvuyypxyu') == False
-assert nice_p1('dvszwmarrgswjxmb') == False
-print("Part 1: ", parse_file('input.txt'))
+assert nice_p1("ugknbfddgicrmopn") == True
+assert nice_p1("aaa") == True
+assert nice_p1("jchzalrnumimnmhp") == False
+assert nice_p1("haegwjzuvuyypxyu") == False
+assert nice_p1("dvszwmarrgswjxmb") == False
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert nice_p2('qjhvhtzxzqqjkmpb') == True
-assert nice_p2('xxyxx') == True
-assert nice_p2('uurcxstgmygtbstg') == False
-assert nice_p2('ieodomkazucvgmuy') == False
-print("Part 2: ", parse_file('input.txt', True))
+assert nice_p2("qjhvhtzxzqqjkmpb") == True
+assert nice_p2("xxyxx") == True
+assert nice_p2("uurcxstgmygtbstg") == False
+assert nice_p2("ieodomkazucvgmuy") == False
+print("Part 2: ", parse_file("input.txt", True))

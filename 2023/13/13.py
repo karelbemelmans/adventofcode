@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 def find_reflections(grid, p2=False):
 
     R = len(grid)
@@ -11,7 +12,7 @@ def find_reflections(grid, p2=False):
     for c in range(1, C):
 
         # The discrepancy between our column and the edge of the grid can be at most l
-        l = min(c, C-c)
+        l = min(c, C - c)
 
         # We keep a counter for all the errors we get, meaning the times a char
         # at position r,c is not the same as the one at r,C-c
@@ -25,8 +26,8 @@ def find_reflections(grid, p2=False):
             for i in range(l):
 
                 # The coords of the mirror character
-                cl = c-1-i
-                cr = c+i
+                cl = c - 1 - i
+                cr = c + i
 
                 # If it's not the same, we add an error and continue anyway
                 if not grid[r][cl] == grid[r][cr]:
@@ -38,13 +39,13 @@ def find_reflections(grid, p2=False):
 
     # Rows. Same as above, but we loop over rows and scan columns
     for r in range(1, R):
-        l = min(r, R-r)
+        l = min(r, R - r)
 
         errors = 0
         for c in range(C):
             for i in range(l):
-                rl = r-1-i
-                rr = r+i
+                rl = r - 1 - i
+                rr = r + i
                 if not grid[rl][c] == grid[rr][c]:
                     errors += 1
 
@@ -56,7 +57,7 @@ def find_reflections(grid, p2=False):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         blocks = fp.read().split("\n\n")
 
     T = 0
@@ -70,13 +71,13 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 5
-assert parse_file('test2.txt') == 400
-assert parse_file('test3.txt') == 405
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 5
+assert parse_file("test2.txt") == 400
+assert parse_file("test3.txt") == 405
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 300
-assert parse_file('test2.txt', True) == 100
-assert parse_file('test3.txt', True) == 400
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 300
+assert parse_file("test2.txt", True) == 100
+assert parse_file("test3.txt", True) == 400
+print("Part 2: ", parse_file("input.txt", True))

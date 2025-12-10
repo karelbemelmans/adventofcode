@@ -16,7 +16,7 @@ def do_hash(str):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         pieces = [line for line in fp.read().splitlines()][0].split(",")
 
     # Let's get p1 out of the way
@@ -37,8 +37,9 @@ def parse_file(file, p2=False):
             # remove the old lens and put the new lens in its place, not moving any other lenses in the box.
             for i in range(0, 10):
                 if (box, i) in BOXES[cur]:
-                    BOXES[cur] = [x if x != (box, i) else (
-                        box, val) for x in BOXES[cur]]
+                    BOXES[cur] = [
+                        x if x != (box, i) else (box, val) for x in BOXES[cur]
+                    ]
                     break
 
             # If there is not already a lens in the box with the same label, add the lens to the box immediately behind
@@ -59,15 +60,15 @@ def parse_file(file, p2=False):
     T = 0
     for box in BOXES:
         for i, slot in enumerate(BOXES[box]):
-            T += (box+1) * (i+1) * slot[1]
+            T += (box + 1) * (i + 1) * slot[1]
     return T
 
 
 # Part 1
-assert parse_file('hash.txt') == 52
-assert parse_file('test.txt') == 1320
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("hash.txt") == 52
+assert parse_file("test.txt") == 1320
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 145
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 145
+print("Part 2: ", parse_file("input.txt", True))

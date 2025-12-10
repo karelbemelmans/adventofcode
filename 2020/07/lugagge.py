@@ -32,9 +32,10 @@ for line in data:
 def countBagsIn(root):
     totalBags = 0
     for k, val in G[root].items():
-        totalBags += val['count'] * countBagsIn(k) + val['count']
+        totalBags += val["count"] * countBagsIn(k) + val["count"]
 
     return totalBags
 
+
 print(len(nx.ancestors(G, "shiny gold")))
-print(countBagsIn('shiny gold'))
+print(countBagsIn("shiny gold"))

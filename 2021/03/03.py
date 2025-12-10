@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-with open('input.txt', 'r') as fp:
+with open("input.txt", "r") as fp:
     lines = fp.read().splitlines()
 
 rows = len(lines)
@@ -35,6 +35,7 @@ print(int(gamma_rate, 2) * int(epsilon_rate, 2))
 
 
 # Part 2
+
 
 def reduce(lines, col=0, compare="most common"):
     # We are done if our list only has 1 item left

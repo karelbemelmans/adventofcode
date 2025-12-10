@@ -5,7 +5,7 @@ from collections import deque, defaultdict
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         cmds = [cmd for cmd in fp.read().split(", ")]
 
     # Our grid:
@@ -17,7 +17,7 @@ def parse_file(file, p2=False):
     V = set(p)
 
     for cmd in cmds:
-        if cmd[0] == 'R':
+        if cmd[0] == "R":
             d = (d[1], -d[0])
         else:
             d = (-d[1], d[0])
@@ -33,9 +33,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 12
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 12
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test2.txt', True) == 4
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test2.txt", True) == 4
+print("Part 2: ", parse_file("input.txt", True))

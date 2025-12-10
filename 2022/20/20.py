@@ -7,7 +7,7 @@ from copy import deepcopy
 def mix(numbers, p2=False):
 
     if p2:
-        numbers = [n*811589153 for n in numbers]
+        numbers = [n * 811589153 for n in numbers]
 
     # Double ended queue with items being lists
     # (position in list, value of list item)
@@ -44,21 +44,25 @@ def mix(numbers, p2=False):
             break
 
     # j is now the start item's position
-    return (X[(j+1000) % len(X)][1] + X[(j+2000) % len(X)][1] + X[(j+3000) % len(X)][1])
+    return (
+        X[(j + 1000) % len(X)][1]
+        + X[(j + 2000) % len(X)][1]
+        + X[(j + 3000) % len(X)][1]
+    )
 
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         numbers = [int(line) for line in fp.read().splitlines()]
 
     return mix(numbers, p2)
 
 
 # Part 1
-assert parse_file('test.txt') == 3
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 3
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 1623178306
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 1623178306
+print("Part 2: ", parse_file("input.txt", True))

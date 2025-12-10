@@ -66,11 +66,10 @@ def move_tail(H, T):
 def parse(lines, p2=False):
 
     H = [0, 0]
-    T = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0],
-         [0, 0], [0, 0], [0, 0], [0, 0]]
+    T = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]
 
-    DR = {'L': 0, 'U': -1, 'R': 0, 'D': 1}
-    DC = {'L': -1, 'U': 0, 'R': 1, 'D': 0}
+    DR = {"L": 0, "U": -1, "R": 0, "D": 1}
+    DC = {"L": -1, "U": 0, "R": 1, "D": 0}
 
     visited = set()
 
@@ -86,7 +85,7 @@ def parse(lines, p2=False):
             T[0] = move_tail(H, T[0])
             if p2:
                 for i in range(1, len(T)):
-                    T[i] = move_tail(T[i-1], T[i])
+                    T[i] = move_tail(T[i - 1], T[i])
 
             # After simulating the rope, you can count up all of the positions the tail visited at least once.
             if p2:
@@ -98,15 +97,15 @@ def parse(lines, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().splitlines()]
 
     return parse(lines, p2)
 
 
-assert parse_file('test.txt') == 13
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 13
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 1
-assert parse_file('test2.txt', True) == 36
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 1
+assert parse_file("test2.txt", True) == 36
+print("Part 2: ", parse_file("input.txt", True))

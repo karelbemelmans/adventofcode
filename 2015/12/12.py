@@ -13,7 +13,7 @@ def n(j, p2=False):
     if type(j) != dict:
         return 0
 
-    if p2 and 'red' in j.values():
+    if p2 and "red" in j.values():
         return 0
 
     return n(list(j.values()), p2)
@@ -21,7 +21,7 @@ def n(j, p2=False):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     S = 0
@@ -33,9 +33,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 6+6+3+3+0+0
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 6 + 6 + 3 + 3 + 0 + 0
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test2.txt', True) == 6+4+0+6
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test2.txt", True) == 6 + 4 + 0 + 6
+print("Part 2: ", parse_file("input.txt", True))

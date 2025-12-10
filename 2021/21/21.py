@@ -1,6 +1,7 @@
 from itertools import cycle
 from collections import Counter
 
+
 def play_game(a_pos, b_pos, a_score=0, b_score=0, wins=1000):
     dice = cycle(range(1, 101))
 
@@ -24,7 +25,10 @@ def play_game(a_pos, b_pos, a_score=0, b_score=0, wins=1000):
         if b_score >= wins:
             return a_score * n
 
+
 CACHE = {}
+
+
 def dirac_dice(a_pos, b_pos, a_score, b_score):
     win = 21
 
@@ -54,7 +58,7 @@ def dirac_dice(a_pos, b_pos, a_score, b_score):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         players = [x for x in fp.read().splitlines()]
 
     a_pos = int(players[0][-1])
@@ -74,9 +78,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 739785
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 739785
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 444356092776315
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 444356092776315
+print("Part 2: ", parse_file("input.txt", True))

@@ -5,9 +5,8 @@ from collections import deque, defaultdict
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        G = [[char for char in line]
-             for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        G = [[char for char in line] for line in fp.read().splitlines()]
 
     S = 0
 
@@ -30,7 +29,16 @@ def parse_file(file, p2=False):
                 current += char
 
                 # Check if this digit is valid
-                for x, y in [(-1, -1), (-1, 1), (1, -1), (1, 0), (0, 1), (-1, 0), (0, -1), (1, 1)]:
+                for x, y in [
+                    (-1, -1),
+                    (-1, 1),
+                    (1, -1),
+                    (1, 0),
+                    (0, 1),
+                    (-1, 0),
+                    (0, -1),
+                    (1, 1),
+                ]:
                     rr = r + x
                     cc = c + y
                     if (0 <= rr < R) and (0 <= cc < C):
@@ -74,9 +82,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 4361
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 4361
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 467835
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 467835
+print("Part 2: ", parse_file("input.txt", True))

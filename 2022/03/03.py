@@ -3,16 +3,16 @@
 def priority(x):
     # uppercase?
     # results  gets 26 extra value points
-    if (x < 97):
-        return x-64+26
+    if x < 97:
+        return x - 64 + 26
     else:
-        return x-96
+        return x - 96
 
 
 # p1
 def parse(l):
-    m = len(l)//2
-    common = [x for x in l[0:m] if x in l[m:len(l)+1]]
+    m = len(l) // 2
+    common = [x for x in l[0:m] if x in l[m : len(l) + 1]]
     return priority(ord(common[0]))
 
 
@@ -23,14 +23,14 @@ def parse2(a, b, c):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [list(x) for x in fp.read().splitlines()]
 
     total = 0
     i = 0
     while i < len(lines):
-        if p2: 
-            total += parse2(lines[i], lines[i+1], lines[i+2])
+        if p2:
+            total += parse2(lines[i], lines[i + 1], lines[i + 2])
             i += 3
         else:
             total += parse(lines[i])
@@ -38,8 +38,9 @@ def parse_file(file, p2=False):
 
     return total
 
-assert parse_file('test.txt') == 157
-print("Part 1: ", parse_file('input.txt'))
 
-assert parse_file('test.txt', True) == 70
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt") == 157
+print("Part 1: ", parse_file("input.txt"))
+
+assert parse_file("test.txt", True) == 70
+print("Part 2: ", parse_file("input.txt", True))

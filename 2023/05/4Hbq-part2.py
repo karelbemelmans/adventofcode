@@ -2,7 +2,7 @@
 
 from functools import reduce
 
-seeds, *mappings = open('input.txt').read().split("\n\n")
+seeds, *mappings = open("input.txt").read().split("\n\n")
 seeds = list(map(int, seeds.split()[1:]))
 
 
@@ -23,6 +23,9 @@ def lookup(inputs, mapping):
                 break
 
 
-print(*[min(reduce(lookup, mappings, s))[0] for s in [
-    zip(seeds, [1] * len(seeds)),
-    zip(seeds[0::2], seeds[1::2])]])
+print(
+    *[
+        min(reduce(lookup, mappings, s))[0]
+        for s in [zip(seeds, [1] * len(seeds)), zip(seeds[0::2], seeds[1::2])]
+    ]
+)

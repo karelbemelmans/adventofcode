@@ -1,10 +1,10 @@
 p1 = 0
-G = [['?' for _ in range(40)] for _ in range(6)]
+G = [["?" for _ in range(40)] for _ in range(6)]
 
 
 def show_grid(G):
     for r in range(6):
-        print(''.join(G[r]))
+        print("".join(G[r]))
 
 
 def tick(t, X):
@@ -17,7 +17,7 @@ def tick(t, X):
     # p2 graph logic
 
     # We start at 0 instead of 1 like our cycles
-    t1 = t-1
+    t1 = t - 1
 
     # Value X needs to be inside the 3 pixels of the sprite where it's positioned at
     #
@@ -25,7 +25,7 @@ def tick(t, X):
     # row number: t1//40
     # col number: t1 % 40
     # current position of sprite is t1 % 40
-    G[t1//40][t1 % 40] = ('#' if abs(X-(t1 % 40)) <= 1 else ' ')
+    G[t1 // 40][t1 % 40] = "#" if abs(X - (t1 % 40)) <= 1 else " "
 
 
 def parse(lines):
@@ -55,7 +55,7 @@ def parse(lines):
 def parse_file(file):
     global p1, G
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().splitlines()]
 
     p1 = 0
@@ -65,5 +65,5 @@ def parse_file(file):
     return p1
 
 
-assert parse_file('test2.txt') == 13140
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test2.txt") == 13140
+print("Part 1: ", parse_file("input.txt"))

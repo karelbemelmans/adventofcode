@@ -24,12 +24,12 @@ def reaches_outside(P, x, y, z, p2=False):
             for p in SEEN:
                 OUT.add(p)
             return True
-        Q.append((x+1, y, z))
-        Q.append((x-1, y, z))
-        Q.append((x, y+1, z))
-        Q.append((x, y-1, z))
-        Q.append((x, y, z+1))
-        Q.append((x, y, z-1))
+        Q.append((x + 1, y, z))
+        Q.append((x - 1, y, z))
+        Q.append((x, y + 1, z))
+        Q.append((x, y - 1, z))
+        Q.append((x, y, z + 1))
+        Q.append((x, y, z - 1))
     for p in SEEN:
         IN.add(p)
     return False
@@ -39,18 +39,18 @@ def solve(P, p2=False):
     OUT.clear()
     IN.clear()
     ans = 0
-    for (x, y, z) in P:
-        if reaches_outside(P, x+1, y, z, p2):
+    for x, y, z in P:
+        if reaches_outside(P, x + 1, y, z, p2):
             ans += 1
-        if reaches_outside(P, x-1, y, z, p2):
+        if reaches_outside(P, x - 1, y, z, p2):
             ans += 1
-        if reaches_outside(P, x, y+1, z, p2):
+        if reaches_outside(P, x, y + 1, z, p2):
             ans += 1
-        if reaches_outside(P, x, y-1, z, p2):
+        if reaches_outside(P, x, y - 1, z, p2):
             ans += 1
-        if reaches_outside(P, x, y, z+1, p2):
+        if reaches_outside(P, x, y, z + 1, p2):
             ans += 1
-        if reaches_outside(P, x, y, z-1, p2):
+        if reaches_outside(P, x, y, z - 1, p2):
             ans += 1
     return ans
 
@@ -58,13 +58,13 @@ def solve(P, p2=False):
 def parse_file(file, p2=False):
 
     # Shape is a list of lists that contains pairs
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     # Cubes
     P = set()
     for line in lines:
-        x, y, z = line.split(',')
+        x, y, z = line.split(",")
         x, y, z = int(x), int(y), int(z)
         P.add((x, y, z))
 
@@ -75,8 +75,8 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 64
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 64
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 58
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 58
+print("Part 2: ", parse_file("input.txt", True))

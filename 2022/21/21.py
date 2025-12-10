@@ -13,7 +13,7 @@ def parse(lines, p2=False):
         print(low, high, j)
 
         R = defaultdict(int)
-        R['humn'] = j
+        R["humn"] = j
 
         left = ""
         right = ""
@@ -23,39 +23,39 @@ def parse(lines, p2=False):
             i += 1
             for k, v in lines:
 
-                if k == 'root':
+                if k == "root":
                     left, _, right = v.split(" ")
 
                 # p2 ignores humn
-                if p2 and k == 'humn':
+                if p2 and k == "humn":
                     continue
 
                 # Operation
-                if any(v.count(o) for o in ['+', '-', '*', '/']):
+                if any(v.count(o) for o in ["+", "-", "*", "/"]):
                     a, op, b = v.split(" ")
 
                     if R[a] and R[b]:
-                        if op == '+':
+                        if op == "+":
                             R[k] = R[a] + R[b]
-                        elif op == '-':
+                        elif op == "-":
                             R[k] = R[a] - R[b]
-                        elif op == '*':
+                        elif op == "*":
                             R[k] = R[a] * R[b]
-                        elif op == '/':
+                        elif op == "/":
                             R[k] = R[a] // R[b]
 
                 # A literal value
                 else:
                     R[k] = int(v)
 
-            if not p2 and R['root']:
-                return R['root']
+            if not p2 and R["root"]:
+                return R["root"]
 
         diff = R[left] - R[right]
         # print("diff", left, right, R[left], R[right], diff)
         if p2 and diff == 0:
-            print("p2 result found:", R['humn'])
-            return R['humn']
+            print("p2 result found:", R["humn"])
+            return R["humn"]
         elif diff < 0:
             low = j + 1
         else:
@@ -63,18 +63,17 @@ def parse(lines, p2=False):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [
-            [parts.strip() for parts in line.split(":")]
-            for line in fp.readlines()
+            [parts.strip() for parts in line.split(":")] for line in fp.readlines()
         ]
 
     return parse(lines, p2)
 
 
 # Part 1
-assert parse_file('test.txt') == 152
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 152
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 301
+assert parse_file("test.txt", True) == 301
 # print("Part 2: ", parse_file('input.txt', True))

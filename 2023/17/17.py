@@ -26,12 +26,12 @@ def minimal_heat(G, start, end, least, most):
         S.add((r, c, pr, pc))
 
         # Can't go forward or backward, only turn.
-        for dr, dc in {(1, 0), (0, 1), (-1, 0), (0, -1)}-{(pr, pc), (-pr, -pc)}:
+        for dr, dc in {(1, 0), (0, 1), (-1, 0), (0, -1)} - {(pr, pc), (-pr, -pc)}:
             a, b, h = r, c, heat
 
-            for i in range(1, most+1):
-                a = a+dr
-                b = b+dc
+            for i in range(1, most + 1):
+                a = a + dr
+                b = b + dc
 
                 if (a, b) in G:
                     h += G[a, b]
@@ -43,9 +43,12 @@ def parse_file(file, p2=False):
 
     # Different appreach with tuples for a grid
     # End point can simply by selected with using max(G)
-    with open(file, 'r') as fp:
-        G = {(i, j): int(c) for i, row in enumerate(fp.read().splitlines())
-             for j, c in enumerate(row.strip())}
+    with open(file, "r") as fp:
+        G = {
+            (i, j): int(c)
+            for i, row in enumerate(fp.read().splitlines())
+            for j, c in enumerate(row.strip())
+        }
 
     if p2:
         return minimal_heat(G, (0, 0), max(G), 4, 10)
@@ -54,10 +57,10 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 102
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 102
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 94
-assert parse_file('test2.txt', True) == 71
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 94
+assert parse_file("test2.txt", True) == 71
+print("Part 2: ", parse_file("input.txt", True))

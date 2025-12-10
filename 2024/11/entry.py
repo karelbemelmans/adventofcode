@@ -13,16 +13,16 @@ def blink(x, t):
 
     # Parse our rules
     elif x == 0:
-        T = blink(1, t-1)
+        T = blink(1, t - 1)
 
     elif len(str(x)) % 2 == 0:
         sx = str(x)
-        left = int(sx[:len(sx)//2])
-        right = int(sx[len(sx)//2:])
-        T = blink(left, t-1) + blink(right, t-1)
+        left = int(sx[: len(sx) // 2])
+        right = int(sx[len(sx) // 2 :])
+        T = blink(left, t - 1) + blink(right, t - 1)
 
     else:
-        T = blink(x*2024, t-1)
+        T = blink(x * 2024, t - 1)
 
     return T
 
@@ -34,10 +34,10 @@ def parse_file(input, count=6):
 
 # Part 1
 
-assert parse_file('0 1 10 99 999', 1) == 7
-assert parse_file('125 17', 6) == 22
-assert parse_file('125 17', 25) == 55312
-print("Part 1: ", parse_file('0 7 6618216 26481 885 42 202642 8791', 25))
+assert parse_file("0 1 10 99 999", 1) == 7
+assert parse_file("125 17", 6) == 22
+assert parse_file("125 17", 25) == 55312
+print("Part 1: ", parse_file("0 7 6618216 26481 885 42 202642 8791", 25))
 
 # Part 2
-print("Part 2: ", parse_file('0 7 6618216 26481 885 42 202642 8791', 75))
+print("Part 2: ", parse_file("0 7 6618216 26481 885 42 202642 8791", 75))

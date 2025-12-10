@@ -3,8 +3,8 @@
 from collections import Counter
 from functools import cmp_to_key
 
-CARDS = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2']
-CARDS_P2 = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J']
+CARDS = ["A", "K", "Q", "J", "T", "9", "8", "7", "6", "5", "4", "3", "2"]
+CARDS_P2 = ["A", "K", "Q", "T", "9", "8", "7", "6", "5", "4", "3", "2", "J"]
 
 
 def hand_strength(hand, p2=False):
@@ -64,7 +64,7 @@ def compare_hands(x, y, p2=False, cards=CARDS):
     else:
 
         # zip() gives us tuples of (card_x, card_y) to compare
-        for (xx, yy) in zip(x[0], y[0]):
+        for xx, yy in zip(x[0], y[0]):
 
             # X appears in the list before Y
             if cards.index(xx) < cards.index(yy):
@@ -84,7 +84,7 @@ def compare_hands_p2(x, y):
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     hands = [(a, int(b)) for a, b in (line.strip().split() for line in lines)]
@@ -101,15 +101,15 @@ def parse_file(file, p2=False):
     # will turn out longer and harder to read than this :)
     S = 0
     for i, hand in enumerate(hands):
-        S += hand[1] * (i+1)
+        S += hand[1] * (i + 1)
 
     return S
 
 
 # Part 1
-assert parse_file('test.txt') == 6440
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 6440
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 5905
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 5905
+print("Part 2: ", parse_file("input.txt", True))

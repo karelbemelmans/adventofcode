@@ -20,9 +20,9 @@ def drop(stack, skip=None):
             continue
 
         peak = peaks[u:x, v:y].max()
-        peaks[u:x, v:y] = peak + z-w
+        peaks[u:x, v:y] = peak + z - w
 
-        stack[i] = u, v, peak, x, y, peak + z-w
+        stack[i] = u, v, peak, x, y, peak + z - w
         falls += peak < w
 
     return not falls, falls
@@ -41,7 +41,7 @@ def parse_file(file, p2=False):
     #  [0 1 6 2 1 6]
     #  [1 1 8 1 1 9]]
     #
-    stack = np.fromregex(file, r'\d+', [('', int)]).reshape(-1, 6).astype(int)
+    stack = np.fromregex(file, r"\d+", [("", int)]).reshape(-1, 6).astype(int)
 
     # We sort the input on ascending z value and add 1 to the x,y,z values
     stack = stack[stack[:, 2].argsort()] + [0, 0, 0, 1, 1, 1]
@@ -62,7 +62,7 @@ def parse_file(file, p2=False):
 
 def main():
     # Part 1
-    assert parse_file('test.txt') == 5
+    assert parse_file("test.txt") == 5
     # print("Part 1: ", parse_file('input.txt'))
 
     # Part 2

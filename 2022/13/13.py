@@ -50,7 +50,7 @@ def compare(a, b):
 def parse_file(file, p2=False):
 
     if p2:
-        with open(file, 'r') as fp:
+        with open(file, "r") as fp:
             data = [x.strip() for x in fp.read().splitlines()]
 
         # We can do this better...
@@ -70,14 +70,13 @@ def parse_file(file, p2=False):
         result = 1
         for i, p in enumerate(lines):
             if p == [[2]] or p == [[6]]:
-                result *= i+1
+                result *= i + 1
 
         return result
 
     else:
-        with open(file, 'r') as fp:
-            pairs = [[y for y in x.split("\n")]
-                     for x in fp.read().split("\n\n")]
+        with open(file, "r") as fp:
+            pairs = [[y for y in x.split("\n")] for x in fp.read().split("\n\n")]
 
         result = 0
         for i, pair in enumerate(pairs):
@@ -88,14 +87,14 @@ def parse_file(file, p2=False):
 
             r = compare(dl, dr)
             if r == -1:
-                result += i+1
+                result += i + 1
 
         return result
 
 
 # Part 1
-assert parse_file('test.txt') == 13
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 13
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 140
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 140
+print("Part 2: ", parse_file("input.txt", True))

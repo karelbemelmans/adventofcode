@@ -4,7 +4,7 @@ from itertools import combinations
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [[int(a) for a in line.split()] for line in fp.read().splitlines()]
 
     SAFE = 0
@@ -22,12 +22,12 @@ def parse_file(file, p2=False):
             row = list(row)
 
             # First: Check if the row is sorted or reverse sorted
-            S = (row == sorted(row) or row == sorted(row, reverse=True))
+            S = row == sorted(row) or row == sorted(row, reverse=True)
 
             # Second: Check if the difference between each element is in the range 1-3
             I = True
             for i in range(0, len(row) - 1):
-                if not abs(row[i] - row[i+1]) in range(1, 4):
+                if not abs(row[i] - row[i + 1]) in range(1, 4):
                     I = False
 
             # If both conditions are met, increment SAFE and move on to the next line
@@ -39,9 +39,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('example.txt') == 2
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 2
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example.txt', True) == 4
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 4
+print("Part 2: ", parse_file("input.txt", True))

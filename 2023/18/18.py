@@ -2,25 +2,20 @@
 
 import sys
 
-DIR = {
-    'U': (-1, 0),
-    'D': (1, 0),
-    'L': (0, -1),
-    'R': (0, 1)
-}
+DIR = {"U": (-1, 0), "D": (1, 0), "L": (0, -1), "R": (0, 1)}
 
 
 def poly_area(p):
-    '''
+    """
     This function calculates the area of a polygon given a list of points
 
     https://en.wikipedia.org/wiki/Shoelace_formula
-    '''
+    """
     return 0.5 * abs(sum(x0 * y1 - x1 * y0 for ((x0, y0), (x1, y1)) in segments(p)))
 
 
 def segments(p):
-    '''
+    """
     This function is a helper function that turns a list into a list of tuples:
 
     Single value:
@@ -30,15 +25,16 @@ def segments(p):
     2D tuples:
     Input:   [('a', 'a'), ('b', 'b'), ('c', 'c')]
     Output:  [(('a', 'a'), ('b', 'b')), (('b', 'b'), ('c', 'c')), (('c', 'c'), ('a', 'a'))]
-    '''
+    """
     return zip(p, p[1:] + [p[0]])
 
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        lines = [[piece for piece in line.split(' ')]
-                 for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        lines = [
+            [piece for piece in line.split(" ")] for line in fp.read().splitlines()
+        ]
 
     # Pointer coords
     p = (0, 0)
@@ -54,14 +50,14 @@ def parse_file(file, p2=False):
 
         # 0 means R, 1 means D, 2 means L, and 3 means U.
         match d:
-            case 0 | 'R':
-                d = DIR['R']
-            case 1 | 'D':
-                d = DIR['D']
-            case 2 | 'L':
-                d = DIR['L']
-            case 3 | 'U':
-                d = DIR['U']
+            case 0 | "R":
+                d = DIR["R"]
+            case 1 | "D":
+                d = DIR["D"]
+            case 2 | "L":
+                d = DIR["L"]
+            case 3 | "U":
+                d = DIR["U"]
 
         # End point of our line
         p = (p[0] + l * d[0], p[1] + l * d[1])
@@ -74,12 +70,12 @@ def parse_file(file, p2=False):
 
 def main():
     # Part 1
-    assert parse_file('test.txt') == 62
-    print("Part 1: ", parse_file('input.txt'))
+    assert parse_file("test.txt") == 62
+    print("Part 1: ", parse_file("input.txt"))
 
     # Part 2
-    assert parse_file('test.txt', True) == 952408144115
-    print("Part 2: ", parse_file('input.txt', True))
+    assert parse_file("test.txt", True) == 952408144115
+    print("Part 2: ", parse_file("input.txt", True))
 
 
 if __name__ == "__main__":

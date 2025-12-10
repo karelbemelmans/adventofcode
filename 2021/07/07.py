@@ -1,20 +1,21 @@
 def triangle(n):
-    return int(n*(n+1)/2)
+    return int(n * (n + 1) / 2)
+
 
 def calc_fuel(list, pos, p2=False):
     count = 0
 
     for item in list:
         if p2:
-            count += triangle(abs(item-pos))
+            count += triangle(abs(item - pos))
         else:
-            count += abs(item-pos)
+            count += abs(item - pos)
 
     return count
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         items = [int(x) for x in fp.read().split(",")]
 
         start = min(items)
@@ -34,9 +35,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 37
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 37
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 168
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 168
+print("Part 2: ", parse_file("input.txt", True))

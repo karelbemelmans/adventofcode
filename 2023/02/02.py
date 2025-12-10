@@ -5,7 +5,7 @@ from collections import defaultdict
 
 def parse_file(file, cubes=None, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [line for line in fp.read().splitlines()]
 
     S = 0
@@ -36,7 +36,7 @@ def parse_file(file, cubes=None, p2=False):
                 M[color] = max(i, M[color])
 
         if p2:
-            S += M['red'] * M['blue'] * M['green']
+            S += M["red"] * M["blue"] * M["green"]
         elif valid:
             S += id
 
@@ -44,10 +44,10 @@ def parse_file(file, cubes=None, p2=False):
 
 
 # Part 1
-cubes = {'red': 12, 'green': 13, 'blue': 14}
-assert parse_file('test.txt', cubes) == 8
-print("Part 1: ", parse_file('input.txt', cubes))
+cubes = {"red": 12, "green": 13, "blue": 14}
+assert parse_file("test.txt", cubes) == 8
+print("Part 1: ", parse_file("input.txt", cubes))
 
 # Part 2
-assert parse_file('test.txt', p2=True) == 2286
-print("Part 2: ", parse_file('input.txt', p2=True))
+assert parse_file("test.txt", p2=True) == 2286
+print("Part 2: ", parse_file("input.txt", p2=True))

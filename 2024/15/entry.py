@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-DIR = {'^': -1, '>': 1j, 'v': 1, '<': -1j}
+DIR = {"^": -1, ">": 1j, "v": 1, "<": -1j}
 
 
 # Helper function to print the grid
@@ -10,7 +10,7 @@ def print_grid(grid):
 
     for r in range(0, max_real):
         for i in range(0, max_imag):
-            print(grid[r + i*1j], end="")
+            print(grid[r + i * 1j], end="")
         print()
     print()
 
@@ -23,18 +23,42 @@ def create_p2_grid(grid):
 
     for i in range(0, max_real):
         for j in range(0, max_imag):
-            match grid[i + j*1j]:
-                case '@':
-                    a, b, = '@', '.'
-                case '#':
-                    a, b, = '#', '#'
-                case '.':
-                    a, b, = '.', '.'
-                case 'O':
-                    a, b, = '[', ']'
+            match grid[i + j * 1j]:
+                case "@":
+                    (
+                        a,
+                        b,
+                    ) = (
+                        "@",
+                        ".",
+                    )
+                case "#":
+                    (
+                        a,
+                        b,
+                    ) = (
+                        "#",
+                        "#",
+                    )
+                case ".":
+                    (
+                        a,
+                        b,
+                    ) = (
+                        ".",
+                        ".",
+                    )
+                case "O":
+                    (
+                        a,
+                        b,
+                    ) = (
+                        "[",
+                        "]",
+                    )
 
-            new[i + (2*j)*1j] = a
-            new[i + (2*j + 1)*1j] = b
+            new[i + (2 * j) * 1j] = a
+            new[i + (2 * j + 1) * 1j] = b
 
     return new
 
@@ -42,19 +66,19 @@ def create_p2_grid(grid):
 def move_p1(grid, moves):
 
     # Starting position
-    cursor = [k for k in grid if grid[k] == '@'][0]
+    cursor = [k for k in grid if grid[k] == "@"][0]
 
     for m in moves:
         next = cursor + DIR[m]
 
         # We can move to a free spot
-        if next in grid and grid[next] == '.':
-            grid[cursor] = '.'
-            grid[next] = '@'
+        if next in grid and grid[next] == ".":
+            grid[cursor] = "."
+            grid[next] = "@"
             cursor = next
 
         # We hit a box
-        elif next in grid and grid[next] == 'O':
+        elif next in grid and grid[next] == "O":
             step = next
 
             while True:
@@ -62,21 +86,21 @@ def move_p1(grid, moves):
                 match grid[step]:
 
                     # We have a free spot
-                    case '.':
+                    case ".":
                         # Move boxes
-                        grid[step] = 'O'
+                        grid[step] = "O"
 
                         # Move our cursor
-                        grid[cursor] = '.'
-                        grid[next] = '@'
+                        grid[cursor] = "."
+                        grid[next] = "@"
                         cursor = next
                         break
 
                     # We hit a wall, we are done
-                    case '#':
+                    case "#":
                         break
 
-    return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == 'O')
+    return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == "O")
 
 
 def move_p2(grid, moves):
@@ -84,7 +108,7 @@ def move_p2(grid, moves):
     print_grid(grid)
 
     # Starting position
-    cursor = [k for k in grid if grid[k] == '@'][0]
+    cursor = [k for k in grid if grid[k] == "@"][0]
 
     counter = 0
     for m in moves:
@@ -94,13 +118,13 @@ def move_p2(grid, moves):
         print("move, next:", m, next)
 
         # We can move to a free spot
-        if next in grid and grid[next] == '.':
-            grid[cursor] = '.'
-            grid[next] = '@'
+        if next in grid and grid[next] == ".":
+            grid[cursor] = "."
+            grid[next] = "@"
             cursor = next
 
         # We hit a box
-        elif next in grid and grid[next] in ['[', ']']:
+        elif next in grid and grid[next] in ["[", "]"]:
             step = next
 
             k = 0
@@ -110,43 +134,49 @@ def move_p2(grid, moves):
                 match grid[step]:
 
                     # We have a free spot
-                    case '.':
+                    case ".":
 
                         # Up or down - we need to move two spots
-                        if m in ['^', 'v']:
-                            if grid[step] == '[':
-                                grid[step] = grid[step + (k-l-1) * DIR[m]]
+                        if m in ["^", "v"]:
+                            if grid[step] == "[":
+                                grid[step] = grid[step + (k - l - 1) * DIR[m]]
 
                         # Otherwise we just push everything one spot to the side
                         else:
-                            for l in range(2, k+2):
-                                print(step, k, l, k-l)
+                            for l in range(2, k + 2):
+                                print(step, k, l, k - l)
                                 # Move boxes
-                                grid[step + (k-l) * DIR[m]] = grid[step + (k-l-1) * DIR[m]]
+                                grid[step + (k - l) * DIR[m]] = grid[
+                                    step + (k - l - 1) * DIR[m]
+                                ]
 
                         # Move our cursor
-                        grid[cursor] = '.'
-                        grid[next] = '@'
+                        grid[cursor] = "."
+                        grid[next] = "@"
                         cursor = next
 
                         break
 
                     # We hit a wall, we are done
-                    case '#':
+                    case "#":
                         break
         print_grid(grid)
         if counter > 5:
             return 0
 
-    return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == 'O')
+    return sum(int(k.real * 100 + k.imag) for k in grid if grid[k] == "O")
 
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         a, b = fp.read().split("\n\n")
 
-    grid = {i+j*1j: c for i, row in enumerate(a.splitlines()) for j, c in enumerate(row.strip())}
+    grid = {
+        i + j * 1j: c
+        for i, row in enumerate(a.splitlines())
+        for j, c in enumerate(row.strip())
+    }
     moves = "".join(i.replace("\n", "") for i in b)
 
     if p2:
@@ -158,10 +188,10 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('example.txt') == 2028
-assert parse_file('example2.txt') == 10092
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 2028
+assert parse_file("example2.txt") == 10092
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example2.txt', True) == 9021
+assert parse_file("example2.txt", True) == 9021
 # print("Part 2: ", parse_file('input.txt', True))

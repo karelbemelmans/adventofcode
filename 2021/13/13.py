@@ -7,8 +7,8 @@ def print_grid(points):
     # Notice our input is different from our usual r,c
 
     # Calculate the bounds of our grid
-    C = max([x for x,y in points]) + 1
-    R = max([y for x,y in points]) + 1
+    C = max([x for x, y in points]) + 1
+    R = max([y for x, y in points]) + 1
 
     for r in range(R):
         for c in range(C):
@@ -41,7 +41,7 @@ def parse_grid(grid, instruction):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         dots, actions = [x for x in fp.read().split("\n\n")]
 
     grid = [[int(char) for char in line.split(",")] for line in dots.splitlines()]
@@ -62,8 +62,8 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 17
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 17
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-print("Part 2: ", parse_file('input.txt', True))
+print("Part 2: ", parse_file("input.txt", True))

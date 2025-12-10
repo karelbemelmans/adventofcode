@@ -10,9 +10,9 @@ def weight(G):
 
     T = 0
     for r in range(R):
-        w = R-r
+        w = R - r
         for c in range(C):
-            if G[r][c] == 'O':
+            if G[r][c] == "O":
                 T += w
 
     return T
@@ -21,11 +21,11 @@ def weight(G):
 def sort_rocks(L):
 
     # If there are no rocks we can return L as-is
-    if not L.count('O'):
+    if not L.count("O"):
         return L
 
     # Split out string into pieces separated by '#'
-    pieces = L.split('#')
+    pieces = L.split("#")
     N = []
 
     # Parse these pieces indivually
@@ -40,7 +40,7 @@ def sort_rocks(L):
     # ... and then glue them back togetehr with '#' as separator
     S = N[0]
     for i in range(1, len(N)):
-        S += ['#'] + N[i]
+        S += ["#"] + N[i]
 
     return S
 
@@ -49,7 +49,7 @@ def sort_rocks(L):
 def tilt(G):
 
     # Create an empty new grid
-    N = [['.' for char in line] for line in G]
+    N = [["." for char in line] for line in G]
 
     R = len(G)
     C = len(G[0])
@@ -67,9 +67,8 @@ def tilt(G):
 
 def parse_file(file, p2=False, cycles=1):
 
-    with open(file, 'r') as fp:
-        G = tuple(tuple(char for char in line)
-                  for line in fp.read().splitlines())
+    with open(file, "r") as fp:
+        G = tuple(tuple(char for char in line) for line in fp.read().splitlines())
 
     if p2:
         CACHE = {}
@@ -84,8 +83,8 @@ def parse_file(file, p2=False, cycles=1):
 
             # If we have seen this grid before we can calculate the cycle length
             if G in CACHE:
-                cycle_length = t-CACHE[G]
-                amt = (cycles-t)//cycle_length
+                cycle_length = t - CACHE[G]
+                amt = (cycles - t) // cycle_length
                 t += amt * cycle_length
 
             CACHE[G] = t
@@ -99,10 +98,10 @@ def parse_file(file, p2=False, cycles=1):
 
 
 # Part 1
-assert parse_file('test-final.txt') == 136
-assert parse_file('test.txt') == 136
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test-final.txt") == 136
+assert parse_file("test.txt") == 136
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True, 10**9) == 64
-print("Part 2: ", parse_file('input.txt', True, 10**9))
+assert parse_file("test.txt", True, 10**9) == 64
+print("Part 2: ", parse_file("input.txt", True, 10**9))

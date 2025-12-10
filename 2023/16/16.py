@@ -5,9 +5,8 @@ from collections import deque
 
 def parse_file(file, p2=False):
 
-    with open(file, 'r') as fp:
-        G = tuple(tuple(char for char in line)
-                  for line in fp.read().splitlines())
+    with open(file, "r") as fp:
+        G = tuple(tuple(char for char in line) for line in fp.read().splitlines())
 
     R = len(G)
     C = len(G[0])
@@ -16,12 +15,14 @@ def parse_file(file, p2=False):
 
     if p2:
         # Generate any edge node as a start point
-        start = [(0, c, 'S') for c in range(C)] + \
-                [(R-1, c, 'N') for c in range(C)] + \
-                [(r, 0, 'E') for r in range(R)] + \
-                [(r, C-1, 'W') for r in range(R)]
+        start = (
+            [(0, c, "S") for c in range(C)]
+            + [(R - 1, c, "N") for c in range(C)]
+            + [(r, 0, "E") for r in range(R)]
+            + [(r, C - 1, "W") for r in range(R)]
+        )
     else:
-        start = [(0, 0, 'E')]
+        start = [(0, 0, "E")]
 
     for S in start:
 
@@ -51,51 +52,51 @@ def parse_file(file, p2=False):
 
             # Look at which point we are current at
             match G[r][c]:
-                case '.':
+                case ".":
                     pass
 
-                case '/':
-                    if d == 'N':
-                        d = 'E'
-                    elif d == 'E':
-                        d = 'N'
-                    elif d == 'S':
-                        d = 'W'
-                    elif d == 'W':
-                        d = 'S'
+                case "/":
+                    if d == "N":
+                        d = "E"
+                    elif d == "E":
+                        d = "N"
+                    elif d == "S":
+                        d = "W"
+                    elif d == "W":
+                        d = "S"
 
-                case '\\':
-                    if d == 'N':
-                        d = 'W'
-                    elif d == 'E':
-                        d = 'S'
-                    elif d == 'S':
-                        d = 'E'
-                    elif d == 'W':
-                        d = 'N'
+                case "\\":
+                    if d == "N":
+                        d = "W"
+                    elif d == "E":
+                        d = "S"
+                    elif d == "S":
+                        d = "E"
+                    elif d == "W":
+                        d = "N"
 
-                case '-':
-                    if d == 'N' or d == 'S':
+                case "-":
+                    if d == "N" or d == "S":
                         # Our beam splits into two beams
-                        B.append((r, c, 'E'))
-                        B.append((r, c, 'W'))
+                        B.append((r, c, "E"))
+                        B.append((r, c, "W"))
                         continue
 
-                case '|':
-                    if d == 'E' or d == 'W':
+                case "|":
+                    if d == "E" or d == "W":
                         # Our beam splits into two beams
-                        B.append((r, c, 'N'))
-                        B.append((r, c, 'S'))
+                        B.append((r, c, "N"))
+                        B.append((r, c, "S"))
                         continue
 
             # Move to the next spot
-            if d == 'N':
+            if d == "N":
                 r -= 1
-            elif d == 'S':
+            elif d == "S":
                 r += 1
-            elif d == 'W':
+            elif d == "W":
                 c -= 1
-            elif d == 'E':
+            elif d == "E":
                 c += 1
 
             # Add the new beam to the list if the spot is valid
@@ -110,9 +111,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 46
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 46
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 51
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 51
+print("Part 2: ", parse_file("input.txt", True))

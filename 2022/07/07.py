@@ -17,7 +17,7 @@ def parse_lines(lines):
     for line in lines:
         words = line.strip().split(" ")
 
-        if words[1] == 'cd':
+        if words[1] == "cd":
             # We go one dir back
             if words[2] == "..":
                 P.pop()
@@ -26,10 +26,10 @@ def parse_lines(lines):
             else:
                 P.append(words[2])
 
-        elif words[1] == 'ls':
+        elif words[1] == "ls":
             continue
 
-        elif words[0] == 'dir':
+        elif words[0] == "dir":
             continue
 
         # Otherwise it's file
@@ -37,20 +37,20 @@ def parse_lines(lines):
             size = int(words[0])
 
             # Add to all parents
-            for i in range(1, len(P)+1):
-                S['/'.join(P[:i])] += size
+            for i in range(1, len(P) + 1):
+                S["/".join(P[:i])] += size
 
     return S
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().splitlines()]
 
     S = parse_lines(lines)
 
     max = 70000000 - 30000000
-    total = S['/']
+    total = S["/"]
     need = total - max
 
     # Find the min between the values and something big
@@ -69,8 +69,8 @@ def parse_file(file, p2=False):
         return total
 
 
-assert parse_file('test.txt') == 95437
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 95437
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 24933642
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 24933642
+print("Part 2: ", parse_file("input.txt", True))

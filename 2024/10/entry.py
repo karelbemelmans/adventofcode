@@ -21,12 +21,12 @@ def nr_of_paths(G, start, end):
             a, b = r, c
 
             # Take a step
-            a = a+dr
-            b = b+dc
+            a = a + dr
+            b = b + dc
 
             # Is the next point one step up from the previous?
             if (a, b) in G and G[a, b] == G[r, c] + 1:
-                heapq.heappush(Q, (l+1, a, b))
+                heapq.heappush(Q, (l + 1, a, b))
 
     return count
 
@@ -34,9 +34,12 @@ def nr_of_paths(G, start, end):
 def parse_file(file, p2=False):
 
     # We like complex numbers now.
-    with open(file, 'r') as fp:
-        G = {(i, j): int(c) for i, row in enumerate(fp.read().splitlines())
-             for j, c in enumerate(row.strip())}
+    with open(file, "r") as fp:
+        G = {
+            (i, j): int(c)
+            for i, row in enumerate(fp.read().splitlines())
+            for j, c in enumerate(row.strip())
+        }
 
     starts = [x for x in G if G[x] == 0]
     ends = [x for x in G if G[x] == 9]
@@ -59,9 +62,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('example.txt') == 36
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("example.txt") == 36
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('example.txt', True) == 81
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("example.txt", True) == 81
+print("Part 2: ", parse_file("input.txt", True))

@@ -26,19 +26,19 @@ def explode(n):
     i = 0
     while i < len(ns):
 
-        if ns[i] == '[':
-            parts.append('[')
+        if ns[i] == "[":
+            parts.append("[")
             i += 1
 
-        elif ns[i] == ',':
-            parts.append(',')
+        elif ns[i] == ",":
+            parts.append(",")
             i += 1
 
-        elif ns[i] == ']':
-            parts.append(']')
+        elif ns[i] == "]":
+            parts.append("]")
             i += 1
 
-        elif ns[i] == ' ':
+        elif ns[i] == " ":
             i += 1
 
         else:
@@ -52,7 +52,7 @@ def explode(n):
     for i, c in enumerate(parts):
 
         # Opener
-        if c == '[':
+        if c == "[":
             depth += 1
 
             if depth == 5:
@@ -70,15 +70,15 @@ def explode(n):
                 if right_i is not None:
                     parts[right_i] += right
 
-                parts = parts[:i] + [0] + parts[i + 5:]
+                parts = parts[:i] + [0] + parts[i + 5 :]
 
                 if left_i is not None:
                     parts[left_i] += left
 
-                return True, json.loads(''.join([str(x) for x in parts]))
+                return True, json.loads("".join([str(x) for x in parts]))
 
         # Closer
-        elif c == ']':
+        elif c == "]":
             depth -= 1
 
         else:
@@ -113,7 +113,7 @@ def magnitude(n):
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         lines = [x for x in fp.read().splitlines()]
 
     # Simple hack to read our lists is to load the line as a json object
@@ -152,10 +152,13 @@ assert explode([7, [6, [5, [4, [3, 2]]]]]) == (True, [7, [6, [5, [7, 0]]]])
 
 assert magnitude([9, 1]) == 29
 assert magnitude([[[[0, 7], 4], [[7, 8], [6, 0]]], [8, 1]]) == 1384
-assert magnitude([[[[8, 7], [7, 7]], [[8, 6], [7, 7]]], [[[0, 7], [6, 6]], [8, 7]]]) == 3488
+assert (
+    magnitude([[[[8, 7], [7, 7]], [[8, 6], [7, 7]]], [[[0, 7], [6, 6]], [8, 7]]])
+    == 3488
+)
 
-assert parse_file('test.txt') == 4140
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 4140
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 3993
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 3993
+print("Part 2: ", parse_file("input.txt", True))

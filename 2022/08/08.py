@@ -15,7 +15,7 @@ def parse_grid(grid, p2=False):
             visible = True
 
             # Trees on the edge are always visible
-            if (r in [0, (R-1)]) or (c in [0, (C-1)]):
+            if (r in [0, (R - 1)]) or (c in [0, (C - 1)]):
                 edges += 1
 
             else:
@@ -31,8 +31,8 @@ def parse_grid(grid, p2=False):
 
                     # We look in increasing radius around our point
                     for l in range(1, max(R, C)):
-                        rr = r + l*x
-                        cc = c + l*y
+                        rr = r + l * x
+                        cc = c + l * y
 
                         if (0 <= rr < R) and (0 <= cc < C):
 
@@ -62,7 +62,7 @@ def parse_grid2(grid, p2=False):
         for c in range(C):
 
             # Trees on the edge give always 0, so we skip them
-            if (r in [0, (R-1)]) or (c in [0, (C-1)]):
+            if (r in [0, (R - 1)]) or (c in [0, (C - 1)]):
                 continue
 
             # We keep the 4 distance scores in this dict
@@ -78,8 +78,8 @@ def parse_grid2(grid, p2=False):
                 # under consideration. (If a tree is right on the edge, at least one of its viewing distances will be zero.)
 
                 for l in range(1, max(R, C)):
-                    rr = r + l*x
-                    cc = c + l*y
+                    rr = r + l * x
+                    cc = c + l * y
 
                     if (0 <= rr < R) and (0 <= cc < C):
                         distance[(x, y)] += 1
@@ -87,17 +87,20 @@ def parse_grid2(grid, p2=False):
                         if grid[rr][cc] >= grid[r][c]:
                             break
 
-            score = distance[(1, 0)] * distance[(0, 1)] * \
-                distance[(-1, 0)] * distance[(0, -1)]
+            score = (
+                distance[(1, 0)]
+                * distance[(0, 1)]
+                * distance[(-1, 0)]
+                * distance[(0, -1)]
+            )
             m = max(m, score)
 
     return m
 
 
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
-        grid = [[int(char) for char in line]
-                for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        grid = [[int(char) for char in line] for line in fp.read().splitlines()]
 
     if p2:
         return parse_grid2(grid)
@@ -106,9 +109,9 @@ def parse_file(file, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt') == 21
-print("Part 1: ", parse_file('input.txt'))
+assert parse_file("test.txt") == 21
+print("Part 1: ", parse_file("input.txt"))
 
 # Part 2
-assert parse_file('test.txt', True) == 8
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 8
+print("Part 2: ", parse_file("input.txt", True))

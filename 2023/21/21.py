@@ -55,9 +55,8 @@ def count_paths(start, R, C, steps, S):
 
 def parse_file(file, steps=6, p2=False):
 
-    with open(file, 'r') as fp:
-        grid = [[char for char in line]
-                for line in fp.read().splitlines()]
+    with open(file, "r") as fp:
+        grid = [[char for char in line] for line in fp.read().splitlines()]
 
     R = len(grid)
     C = len(grid[0])
@@ -67,23 +66,20 @@ def parse_file(file, steps=6, p2=False):
     start = None
     for r in range(R):
         for c in range(C):
-            if grid[r][c] == '#':
+            if grid[r][c] == "#":
                 S.add((r, c))
-            if grid[r][c] == 'S':
+            if grid[r][c] == "S":
                 start = (r, c)
 
     T = 0
     if p2:
 
         # Make sure our assumption of a middle point is right
-        assert start is not (R//2, C//2)
+        assert start is not (R // 2, C // 2)
         assert C == R
 
         n = steps // C
-        a, b, c = (
-            count_paths(start, R, C, s * C + (C // 2), S)
-            for s in range(3)
-        )
+        a, b, c = (count_paths(start, R, C, s * C + (C // 2), S) for s in range(3))
 
         T = a + n * (b - a + (n - 1) * (c - b - b + a) // 2)
 
@@ -96,10 +92,10 @@ def parse_file(file, steps=6, p2=False):
 def main():
 
     # Part 1
-    assert parse_file('test.txt', 6) == 16
-    assert parse_file('test.txt', 50) == 1594
-    assert parse_file('test.txt', 100) == 6536
-    print("Part 1: ", parse_file('input.txt', 64))
+    assert parse_file("test.txt", 6) == 16
+    assert parse_file("test.txt", 50) == 1594
+    assert parse_file("test.txt", 100) == 6536
+    print("Part 1: ", parse_file("input.txt", 64))
 
     # Part 2
     # The formula for p2 only works for this specific input number
@@ -107,7 +103,7 @@ def main():
     #
     # See: https://www.radfordmathematics.com/algebra/sequences-series/difference-method-sequences/quadratic-sequences.html
     #
-    print("Part 2: ", parse_file('input.txt', 26501365, True))
+    print("Part 2: ", parse_file("input.txt", 26501365, True))
 
 
 if __name__ == "__main__":

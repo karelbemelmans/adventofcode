@@ -30,7 +30,7 @@ def step_smarter(template, rules, steps):
 
 
 def parse_file(file, times=3, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         template, raw = [x for x in fp.read().split("\n\n")]
 
     rules = {}
@@ -52,9 +52,9 @@ def parse_file(file, times=3, p2=False):
 
 
 # Part 1
-assert parse_file('test.txt', 10) == 1588
-print("Part 1: ", parse_file('input.txt', 10))
+assert parse_file("test.txt", 10) == 1588
+print("Part 1: ", parse_file("input.txt", 10))
 
 # Part 2
-assert parse_file('test.txt', 40, True) == 2188189693529
-print("Part 2: ", parse_file('input.txt', 40, True))
+assert parse_file("test.txt", 40, True) == 2188189693529
+print("Part 2: ", parse_file("input.txt", 40, True))

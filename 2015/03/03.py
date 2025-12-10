@@ -1,5 +1,5 @@
 def parse_file(file, p2=False):
-    with open(file, 'r') as fp:
+    with open(file, "r") as fp:
         moves = [x for x in fp.read()]
 
     pos = (0, 0)
@@ -7,7 +7,7 @@ def parse_file(file, p2=False):
     visited = set()
     visited.add(pos)
 
-    DIR = {'<': [-1, 0], '>': [1, 0], '^': [0, 1], 'v': [0, -1]}
+    DIR = {"<": [-1, 0], ">": [1, 0], "^": [0, 1], "v": [0, -1]}
 
     for i, move in enumerate(moves):
         if p2 and i % 2 == 1:
@@ -20,8 +20,8 @@ def parse_file(file, p2=False):
     return len(visited)
 
 
-print("Part 1: ", parse_file('input.txt'))
+print("Part 1: ", parse_file("input.txt"))
 
-assert parse_file('test.txt', True) == 3
-assert parse_file('test2.txt', True) == 11
-print("Part 2: ", parse_file('input.txt', True))
+assert parse_file("test.txt", True) == 3
+assert parse_file("test2.txt", True) == 11
+print("Part 2: ", parse_file("input.txt", True))
