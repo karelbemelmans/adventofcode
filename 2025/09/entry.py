@@ -10,22 +10,22 @@ def area(edge) -> int:
 
 def parse_file(file, p2=False):
     with open(file, "r") as fp:
-        data = [tuple(map(int, line.split(","))) for line in fp.read().splitlines()]
+        points = [tuple(map(int, line.split(","))) for line in fp.read().splitlines()]
 
     if p2:
 
         # Let's use some python math libraries to make it easy for us
         # Is this cheating? No, it's knowing the language that you use and is
         # pretty much the whole reason I'm doing this in Python :)
-        polygon = Polygon(data)
+        polygon = Polygon(points)
 
-        for edge in sorted(combinations(data, 2), key=area, reverse=True):
+        for edge in sorted(combinations(points, 2), key=area, reverse=True):
             (x1, y1), (x2, y2) = edge
             if polygon.contains(box(x1, y1, x2, y2)):
                 return area(edge)
 
     else:
-        return max(area(pair) for pair in combinations(data, 2))
+        return max(area(pair) for pair in combinations(points, 2))
 
 
 # Part 1
