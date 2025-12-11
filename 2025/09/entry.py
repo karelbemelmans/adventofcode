@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
-import math
-from itertools import product
+from math import prod
+from itertools import combinations
+from shapely.geometry import Polygon, box
 
 
-# We need to add 1 to every dimensation because we need to include both "rows"
-def surface(pair):
-    return math.prod(abs(x - y) + 1 for x, y in zip(*pair))
+def area(edge) -> int:
+    ((x1, y1), (x2, y2)) = edge
+    return (abs(x2 - x1) + 1) * (abs(y2 - y1) + 1)
 
 
 def parse_file(file, p2=False):
     with open(file, "r") as fp:
-        nodes = [tuple(map(int, line.split(","))) for line in fp.read().splitlines()]
+        data = [tuple(map(int, line.split(","))) for line in fp.read().splitlines()]
 
-    squares = sorted(
-        (p for p in product(nodes, nodes) if p[0] < p[1]), key=surface, reverse=True
-    )
+    # p2: Find isolated points
+    if p2:
 
-    return surface(squares[0])
+        # Let's use some python math libraries to make it easy for us
+        # Is this cheating? No, it's knowing the language that you use and is
+        # pretty much the whole reason I'm doing this in Python :)
+        polygon = Polygon(data)
+
+        for edge in sorted(combinations(data, 2), key=area, reverse=True):
+            (x1, y1), (x2, y2) = edge
+            if polygon.contains(box(x1, y1, x2, y2)):
+                return area(edge)
+
+    else:
+        return max(
+            prod(abs(p[0] - p[1]) + 1 for p in zip(*pair))
+            for pair in combinations(data, 2)
+        )
 
 
 # Part 1

@@ -10,7 +10,7 @@
   "editor.wordBasedSuggestions": "off",
   "editor.parameterHints.enabled": false,
   "editor.suggest.showIcons": false,
-  "editor.hover.enabled": false,
+  "editor.hover.enabled": "off",
   "editor.lightbulb.enabled": "off",
   "python.analysis.autoImportCompletions": false,
   "python.analysis.completeFunctionParens": false,
