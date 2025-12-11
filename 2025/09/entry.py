@@ -19,6 +19,7 @@ def parse_file(file, p2=False):
         # pretty much the whole reason I'm doing this in Python :)
         polygon = Polygon(points)
 
+        # This is a brute-foce "does the box fit?" solution
         for edge in sorted(combinations(points, 2), key=area, reverse=True):
             (x1, y1), (x2, y2) = edge
             if polygon.contains(box(x1, y1, x2, y2)):
