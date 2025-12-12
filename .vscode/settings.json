@@ -15,12 +15,10 @@
   "python.analysis.autoImportCompletions": false,
   "python.analysis.completeFunctionParens": false,
   "python.languageServer": "None",
-  "python.linting.enabled": false,
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true
   },
-  "black-formatter.args": ["--config", "pyproject.toml"],
   "editor.suggest.showWords": false,
   "editor.suggest.showSnippets": false,
   "editor.suggest.showKeywords": false,
